@@ -1,11 +1,16 @@
 import axios from 'axios';
-import React, { useEffect, useState } from 'react';
+import React, { useState } from 'react';
+// import { BrowserRouter as Router, Route, Link } from 'react-router-dom';
 import logo_login from '../assets/Drawables/logo_login.png';
 import '../css/Login.css';
 
+axios.withCredentials = true;
+
+axios.defaults.withCredentials = true;
+
 const Login = () => {
-  const [loginId, setId] = useState('');
-  const [userPw, setPw] = useState('');
+  const [inputId, setId] = useState('');
+  const [inputPw, setPw] = useState('');
 
   const handleId = (e) => {
     setId(e.currentTarget.value);
@@ -16,49 +21,29 @@ const Login = () => {
 
   const onClickLogin = () => {
     console.log('click login');
-    console.log('ID: ', loginId);
-    console.log('PW: ', userPw);
+    console.log('ID : ', inputId);
+    console.log('PW : ', inputPw);
 
-    axios
-      .post('/api/Login', null, {
-        params: {
-          loginId: loginId,
-          password: userPw,
-        },
-      })
-      .then((res) => res.json())
+    let formData = new FormData();
+    formData.append('loginId', inputId);
+    formData.append('password', inputPw);
+    axios({
+      method: 'post',
+      url: '/api/login',
+      data: formData,
+      headers: { 'Content-Type': 'multipart/form-data' },
+    })
       .then((res) => {
-        // console.log(res);
-        // console.log('res.data.loginId :: ', res.data.loginId);
-        // console.log('res.data.userPw :: ', res.data.userPw);
-        if (res.data.loginId === undefined) {
-          // id 일치하지 않는 경우 userId = undefined, msg = '입력하신 id 가 일치하지 않습니다.'
-          // console.log('======================', res.data.msg);
-          alert('입력하신 아이디가 일치하지 않습니다.');
-        } else if (res.data.loginId === null) {
-          // id는 있지만, pw 는 다른 경우 loginId = null , msg = undefined
-          // console.log(
-          //   '======================',
-          //   '입력하신 비밀번호가 일치하지 않습니다.'
-          // );
-          alert('입력하신 비밀번호가 일치하지 않습니다.');
-        } else if (res.data.loginId === loginId) {
-          // id, pw 모두 일치 loginId = loginId1, msg = undefined
-          console.log('======================', '로그인 성공');
-          sessionStorage.setItem('user_id', loginId);
-        }
-        // 작업 완료되면 페이지 이동(새로고침)
+        //handle success
+        console.log(res);
+        // 작업 완료 되면 페이지 이동(새로고침)
         document.location.href = '/';
       })
-      .catch();
+      .catch((res) => {
+        //handle error
+        console.log(res);
+      });
   };
-
-  useEffect(() => {
-    axios
-      .get('/api/login')
-      .then((res) => console.log(res))
-      .catch();
-  }, []);
 
   return (
     <div>
@@ -72,7 +57,7 @@ const Login = () => {
               type="text"
               name="id"
               id="id"
-              value={loginId}
+              value={inputId}
               onChange={handleId}
               required
             />
@@ -83,7 +68,7 @@ const Login = () => {
               type="password"
               name="id"
               id="id"
-              value={userPw}
+              value={inputPw}
               onChange={handlePw}
               required
             />
@@ -96,7 +81,7 @@ const Login = () => {
           </div>
         </form>
         <div className="caption">
-          <a>로그인 문의</a>
+          <p>로그인 문의</p>
         </div>
       </section>
     </div>
