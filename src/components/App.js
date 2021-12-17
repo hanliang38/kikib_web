@@ -1,31 +1,23 @@
-import React, { useEffect, useState } from 'react';
-import Login from './Login';
+import React from 'react';
+import { BrowserRouter as Router, Routes, Route } from 'react-router-dom';
 import Main from './Main';
+import WorkScheduleManagement from './WorkScheduleManagement';
+import WorkSchedule from './WorkSchedule';
+import Login from './Login';
 
 function App() {
   // 로그인 상태 관리
-  const [isLogin, setIsLogin] = useState(false);
-
-  useEffect(() => {
-    if (sessionStorage.getItem('userId') === null) {
-      // sessionStorage 에 userId 라는 key 값으로 저장된 값이 없다면
-      console.log('isLogin ?? :: ', isLogin);
-    } else {
-      // sessionStorage 에 userId 라는 key 값으로 저장된 값이 있다면
-      // 로그인 상태 변경
-      setIsLogin(true);
-      console.log('isLogin ?? :: ', isLogin);
-    }
-  });
 
   return (
     <div>
-      {isLogin ? (
-        // Main 컴포넌트 호출 시 isLogin 이라는 props 값을 전달
-        <Main isLogin={isLogin} />
-      ) : (
-        <Login />
-      )}
+      <Router>
+        <Routes>
+          <Route exact path="/" element={<Login />} />
+          <Route exact path="/main" element={<Main />} />
+          <Route exact path="/management" element={WorkScheduleManagement} />
+          <Route exact path="/schedule" element={WorkSchedule} />
+        </Routes>
+      </Router>
     </div>
   );
 }

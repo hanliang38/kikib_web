@@ -1,6 +1,6 @@
 import axios from 'axios';
 import React, { useState } from 'react';
-// import { BrowserRouter as Router, Route, Link } from 'react-router-dom';
+import { Link } from 'react-router-dom';
 import logo_login from '../assets/Drawables/logo_login.png';
 import '../css/Login.css';
 
@@ -37,7 +37,7 @@ const Login = () => {
         //handle success
         console.log(res);
         // 작업 완료 되면 페이지 이동(새로고침)
-        document.location.href = '/';
+        document.location.href = '/main';
       })
       .catch((res) => {
         //handle error
@@ -49,7 +49,9 @@ const Login = () => {
     <div>
       <section className="login-form" autoComplete="off">
         <div className="login-logo">
-          <img src={logo_login} />
+          <Link to="/main">
+            <img src={logo_login} alt="Logo" />
+          </Link>
         </div>
         <form>
           <div className="int-area">
