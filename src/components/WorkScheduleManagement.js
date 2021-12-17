@@ -1,7 +1,7 @@
 import React from 'react';
 import company from '../assets/WebDrawable/충훈부영업소.png';
 import bus_route from '../assets/WebDrawable/9-3번노선.png';
-import Navbar from './Navbar';
+import Navbar from './Navigationbar';
 import Footer from './Footer';
 
 const WorkScheduleManagement = () => {

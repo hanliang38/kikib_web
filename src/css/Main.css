@@ -3,9 +3,16 @@
   src: url('../assets/font/agothic14.otf');
 }
 
-* {
-  margin: 0;
-  padding: 0;
-  box-sizing: border-box;
-  background-color: white;
+body {
+  font-family: agothic14;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  height: 100%;
+
+  background-size: cover;
+  background: white;
+}
+#root {
+  margin: 10px;
 }

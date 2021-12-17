@@ -9,14 +9,18 @@
   box-sizing: border-box;
 }
 
+#root {
+  margin: 10vh;
+  padding: 10vh;
+}
+
 body {
   font-family: agothic14;
-  display: flex;
   justify-content: center;
   align-items: center;
   height: 100vh;
-  background: url('../assets/Drawables/img_bg_login.png');
   background-size: cover;
+  background: url('../assets/Drawables/img_bg_login.png');
 }
 
 body::before {
@@ -27,7 +31,10 @@ body::before {
   right: 0;
   bottom: 0;
   left: 0;
-  background-color: rgba(0, 0, 0, 0.2);
+}
+
+#login-page {
+  display: flex;
 }
 
 .login-form {
@@ -42,7 +49,7 @@ body::before {
 }
 
 .int-area {
-  width: 400px;
+  min-width: 250px;
   position: relative;
   margin-top: 20px;
 }
@@ -84,6 +91,7 @@ body::before {
 
 .btn-area button {
   width: 100%;
+  min-width: 250px;
   height: 50px;
   background: linear-gradient(0.25turn, #39aea1, #76bd72, #80bfb5);
   color: #fff;

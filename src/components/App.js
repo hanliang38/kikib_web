@@ -14,8 +14,12 @@ function App() {
         <Routes>
           <Route exact path="/" element={<Login />} />
           <Route exact path="/main" element={<Main />} />
-          <Route exact path="/management" element={WorkScheduleManagement} />
-          <Route exact path="/schedule" element={WorkSchedule} />
+          <Route
+            exact
+            path="/management"
+            element={<WorkScheduleManagement />}
+          />
+          <Route exact path="/schedule" element={<WorkSchedule />} />
         </Routes>
       </Router>
     </div>
