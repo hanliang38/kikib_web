@@ -47,45 +47,47 @@ const Login = () => {
 
   return (
     <div>
-      <section className="login-form" autoComplete="off">
-        <div className="login-logo">
-          <Link to="/main">
-            <img src={logo_login} alt="Logo" />
-          </Link>
-        </div>
-        <form>
-          <div className="int-area">
-            <input
-              type="text"
-              name="id"
-              id="id"
-              value={inputId}
-              onChange={handleId}
-              required
-            />
-            <label htmlFor="id">아이디</label>
+      <div className="login-page">
+        <section className="login-form" autoComplete="off">
+          <div className="login-logo">
+            <Link to="/main">
+              <img src={logo_login} alt="Logo" />
+            </Link>
           </div>
-          <div className="int-area">
-            <input
-              type="password"
-              name="id"
-              id="id"
-              value={inputPw}
-              onChange={handlePw}
-              required
-            />
-            <label htmlFor="id">비밀번호</label>
-          </div>
-          <div className="btn-area">
-            <button type="button" onClick={onClickLogin}>
-              키키버스 계정으로 로그인
-            </button>
-          </div>
-        </form>
-        <div className="caption">
-          <p>로그인 문의</p>
-        </div>
-      </section>
+          <form>
+            <div className="int-area">
+              <input
+                type="text"
+                name="id"
+                id="id"
+                value={inputId}
+                onChange={handleId}
+                required
+              />
+              <label htmlFor="id">아이디</label>
+            </div>
+            <div className="int-area">
+              <input
+                type="password"
+                name="id"
+                id="id"
+                value={inputPw}
+                onChange={handlePw}
+                required
+              />
+              <label htmlFor="id">비밀번호</label>
+            </div>
+            <div className="btn-area">
+              <button type="button" onClick={onClickLogin}>
+                키키버스 계정으로 로그인
+              </button>
+            </div>
+            <div className="caption">
+              <p>로그인 문의</p>
+            </div>
+          </form>
+        </section>
+      </div>
     </div>
   );
 };
