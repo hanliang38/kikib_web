@@ -2,10 +2,11 @@ import React from 'react';
 import Navbar from './Navigationbar';
 import Footer from './Footer';
 import '../css/Main.css';
+import { Link } from 'react-router-dom';
 
 const today = new Date();
-let week = new Array(['일', '월', '화', '수', '목', '금', '토']);
-let days = today.getDate();
+let week = new Array('일', '월', '화', '수', '목', '금', '토');
+let days = today.getDay();
 let todayLabel = week[days];
 let month = ('0' + (today.getMonth() + 1)).slice(-2);
 let day = ('0' + today.getDate()).slice(-2);
@@ -37,18 +38,20 @@ const Main = () => {
           <span></span>
         </div>
         <div className="buttons">
-          <p>
-            <button>근무일정관리</button>
-          </p>
-          <p>
+          <div className="btn">
+            <button>
+              <Link to="/management">근무일정관리</Link>
+            </button>
+          </div>
+          <div className="btn">
             <button
               onClick={() =>
                 window.open('http://kiki-bus.com:8080/api/driver', '_blank')
               }
             >
-              운행관리
+              <Link to="/main">운행관리</Link>
             </button>
-          </p>
+          </div>
         </div>
       </div>
       <Footer />

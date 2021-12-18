@@ -1,0 +1,25 @@
+.qr-btn {
+  text-align: center;
+  margin: 80px;
+}
+.qr-btn button {
+  min-width: 100px;
+  min-height: 30px;
+  border-style: solid;
+  border-width: 1.5px;
+  border-color: #c0c0c0;
+  border-radius: 0.8rem;
+  text-decoration: none;
+  font-weight: bold;
+  font-size: 14px;
+  color: black;
+}
+.qr-btn button:hover {
+  background-color: rgb(173, 170, 170);
+}
+.kikii-info {
+  margin-left: 20px;
+}
+.kikii-info p {
+  margin: 5px;
+}
