@@ -45,10 +45,16 @@ const Login = () => {
       });
   };
 
+  const onEnter = (e) => {
+    if (e.key === 'Enter') {
+      onClickLogin();
+    }
+  };
+
   return (
     <div>
       <div className="login-page">
-        <section className="login-form" autoComplete="off">
+        <section className="login-form" autoComplete="off" onKeyPress={onEnter}>
           <div className="login-logo">
             <Link to="/main">
               <img src={logo_login} alt="Logo" />

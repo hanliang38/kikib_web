@@ -5,7 +5,7 @@ import '../css/Main.css';
 import { Link } from 'react-router-dom';
 
 const today = new Date();
-let week = new Array('일', '월', '화', '수', '목', '금', '토');
+let week = ['일', '월', '화', '수', '목', '금', '토'];
 let days = today.getDay();
 let todayLabel = week[days];
 let month = ('0' + (today.getMonth() + 1)).slice(-2);
