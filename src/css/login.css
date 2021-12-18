@@ -108,10 +108,10 @@ body::before {
 .caption {
   margin-top: 20px;
   text-align: center;
+  font-size: 15px;
+  color: #fff;
 }
 
 .caption a {
-  font-size: 15px;
-  color: #fff;
   text-decoration: none;
 }
