@@ -9,13 +9,13 @@ export const SidebarData = [
   },
   {
     title: '근무일정관리',
-    path: '/ToExamine',
+    path: '/schedule',
     icon: <BsIcons.BsFillCalendarCheckFill />,
     cName: 'nav-text',
   },
   {
     title: '운행관리',
-    path: '/About',
+    path: '/http://kiki-bus.com:8080/api/driver',
     icon: <BsIcons.BsFillBriefcaseFill />,
     cName: 'nav-text',
   },
