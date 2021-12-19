@@ -1,0 +1,18 @@
+.schedule-page {
+  margin-top: 50px;
+  margin-bottom: 50px;
+  text-align: center;
+}
+.leave-work-table {
+  text-align: center;
+}
+.leave-work-table table {
+  border: 2px white;
+  border-style: solid;
+}
+th,
+td {
+  border: solid;
+  border-width: 1px;
+  padding: 10px 5px;
+}
