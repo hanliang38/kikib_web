@@ -5,6 +5,11 @@ import '../css/Main.css';
 import { Link } from 'react-router-dom';
 
 // 유저정보 불러오기
+// console.log(sessionStorage.getItem('userInfo'));
+let userform = sessionStorage.getItem('userInfo');
+const user_name = JSON.parse(userform).data.object.name;
+// console.log(user_name);
+// const driverId = JSON.parse(userform).data.object.userId;
 
 const today = new Date();
 let week = ['일', '월', '화', '수', '목', '금', '토'];
@@ -56,7 +61,7 @@ const Main = () => {
       <div className="main-page">
         <div className="user_name">
           <h1>
-            {/*username*/} {/*bus_num*/}번 승무원님
+            {user_name} {/*bus_num*/}9-3번 승무원님
             {console.log('지금은 메인')}
           </h1>
         </div>

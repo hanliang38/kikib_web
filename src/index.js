@@ -1,12 +1,14 @@
 import React from 'react';
 import ReactDOM from 'react-dom';
 import App from './components/App';
-import { Provider } from 'react-redux';
-import { store } from './redux/store'; //store.js에서 redux store관련코드 생성
+// import { Provider } from 'react-redux';
+// import { store } from './redux/store'; //store.js에서 redux store관련코드 생성
 
 ReactDOM.render(
-  <Provider store={store}>
+  <React.StrictMode>
+    {/* <Provider store={store}> */}
     <App />
-  </Provider>,
+    {/* </Provider>, */}
+  </React.StrictMode>,
   document.getElementById('root')
 );

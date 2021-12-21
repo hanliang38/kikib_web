@@ -12,14 +12,14 @@ function App() {
     <div>
       <Router>
         <Routes>
-          <Route exact path="/schedule" element={<WorkSchedule />} />
+          <Route exact path="/" element={<Login />} />
+          <Route exact path="/main" element={<Main />} />
           <Route
             exact
             path="/management"
             element={<WorkScheduleManagement />}
           />
-          <Route exact path="/main" element={<Main />} />
-          <Route exact path="/" element={<Login />} />
+          <Route exact path="/schedule" element={<WorkSchedule />} />
         </Routes>
       </Router>
     </div>

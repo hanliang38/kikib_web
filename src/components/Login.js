@@ -20,7 +20,7 @@ const Login = () => {
   };
 
   const onClickLogin = () => {
-    console.log('click login');
+    // console.log('click login');
     console.log('ID : ', inputId);
     console.log('PW : ', inputPw);
 
@@ -36,6 +36,12 @@ const Login = () => {
       .then((res) => {
         //handle success
         console.log(res);
+        //서버의 Json형태의 로컬스토리지 우선 저장
+        // window.sessionStorage.setItem('userInfo', res);
+        window.sessionStorage.setItem('userInfo', JSON.stringify(res));
+        // console.log(
+        //   window.localStorage.setItem('userInfo', JSON.stringify(res))
+        // );
         // 작업 완료 되면 페이지 이동(새로고침)
         document.location.href = '/main';
       })
