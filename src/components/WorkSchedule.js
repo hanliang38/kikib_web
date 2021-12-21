@@ -29,7 +29,7 @@ const workDay = axios
   .then((workRes) =>
     //handle success
     {
-      console.log('workRes :', workRes);
+      // console.log('workRes :', workRes);
       // return workRes;
       workDay_num = workRes.data.object.length;
       // console.log(workDay_num);
@@ -54,7 +54,7 @@ workDay_num = workDay.then();
 // 휴무일 수를 구하기 위함
 let leave_num;
 // 휴무일 날짜를 구하기 위함
-// let leave_days;
+let leave_days;
 // 휴무일
 const leave = axios
   .get(`/api/driver/${userId}/leave?yearMonth=${workData}`)
@@ -64,11 +64,11 @@ const leave = axios
       // console.log('leaveRes: ', leaveRes);
       leave_num = leaveRes.data.object.length;
       console.log('leave_num', leave_num);
-      // let obj = leaveRes.data.object;
+      let obj = leaveRes.data.object;
       // console.log(obj);
-      // leave_days = obj.map((value) => {
-      //   return value.date;
-      // });
+      leave_days = obj.map((value) => {
+        return value.date;
+      });
     }
   )
   .catch((err) => {
@@ -77,7 +77,7 @@ const leave = axios
   });
 // console.log('axios res : ', leave);
 leave_num = leave.then();
-// leave_days = leave.then();
+leave_days = leave.then();
 // console.log(leave_days);
 
 // const annual = () => {
@@ -119,8 +119,8 @@ const WorkSchedule = () => {
                 <th>잔여연차</th>
               </tr>
               <tr>
-                {/* <th>{workDay_num}일</th>
-                <th>{leave_num}일</th> */}
+                <th>{workDay_num}일</th>
+                <th>{leave_num}일</th>
                 <th>0회</th>
               </tr>
             </tbody>
