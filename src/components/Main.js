@@ -8,23 +8,10 @@ import 'moment/locale/ko';
 
 // 유저정보 불러오기
 // console.log(sessionStorage.getItem('userInfo'));
-// let userform = sessionStorage.getItem('userInfo');
-// const user_name = JSON.parse(userform).data.object.name;
-// console.log(user_name);
+let userform = sessionStorage.getItem('userInfo');
+const user_name = JSON.parse(userform).data.object.name;
+console.log(user_name);
 // const driverId = JSON.parse(userform).data.object.userId;
-
-// const today = new Date();
-// let week = ['일', '월', '화', '수', '목', '금', '토'];
-// let days = today.getDay();
-// let todayLabel = week[days];
-// let month = ('0' + (today.getMonth() + 1)).slice(-2);
-// let day = ('0' + today.getDate()).slice(-2);
-// let hours = today.getHours();
-// let ampm = hours <= 12 ? 'AM' : 'PM';
-// if (hours >= 12) {
-//   hours = hours - 12;
-// }
-// let minutes = today.getMinutes();
 
 // 사용자 위치정보
 // let position;
@@ -63,7 +50,7 @@ const Main = () => {
       <div className="main-page">
         <div className="user_name">
           <h1>
-            {/*user_name*/} {/*bus_num*/}9-3번 승무원님
+            {user_name} {/*bus_num*/}9-3번 승무원님
             {console.log('지금은 메인')}
           </h1>
         </div>
