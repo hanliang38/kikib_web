@@ -6,7 +6,11 @@ import Footer from './Footer';
 // import listPlugin from '@fullcalendar/list';
 import FullCalendar from '@fullcalendar/react'; // must go before plugins
 import dayGridPlugin from '@fullcalendar/daygrid'; // a plugin!
+import timeGridPlugin from '@fullcalendar/timegrid';
 import axios from 'axios';
+
+axios.withCredentials = true;
+axios.defaults.withCredentials = true;
 
 let userdata = window.sessionStorage.getItem('userInfo');
 // console.log(userdata);
@@ -20,7 +24,7 @@ let workData = '2021-12';
 // 근무일 수를 구하기 위함
 let workDay_num;
 // 근무날짜들을 구하기 위함
-let workDay_days = [];
+let workDay_days;
 
 // 근무일 가져오기
 const workDay = axios
@@ -33,11 +37,11 @@ const workDay = axios
       workDay_num = workRes.data.object.length;
       // console.log(workDay_num);
       let obj = workRes.data.object;
-      console.log(obj);
+      // console.log(obj);
       workDay_days = obj.map((value) => {
         return value.date;
       });
-      // workDay_days =
+      console.log(workDay_days);
     }
   )
   .catch((err) => {
@@ -46,25 +50,25 @@ const workDay = axios
   });
 // console.log('axios res : ', workDay);
 workDay_num = workDay.then();
-// console.log(workDay_num);
-// workDay_days = workDay.then();
-// console.log(workDay_days);
+// console.log('workDay_num',workDay_num);
+workDay_days = workDay.then();
+console.log('workDay_days', workDay_days);
 
 // 휴무일 수를 구하기 위함
 let leave_num;
 // 휴무일 날짜를 구하기 위함
-let leave_days = [];
+let leave_days;
 // 휴무일
 const leave = axios
   .get(`/api/driver/${userId}/leave?yearMonth=${workData}`)
   .then((leaveRes) =>
     //handle success
     {
-      console.log('leaveRes: ', leaveRes);
+      // console.log('leaveRes: ', leaveRes);
       leave_num = leaveRes.data.object.length;
-      console.log('leave_num', leave_num);
+      // console.log('leave_num', leave_num);
       let obj = leaveRes.data.object;
-      // console.log(obj);
+      console.log(obj);
       leave_days = obj.map((value) => {
         return value.date;
       });
@@ -74,8 +78,10 @@ const leave = axios
     //handle error
     console.log(`Error : ${err}`);
   });
-console.log('axios res : ', leave);
+// console.log('axios res : ', leave);
 leave_num = leave.then();
+leave_days = leave.then();
+console.log(leave_days);
 
 // const annual = () => {
 //   let annualData = new FormData();
@@ -97,9 +103,15 @@ const WorkSchedule = () => {
       <Navbar />
       <div className="schedule-page">
         <FullCalendar
-          plugins={[dayGridPlugin]}
+          plugins={[dayGridPlugin, timeGridPlugin]}
           initialView="dayGridMonth"
+          headerToolbar={{
+            left: 'prev, next, today',
+            center: 'title',
+            right: 'dayGridMonth,timeGridWeek,timeGridDay',
+          }}
           events={[{ title: 'work', date: '2021-12-25' }]}
+          locale="ko"
         />
         <div className="leave-work-table">
           <table>
