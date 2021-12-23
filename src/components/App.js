@@ -4,6 +4,7 @@ import Main from './Main';
 import WorkScheduleManagement from './WorkScheduleManagement';
 import WorkSchedule from './WorkSchedule';
 import Login from './Login';
+// import withAuthHoc from './withAuthHoc';
 
 function App() {
   // 로그인 상태 관리

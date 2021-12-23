@@ -2,7 +2,8 @@
   "name": "kikib_web",
   "version": "0.1.0",
   "private": true,
-  "proxy": "http://13.209.203.232:8080",
+  "proxy": "https://kikib-server.azurewebsites.net",
+  "_coment_proxy_": "http://13.209.203.232:8080",
   "dependencies": {
     "@fullcalendar/daygrid": "^5.10.1",
     "@fullcalendar/react": "^5.10.1",

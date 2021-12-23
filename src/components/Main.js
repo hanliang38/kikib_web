@@ -6,13 +6,6 @@ import { Link } from 'react-router-dom';
 import Clock from 'react-live-clock';
 import 'moment/locale/ko';
 
-// 유저정보 불러오기
-// console.log(sessionStorage.getItem('userInfo'));
-let userform = sessionStorage.getItem('userInfo');
-const user_name = JSON.parse(userform).data.object.name;
-console.log(user_name);
-// const driverId = JSON.parse(userform).data.object.userId;
-
 // 사용자 위치정보
 // let position;
 // let currentWeather = position.weather[0].main;
@@ -44,6 +37,12 @@ console.log(user_name);
 // // 날씨 아이콘 가져오기
 
 const Main = () => {
+  // 유저정보 불러오기
+  // console.log(sessionStorage.getItem('userInfo'));
+  let userform = sessionStorage.getItem('userInfo');
+  const user_name = JSON.parse(userform).data.object.name;
+  console.log(user_name);
+  // const driverId = JSON.parse(userform).data.object.userId;
   return (
     <div>
       <Navbar />
@@ -62,7 +61,7 @@ const Main = () => {
           />
           <Clock format={'A hh:mm'} ticking={true} timezone={'Asia/Seoul'} />
           <span></span>
-          <span>{/* <img src={imgURL} alt="Current Weather icon" /> */}</span>
+          {/* <span><img src={imgURL} alt="Current Weather icon" /></span> */}
         </div>
         <div className="buttons">
           <div className="btn">
