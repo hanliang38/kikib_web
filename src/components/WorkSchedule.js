@@ -9,49 +9,50 @@ import axios from 'axios';
 axios.withCredentials = true;
 axios.defaults.withCredentials = true;
 
+let userdata = sessionStorage.getItem('userInfo');
+// console.log(userdata);
+let userId = JSON.parse(userdata).data.object.userId;
+// console.log('userId: ', userId);
+// let accessToken = JSON.parse(userdata).data.object.token;
+// console.log(accessToken);
+
+let workData = '2021-12';
+
+// 근무일 날짜를 구하기
+var workDays;
+// 근무일 데이터를 구하기
+const workDay = axios
+  .get(`/api/driver/${userId}?yearMonth=${workData}`)
+  .then((workRes) => {
+    //handle success
+    // console.log('workRes :', workRes);
+    let workDay_data = workRes.data.object;
+
+    // // console.log(obj);
+    workDays = workDay_data.map((value) => {
+      return value.date;
+    });
+    console.log('workDays: ', workDays);
+    return workDays;
+  })
+  .catch((err) => {
+    //handle error
+    console.log(`Error : ${err}`);
+  });
+// console.log('데헷', workDays);
+// console.log('workDay_data: ', workDay_data);
+// console.log('근무일 수: ', workDay_data.length);
+
 const WorkSchedule = () => {
-  let userdata = sessionStorage.getItem('userInfo');
-  // console.log(userdata);
-  let userId = JSON.parse(userdata).data.object.userId;
-  // console.log('userId: ', userId);
-  // let accessToken = JSON.parse(userdata).data.object.token;
-  // console.log(accessToken);
+  var day_num;
+  workDay.then((result) => {
+    console.log('result', result);
+    day_num = result.length;
+    console.log(day_num);
+    return day_num;
+  });
 
-  let workData = '2021-12';
-
-  // 근무일 날짜를 구하기
-  var workDays;
-  // 근무일 데이터를 구하기
-  const workDay = axios
-    .get(`/api/driver/${userId}?yearMonth=${workData}`)
-    .then((workRes) => {
-      //handle success
-      // console.log('workRes :', workRes);
-      let workDay_data = workRes.data.object;
-
-      // // console.log(obj);
-      workDays = workDay_data.map((value) => {
-        return value.date;
-      });
-      console.log('workDays: ', workDays);
-      return workDays;
-    })
-    .catch((err) => {
-      //handle error
-      console.log(`Error : ${err}`);
-    });
-  // console.log('데헷', workDays);
-  // console.log('workDay_data: ', workDay_data);
-  // console.log('근무일 수: ', workDay_data.length);
-
-  let day_num;
-  const temp = (days) => {
-    workDay.then((result) => {
-      console.log('result', result);
-      day_num = result.length;
-      console.log(day_num);
-    });
-  };
+  console.log('day_num::', day_num);
   // 근무일 수를 구하기
   // let workDay_num;
   // // console.log('axios res : ', workDay);
@@ -89,20 +90,6 @@ const WorkSchedule = () => {
   // leave_days = leave.then();
   // console.log(leave_days);
 
-  // const annual = () => {
-  //   let annualData = new FormData();
-  //   annualData.append('yearMonth', '2021-12');
-  //   axios({
-  //     method: 'get',
-  //     url: `/api/driver/${userId}/leave`,
-  //     data: annualData,
-  //     headers: { Authorization: `${accessToken}` },
-  //   }).then((leaveRes) =>
-  //     //handle success
-  //     console.log('leaveRes: ', leaveRes)
-  //   );
-  // };
-
   return (
     <div>
       <Navbar />
@@ -126,7 +113,7 @@ const WorkSchedule = () => {
                 <th>휴무일</th>
               </tr>
               <tr>
-                {console.log('나왔지롱~~~! temp', day_num)}
+                {console.log('나왔지롱~~~!', day_num)}
                 <th>{day_num}일</th>
                 {/* <th>{leave_num}일</th> */}
               </tr>
