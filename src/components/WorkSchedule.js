@@ -16,10 +16,12 @@ let userdata = sessionStorage.getItem('userInfo');
 // console.log(userdata);
 let userId = JSON.parse(userdata).data.object.userId;
 // console.log('userId: ', userId);
-// let accessToken = JSON.parse(userdata).data.object.token;
-// console.log(accessToken);
-
-let workData = '2022-01';
+let today = new Date();
+let year = today.getFullYear();
+let mon = ('0' + (today.getMonth() + 1)).slice(-2);
+// let year_month =
+// console.log('현재' + { year_month } + '입니다');
+let currentMonth = year + '-' + mon;
 
 const WorkSchedule = () => {
   // 근무일 수
@@ -35,7 +37,7 @@ const WorkSchedule = () => {
       setWorkDatas(null);
       setLoading(true);
       const response = await axios.get(
-        `/api/driver/${userId}?yearMonth=${workData}`
+        `/api/driver/${userId}?yearMonth=${currentMonth}`
       );
       setWorkDatas(response.data);
     } catch (e) {
@@ -56,7 +58,7 @@ const WorkSchedule = () => {
       setLeaveDatas(null);
       setLoading(true);
       const res = await axios.get(
-        `/api/driver/${userId}/leave?yearMonth=${workData}`
+        `/api/driver/${userId}/leave?yearMonth=${currentMonth}`
       );
       setLeaveDatas(res.data);
     } catch (e) {
@@ -126,9 +128,5 @@ const WorkSchedule = () => {
     </div>
   );
 };
-
-// handleDataClick = (arg) => {
-//   alert(arg.dateStr);
-// };
 
 export default WorkSchedule;
