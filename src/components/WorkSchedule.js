@@ -26,6 +26,7 @@ const WorkSchedule = () => {
   const [workDatas, setWorkDatas] = useState(null);
   const [loading, setLoading] = useState(false);
   const [error, setError] = useState(null);
+  const [leaveDatas, setLeaveDatas] = useState(null);
 
   // 근무일 데이터를 구하기
   const workDay = async () => {
@@ -45,49 +46,50 @@ const WorkSchedule = () => {
 
   useEffect(() => {
     workDay();
+    leave();
   }, []);
+
+  // 휴무일
+  const leave = async () => {
+    try {
+      setError(null);
+      setLeaveDatas(null);
+      setLoading(true);
+      const res = await axios.get(
+        `/api/driver/${userId}/leave?yearMonth=${workData}`
+      );
+      setLeaveDatas(res.data);
+    } catch (e) {
+      setError(e);
+    }
+    setLoading(false);
+  };
 
   if (loading) return <div>{loadingImg}</div>;
   if (error) return <div>에러가 발생했습니다.</div>;
   if (!workDatas) return null;
+  if (!leaveDatas) return null;
   // console.log('WorkDatas::', WorkDatas);
-  let datas = workDatas.object;
-  console.log('workData::', datas);
+  // 근무일 obj
+  let wdatas = workDatas.object;
+  // console.log('workData::', wdatas);
   // 근무일 수
-  let day_num = datas.length;
+  let day_num = wdatas.length;
   // 근무일 날짜
-  // let workDays = datas.map((value) => {
+  // let workDays = wdatas.map((value) => {
   //   return value.date;
   // });
 
-  // // 휴무일 수를 구하기 위함
-  // let leave_num;
-  // // 휴무일 날짜를 구하기 위함
-  // // let leave_days;
-  // // 휴무일
-  // const leave = axios
-  //   .get(`/api/driver/${userId}/leave?yearMonth=${workData}`)
-  //   .then((leaveRes) =>
-  //     //handle success
-  //     {
-  //       // console.log('leaveRes: ', leaveRes);
-  //       leave_num = leaveRes.data.object.length;
-  //       // console.log('leave_num', leave_num);
-  //       // let obj = leaveRes.data.object;
-  //       // // console.log(obj);
-  //       // leave_days = obj.map((value) => {
-  //       //   return value.date;
-  //       // });
-  //     }
-  //   )
-  //   .catch((err) => {
-  //     //handle error
-  //     console.log(`Error : ${err}`);
-  //   });
-  // // console.log('axios res : ', leave);
-  // leave_num = leave.then();
-  // leave_days = leave.then();
-  // console.log(leave_days);
+  // 휴무일 obj
+  let ldatas = leaveDatas.object;
+  // console.log('ldatas::', ldatas);
+  // 휴무일 수
+  let leave_num = ldatas.length;
+  // 휴무일 날짜
+  let leaveDays = ldatas.map((value) => {
+    return value.date;
+  });
+  console.log('leaveDays::', leaveDays);
 
   return (
     <div>
@@ -114,7 +116,7 @@ const WorkSchedule = () => {
               </tr>
               <tr>
                 <th>{day_num}일</th>
-                {/* <th>{leave_num}일</th> */}
+                <th>{leave_num}일</th>
               </tr>
             </tbody>
           </table>
