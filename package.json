@@ -43,6 +43,7 @@
     ]
   },
   "devDependencies": {
+    "@fullcalendar/interaction": "^5.10.1",
     "@fullcalendar/timegrid": "^5.10.1",
     "axios": "^0.24.0",
     "cors": "^2.8.5",

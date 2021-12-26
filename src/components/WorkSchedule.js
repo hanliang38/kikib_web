@@ -1,10 +1,13 @@
-import React from 'react';
+import React, { useEffect, useState } from 'react';
 import Navbar from './Navigationbar';
 import Footer from './Footer';
 import FullCalendar from '@fullcalendar/react'; // must go before plugins
 import dayGridPlugin from '@fullcalendar/daygrid'; // a plugin!
 import timeGridPlugin from '@fullcalendar/timegrid';
+import interactionPlugin from '@fullcalendar/interaction';
 import axios from 'axios';
+import loadingImg from '../assets/Drawables/icon_progressbar_onloading.png';
+import { icons } from 'react-icons/lib';
 
 axios.withCredentials = true;
 axios.defaults.withCredentials = true;
@@ -16,50 +19,46 @@ let userId = JSON.parse(userdata).data.object.userId;
 // let accessToken = JSON.parse(userdata).data.object.token;
 // console.log(accessToken);
 
-let workData = '2021-12';
-
-// 근무일 날짜를 구하기
-var workDays;
-// 근무일 데이터를 구하기
-const workDay = axios
-  .get(`/api/driver/${userId}?yearMonth=${workData}`)
-  .then((workRes) => {
-    //handle success
-    // console.log('workRes :', workRes);
-    let workDay_data = workRes.data.object;
-
-    // // console.log(obj);
-    workDays = workDay_data.map((value) => {
-      return value.date;
-    });
-    console.log('workDays: ', workDays);
-    return workDays;
-  })
-  .catch((err) => {
-    //handle error
-    console.log(`Error : ${err}`);
-  });
-// console.log('데헷', workDays);
-// console.log('workDay_data: ', workDay_data);
-// console.log('근무일 수: ', workDay_data.length);
+let workData = '2022-01';
 
 const WorkSchedule = () => {
-  var day_num;
-  workDay.then((result) => {
-    console.log('result', result);
-    day_num = result.length;
-    console.log(day_num);
-    return day_num;
-  });
+  // 근무일 수
+  const [workDatas, setWorkDatas] = useState(null);
+  const [loading, setLoading] = useState(false);
+  const [error, setError] = useState(null);
 
-  console.log('day_num::', day_num);
-  // 근무일 수를 구하기
-  // let workDay_num;
-  // // console.log('axios res : ', workDay);
-  // workDays_num.length = workDay_num;
-  // console.log('workDay_num', workDay_num);
-  // workDay_days = workDay.then();
-  // console.log('workDay_days', workDay_days);
+  // 근무일 데이터를 구하기
+  const workDay = async () => {
+    try {
+      setError(null);
+      setWorkDatas(null);
+      setLoading(true);
+      const response = await axios.get(
+        `/api/driver/${userId}?yearMonth=${workData}`
+      );
+      setWorkDatas(response.data);
+    } catch (e) {
+      setError(e);
+    }
+    setLoading(false);
+  };
+
+  useEffect(() => {
+    workDay();
+  }, []);
+
+  if (loading) return <div>{loadingImg}</div>;
+  if (error) return <div>에러가 발생했습니다.</div>;
+  if (!workDatas) return null;
+  // console.log('WorkDatas::', WorkDatas);
+  let datas = workDatas.object;
+  console.log('workData::', datas);
+  // 근무일 수
+  let day_num = datas.length;
+  // 근무일 날짜
+  // let workDays = datas.map((value) => {
+  //   return value.date;
+  // });
 
   // // 휴무일 수를 구하기 위함
   // let leave_num;
@@ -95,8 +94,9 @@ const WorkSchedule = () => {
       <Navbar />
       <div className="schedule-page">
         <FullCalendar
-          plugins={[dayGridPlugin, timeGridPlugin]}
+          plugins={[dayGridPlugin, timeGridPlugin, interactionPlugin]}
           initialView="dayGridMonth"
+          // dateClick={this.handleDateClick}
           headerToolbar={{
             left: 'prev, next, today',
             center: 'title',
@@ -113,7 +113,6 @@ const WorkSchedule = () => {
                 <th>휴무일</th>
               </tr>
               <tr>
-                {console.log('나왔지롱~~~!', day_num)}
                 <th>{day_num}일</th>
                 {/* <th>{leave_num}일</th> */}
               </tr>
@@ -125,5 +124,9 @@ const WorkSchedule = () => {
     </div>
   );
 };
+
+// handleDataClick = (arg) => {
+//   alert(arg.dateStr);
+// };
 
 export default WorkSchedule;
