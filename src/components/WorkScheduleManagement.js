@@ -5,8 +5,12 @@ import Navbar from './Navigationbar';
 import Footer from './Footer';
 import { Link } from 'react-router-dom';
 import '../css/WorkScheduleManagement.css';
+import { useNavigate as navigate } from 'react-router';
 
 const WorkScheduleManagement = () => {
+  if (sessionStorage.getItem('userInfo') === null) {
+    return navigate('/');
+  }
   return (
     <div>
       <Navbar />

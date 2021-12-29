@@ -7,31 +7,41 @@ import timeGridPlugin from '@fullcalendar/timegrid';
 import interactionPlugin from '@fullcalendar/interaction';
 import axios from 'axios';
 import loadingImg from '../assets/Drawables/icon_progressbar_onloading.png';
-import { MdWork } from 'react-icons/md';
+import { useLocation, Navigate } from 'react-router-dom';
+// import { MdWork } from 'react-icons/md';
 
 axios.withCredentials = true;
 axios.defaults.withCredentials = true;
 
-let userdata = sessionStorage.getItem('userInfo');
-// console.log(userdata);
-let userId = JSON.parse(userdata).data.object.userId;
-// console.log('userId: ', userId);
-let today = new Date();
-let year = today.getFullYear();
-let mon = ('0' + (today.getMonth() + 1)).slice(-2);
-// let year_month =
-// console.log('현재' + { year_month } + '입니다');
-let currentMonth = year + '-' + mon;
-
-console.log('currentMonth::', currentMonth);
-
 const WorkSchedule = () => {
+  const location = useLocation();
+
   // 근무일 수
   const [workDatas, setWorkDatas] = useState(null);
   const [loading, setLoading] = useState(false);
   const [error, setError] = useState(null);
-  const [leaveDatas, setLeaveDatas] = useState(null);
   // const [count, setCount] = useState(0);
+
+  useEffect(() => {
+    workDay();
+  }, []);
+
+  // if (sessionStorage.getItem('userInfo') === null) {
+  //   return navigate('/');
+  // }
+
+  let userInfo = JSON.parse(sessionStorage.getItem('userInfo'));
+
+  if (!userInfo) {
+    // 없을 때
+    return <Navigate to="/" state={{ from: location }} replace />;
+  }
+
+  // console.log(userdata);
+  const { userId } = userInfo;
+  // console.log('userId: ', userId);
+  const currentMonth = '2022-01';
+  console.log('currentMonth::', currentMonth);
 
   // 근무일 데이터를 구하기
   const workDay = async () => {
@@ -49,130 +59,139 @@ const WorkSchedule = () => {
     setLoading(false);
   };
 
-  useEffect(() => {
-    workDay();
-    leave();
-  }, []);
-
-  // 휴무일
-  const leave = async () => {
-    try {
-      setError(null);
-      setLeaveDatas(null);
-      setLoading(true);
-      const res = await axios.get(
-        `/api/driver/${userId}/leave?yearMonth=${currentMonth}`
-      );
-      setLeaveDatas(res.data);
-    } catch (e) {
-      setError(e);
-    }
-    setLoading(false);
-  };
-
   if (loading) return <div>{loadingImg}</div>;
   if (error) return <div>에러가 발생했습니다.</div>;
   if (!workDatas) return null;
-  if (!leaveDatas) return null;
-  // console.log('WorkDatas::', WorkDatas);
-  // 근무일 obj
-  let wdatas = workDatas.object;
-  // console.log('workData::', wdatas);
-  // 근무일 수
-  let day_num = wdatas.length;
-  // 근무일 날짜
-  let workDays = wdatas.map((value) => {
-    return value.date;
-  });
-  // console.log(workDays);
 
-  let events = () => {
-    for (let i in workDays.length) {
-      for (let j in workDays.length) {
-        let WorkArr = [];
-        j = {};
-        j.title = 'work';
-        j.date = workDays[i];
-        j.img = { MdWork };
+  // console.log('workDatas::', workDatas);
 
-        return WorkArr.push(j);
-      }
+  // obj 분기 (array) status ==> work, work-check, leave, leave-check
+  let objs = workDatas.object;
+  // console.log('objs::', objs);
+
+  // 근무일
+  const workDays = objs
+    .filter((item) => item.status === 'WORK')
+    .map((workDay) => {
+      return {
+        date: workDay.date,
+        title: '근무',
+      };
+    });
+  // console.log(workDays, 'workDays');
+
+  // 근무확인
+  const workCheckDays = objs
+    .filter((item) => item.status === 'WORK-CHECK')
+    .map((workCheckDay) => {
+      return {
+        date: workCheckDay.date,
+        title: '근무',
+      };
+    });
+  // console.log(workCheckDays, 'workCheckDays');
+
+  // 휴무일
+  const leaveDays = objs
+    .filter((item) => item.status === 'LEAVE')
+    .map((leaveDay) => {
+      return {
+        date: leaveDay.date,
+        title: '휴무',
+        color: 'red',
+      };
+    });
+  // console.log(leaveDays, 'leaveDays');
+
+  // 휴무확인
+  const leaveCheckDays = objs
+    .filter((item) => item.status === 'LEAVE-CHECK')
+    .map((leaveCheckDay) => {
+      return {
+        date: leaveCheckDay.date,
+        title: '휴무',
+        color: 'red',
+      };
+    });
+  // console.log(leaveCheckDays, 'leaveCheckDays');
+
+  const annualDays = objs
+    .filter((item) => item.status === 'ANNUAL')
+    .map((annualDay) => {
+      return {
+        date: annualDay.date,
+        title: '연차',
+        color: 'red',
+      };
+    });
+  // console.log(annualDays, 'annualDays');
+
+  const annualCheckDays = objs
+    .filter((item) => item.status === 'ANNUAL-CHECK')
+    .map((annualCheckDay) => {
+      return {
+        date: annualCheckDay.date,
+        title: '연차',
+        color: 'red',
+      };
+    });
+  // console.log(annualCheckDays, 'annualCheckDays');
+  // 근무일 수 (work + work-check)
+  let day_num = [...workDays, ...workCheckDays].length;
+
+  // 휴무일 수 (leave + leave-check + annual + annual-check)
+  let leave_num = [
+    ...leaveDays,
+    ...leaveCheckDays,
+    ...annualDays,
+    ...annualCheckDays,
+  ].length;
+
+  // 모든 날짜 이벤트
+  let allEvents = [
+    ...workDays,
+    ...workCheckDays,
+    ...leaveDays,
+    ...leaveCheckDays,
+    ...annualDays,
+    ...annualCheckDays,
+  ];
+  // console.log('workEvents::', workEvents);
+
+  // // 이벤트 아이콘 호출하는 함수
+  // function EventContent(eventInfo) {
+  //   <>
+  //     <i>{eventInfo.event.icon}</i>
+  //   </>;
+  //   // console.log(eventInfo);
+  // }
+  const handleMonthChange = (e) => {
+    const currentDate = e.view.getCurrentData().currentDate;
+
+    if (currentDate instanceof Date) {
+      const year = currentDate.getFullYear();
+      const month = currentDate.getMonth() + 1;
+      const dateString = `${year}-${month}`;
+
+      console.log('##', dateString);
     }
   };
-  events();
-  console.log('events::', events());
-
-  // 휴무일 obj
-  let ldatas = leaveDatas.object;
-  // console.log('ldatas::', ldatas);
-  // 휴무일 수
-  let leave_num = ldatas.length;
-  // 휴무일 날짜
-  let leaveDays = ldatas.map((value) => {
-    return value.date;
-  });
-  console.log('leaveDays::', leaveDays);
-
-  // 이벤트 아이콘 호출하는 함수
-  function EventContent(eventInfo) {
-    <>
-      <i>{eventInfo.event.icon}</i>
-    </>;
-    console.log(eventInfo);
-  }
 
   return (
     <div>
       <Navbar />
       <div className="schedule-page">
         <FullCalendar
+          datesSet={handleMonthChange}
           plugins={[dayGridPlugin, timeGridPlugin, interactionPlugin]}
           initialView="dayGridMonth"
-          // dateClick={this.handleDateClick}
           headerToolbar={{
-            left: 'prev, next, today',
+            left: 'prev',
             center: 'title',
-            right: 'dayGridMonth,timeGridWeek,timeGridDay',
+            right: 'next',
           }}
-          eventContent={EventContent}
-          eventSources={[
-            {
-              events: [
-                { title: '근무', date: '2021-12-07', icon: <MdWork /> },
-                { title: '근무', date: '2021-12-09', icon: <MdWork /> },
-                // { title: '근무', date: '2021-12-11' ,icon: <MdWork /> },
-                // { title: '근무', date: '2021-12-13' ,icon: <MdWork /> },
-                // { title: '근무', date: '2021-12-15' ,icon: <MdWork /> },
-                // { title: '근무', date: '2021-12-17' ,icon: <MdWork /> },
-                // { title: '근무', date: '2021-12-19' ,icon: <MdWork /> },
-                // { title: '근무', date: '2021-12-21' ,icon: <MdWork /> },
-                // { title: '근무', date: '2021-12-23' ,icon: <MdWork /> },
-                // { title: '근무', date: '2021-12-25' ,icon: <MdWork /> },
-                // { title: '근무', date: '2021-12-27' ,icon: <MdWork /> },
-                // { title: '근무', date: '2021-12-29' ,icon: <MdWork /> },
-                // { title: '근무', date: '2021-12-31' ,icon: <MdWork /> },
-                // { title: '근무', date: '2022-01-02' ,icon: <MdWork /> },
-                // { title: '근무', date: '2022-01-04' ,icon: <MdWork /> },
-                // { title: '근무', date: '2022-01-06' ,icon: <MdWork /> },
-                // { title: '근무', date: '2022-01-08' ,icon: <MdWork /> },
-                // { title: '근무', date: '2022-01-10' ,icon: <MdWork /> },
-                // { title: '근무', date: '2022-01-12' ,icon: <MdWork /> },
-                // { title: '근무', date: '2022-01-14' ,icon: <MdWork /> },
-                // { title: '근무', date: '2022-01-16' ,icon: <MdWork /> },
-                // { title: '근무', date: '2022-01-18' ,icon: <MdWork /> },
-                // { title: '근무', date: '2022-01-20' ,icon: <MdWork /> },
-                // { title: '근무', date: '2022-01-22' ,icon: <MdWork /> },
-                // { title: '근무', date: '2022-01-24' ,icon: <MdWork /> },
-                // { title: '근무', date: '2022-01-26' ,icon: <MdWork /> },
-                // { title: '근무', date: '2022-01-30' ,icon: <MdWork /> },
-              ],
-              color: 'green',
-            },
-            {
-              events: [{ title: '휴무', date: '2021-12-25' }],
-              color: 'red',
-            },
-          ]}
+          // eventContent={EventContent}
+          events={allEvents}
           locale="ko"
         />
         <div className="leave-work-table">

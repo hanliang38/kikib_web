@@ -5,6 +5,7 @@ import '../css/Main.css';
 import { Link } from 'react-router-dom';
 import Clock from 'react-live-clock';
 import 'moment/locale/ko';
+import { useLocation, Navigate } from 'react-router';
 
 // 사용자 위치정보
 // let position;
@@ -37,11 +38,23 @@ import 'moment/locale/ko';
 // // 날씨 아이콘 가져오기
 
 const Main = () => {
+  // const navigate = useNavigate();
+  const location = useLocation();
+
   // 유저정보 불러오기
   // console.log(sessionStorage.getItem('userInfo'));
-  let userform = sessionStorage.getItem('userInfo');
-  const user_name = JSON.parse(userform).data.object.name;
-  console.log(user_name);
+  const userInfo = JSON.parse(window.sessionStorage.getItem('userInfo'));
+
+  // 세션에 저장된 값이 없는 경우
+  if (!userInfo) {
+    // return navigate('/login');
+    return <Navigate to="/" state={{ from: location }} replace />;
+  }
+
+  // 있는 경우
+  const userName = userInfo.name;
+
+  // console.log(userName);
   // const driverId = JSON.parse(userform).data.object.userId;
   return (
     <div>
@@ -49,7 +62,7 @@ const Main = () => {
       <div className="main-page">
         <div className="user_name">
           <h1>
-            {user_name} {/*bus_num*/}9-3번 승무원님
+            {userName} {/*bus_num*/}9-3번 승무원님
             {console.log('지금은 메인')}
           </h1>
         </div>
