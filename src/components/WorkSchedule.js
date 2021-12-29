@@ -20,6 +20,7 @@ const WorkSchedule = () => {
   const [workDatas, setWorkDatas] = useState(null);
   const [loading, setLoading] = useState(false);
   const [error, setError] = useState(null);
+  // const [monthChange, setMonthChange] = useState('')
   // const [count, setCount] = useState(0);
 
   useEffect(() => {
@@ -76,6 +77,8 @@ const WorkSchedule = () => {
       return {
         date: workDay.date,
         title: '근무',
+        color: 'blue',
+        url: 'MdWork',
       };
     });
   // console.log(workDays, 'workDays');
@@ -87,6 +90,8 @@ const WorkSchedule = () => {
       return {
         date: workCheckDay.date,
         title: '근무',
+        color: 'blue',
+        url: 'MdWork',
       };
     });
   // console.log(workCheckDays, 'workCheckDays');
@@ -159,12 +164,10 @@ const WorkSchedule = () => {
   // console.log('workEvents::', workEvents);
 
   // // 이벤트 아이콘 호출하는 함수
-  // function EventContent(eventInfo) {
-  //   <>
-  //     <i>{eventInfo.event.icon}</i>
-  //   </>;
-  //   // console.log(eventInfo);
+  // function renderEventContent(eventInfo) {
+  //   return {eventInfo.event.url === "MdWork" ? <MdWork /> : <></>};
   // }
+
   const handleMonthChange = (e) => {
     const currentDate = e.view.getCurrentData().currentDate;
 
@@ -190,7 +193,7 @@ const WorkSchedule = () => {
             center: 'title',
             right: 'next',
           }}
-          // eventContent={EventContent}
+          // eventContent={renderEventContent}
           events={allEvents}
           locale="ko"
         />
