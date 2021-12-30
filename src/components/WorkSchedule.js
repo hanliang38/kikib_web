@@ -66,7 +66,7 @@ const WorkSchedule = () => {
 
   // console.log('workDatas::', workDatas);
 
-  // obj 분기 (array) status ==> work, work-check, leave, leave-check
+  // obj 분할 (array) status ==> work, work-check, leave, leave-check
   let objs = workDatas.object;
   // console.log('objs::', objs);
 
