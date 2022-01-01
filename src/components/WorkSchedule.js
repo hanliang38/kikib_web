@@ -6,7 +6,6 @@ import dayGridPlugin from '@fullcalendar/daygrid'; // a plugin!
 import timeGridPlugin from '@fullcalendar/timegrid';
 import interactionPlugin from '@fullcalendar/interaction';
 import axios from 'axios';
-import loadingImg from '../assets/Drawables/icon_progressbar_onloading.png';
 import { useLocation, Navigate } from 'react-router-dom';
 // import { MdWork } from 'react-icons/md';
 
@@ -16,7 +15,8 @@ axios.defaults.withCredentials = true;
 const today = new Date();
 const nowYear = today.getFullYear();
 const nowMonth = today.getMonth() + 1;
-const nowYearMonth = nowYear + '-' + nowMonth;
+const currentMonth = nowMonth < 10 ? `0${nowMonth}` : nowMonth;
+const nowYearMonth = `${nowYear}-${currentMonth}`;
 
 const WorkSchedule = () => {
   const location = useLocation();
@@ -24,24 +24,22 @@ const WorkSchedule = () => {
 
   // 근무일 수
   const [workData, setWorkData] = useState([]);
-  const [loading, setLoading] = useState(false);
   const [error, setError] = useState(null);
   const [dayNum, setDayNum] = useState(0);
   const [leaveNum, setLeaveNum] = useState(0);
   const [allEvents, setAllEvents] = useState([]);
   const [currentYearMonth, setCurrentYearMonth] = useState(nowYearMonth);
 
-  // const [monthChange, setMonthChange] = useState('')
-  // const [count, setCount] = useState();
-
   useEffect(() => {
+    // console.log('currentYearMonth', currentYearMonth);
+
     fetchData(currentYearMonth);
-  }, []);
+  }, [currentYearMonth]);
 
   useEffect(() => {
     // obj 분할 (array) status ==> work, work-check, leave, leave-check
-    console.log('workData::', workData);
-    console.log('workData.status::', workData);
+    // console.log('workData::', workData);
+    // console.log('workData.status::', workData);
     // 근무일
     const workDays = workData
       .filter((item) => item.status === 'WORK')
@@ -53,7 +51,6 @@ const WorkSchedule = () => {
           url: 'MdWork',
         };
       });
-    // console.log(workDays, 'workDays');
 
     // 근무확인
     const workCheckDays = workData
@@ -66,7 +63,6 @@ const WorkSchedule = () => {
           url: 'MdWork',
         };
       });
-    // console.log(workCheckDays, 'workCheckDays');
 
     // 휴무일
     const leaveDays = workData
@@ -78,7 +74,6 @@ const WorkSchedule = () => {
           color: 'red',
         };
       });
-    // console.log(leaveDays, 'leaveDays');
 
     // 휴무확인
     const leaveCheckDays = workData
@@ -90,7 +85,6 @@ const WorkSchedule = () => {
           color: 'red',
         };
       });
-    // console.log(leaveCheckDays, 'leaveCheckDays');
 
     const annualDays = workData
       .filter((item) => item.status === 'ANNUAL')
@@ -101,7 +95,6 @@ const WorkSchedule = () => {
           color: 'red',
         };
       });
-    // console.log(annualDays, 'annualDays');
 
     const annualCheckDays = workData
       .filter((item) => item.status === 'ANNUAL-CHECK')
@@ -112,7 +105,6 @@ const WorkSchedule = () => {
           color: 'red',
         };
       });
-    // console.log(annualCheckDays, 'annualCheckDays');
     // 근무일 수 (work + work-check)
     setDayNum([...workDays, ...workCheckDays].length);
 
@@ -133,11 +125,7 @@ const WorkSchedule = () => {
     ]);
     // console.log(workData);
     // console.log('workEvents::', workEvents);
-  }, []);
-
-  // if (sessionStorage.getItem('userInfo') === null) {
-  //   return navigate('/');
-  // }
+  }, [workData]);
 
   if (!userInfo) {
     // 없을 때
@@ -146,29 +134,27 @@ const WorkSchedule = () => {
 
   const { userId } = userInfo;
 
-  const fetchData = async () => {
+  const fetchData = async (dateString = '') => {
     try {
       setError(null);
-      setLoading(true);
-      setCurrentYearMonth(nowYearMonth);
+      // setCurrentYearMonth(nowYearMonth);
       const response = await axios.get(
-        `/api/driver/${userId}?yearMonth=${currentYearMonth}`
+        `/api/driver/${userId}?yearMonth=${dateString}`
       );
+
       let res = response.data.object;
       // console.log(res);
       setWorkData(res);
     } catch (e) {
       setError(e);
     }
-    setLoading(false);
   };
 
-  // console.log('userId: ', userId);
   // 근무일 데이터를 구하기
-
-  if (loading) return <div>{loadingImg}</div>;
-  if (error) return <div>에러가 발생했습니다.</div>;
-  if (!workData) return null;
+  // * 이부분은 JSX 쪽으로 넣어야 이중렌더링이 발생하지 않는다.
+  // if (loading) return <div>{loadingImg}</div>;
+  // if (error) return <div>에러가 발생했습니다.</div>;
+  // if (!workData) return null;
 
   // console.log('workData::', workData);
 
@@ -184,10 +170,9 @@ const WorkSchedule = () => {
       if (currentDate instanceof Date) {
         const year = currentDate.getFullYear();
         const month = currentDate.getMonth() + 1;
-        const dateString = `${year}-${month}`;
+        const dateString = `${year}-${month < 10 ? '0' + month : month}`;
+        // console.log('dateString', dateString);
 
-        console.log('##', dateString);
-        // fetchData(dateString);
         setCurrentYearMonth(dateString);
       }
     } catch (e) {
@@ -198,35 +183,39 @@ const WorkSchedule = () => {
   return (
     <div>
       <Navbar />
-      <div className="schedule-page">
-        <FullCalendar
-          datesSet={handleMonthChange}
-          plugins={[dayGridPlugin, timeGridPlugin, interactionPlugin]}
-          initialView="dayGridMonth"
-          headerToolbar={{
-            left: 'prev',
-            center: 'title',
-            right: 'next',
-          }}
-          // eventContent={renderEventContent}
-          events={allEvents}
-          locale="ko"
-        />
-        <div className="leave-work-table">
-          <table>
-            <tbody>
-              <tr>
-                <th>근무일</th>
-                <th>휴무일</th>
-              </tr>
-              <tr>
-                <th>{dayNum}일</th>
-                <th>{leaveNum}일</th>
-              </tr>
-            </tbody>
-          </table>
+      {error && <div>에러가 발생했습니다.</div>}
+      {/* {loading && <div>{loadingImg}</div>} */}
+      {
+        <div className="schedule-page">
+          <FullCalendar
+            datesSet={handleMonthChange}
+            plugins={[dayGridPlugin, timeGridPlugin, interactionPlugin]}
+            initialView="dayGridMonth"
+            headerToolbar={{
+              left: 'prev',
+              center: 'title',
+              right: 'next',
+            }}
+            // eventContent={renderEventContent}
+            events={allEvents}
+            locale="ko"
+          />
+          <div className="leave-work-table">
+            <table>
+              <tbody>
+                <tr>
+                  <th>근무일</th>
+                  <th>휴무일</th>
+                </tr>
+                <tr>
+                  <th>{dayNum}일</th>
+                  <th>{leaveNum}일</th>
+                </tr>
+              </tbody>
+            </table>
+          </div>
         </div>
-      </div>
+      }
       <Footer />
     </div>
   );
