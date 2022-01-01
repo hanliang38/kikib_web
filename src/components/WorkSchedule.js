@@ -123,7 +123,6 @@ const WorkSchedule = () => {
       ...annualDays,
       ...annualCheckDays,
     ]);
-    // console.log(workData);
     // console.log('workEvents::', workEvents);
   }, [workData]);
 
