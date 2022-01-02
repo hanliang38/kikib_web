@@ -3,13 +3,13 @@ import * as BsIcons from 'react-icons/bs';
 export const SidebarData = [
   {
     title: '메인페이지',
-    path: 'main',
+    path: '/main',
     icon: <BsIcons.BsFillHouseDoorFill />,
     cName: 'nav-text',
   },
   {
     title: '근무일정관리',
-    path: 'schedule',
+    path: '/schedule',
     icon: <BsIcons.BsFillCalendarCheckFill />,
     cName: 'nav-text',
   },
@@ -21,7 +21,7 @@ export const SidebarData = [
   },
   {
     title: '관리자 문의하기',
-    path: 'Contact',
+    path: '/main',
     icon: <BsIcons.BsFillChatDotsFill />,
     cName: 'nav-text',
   },
