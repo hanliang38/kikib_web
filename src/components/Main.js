@@ -6,6 +6,7 @@ import { Link } from 'react-router-dom';
 import Clock from 'react-live-clock';
 import 'moment/locale/ko';
 import { useLocation, Navigate } from 'react-router';
+import DefaultFont from '../assets/font/agothic14.otf';
 
 // 사용자 위치정보
 // let position;
@@ -79,9 +80,9 @@ const Main = () => {
         </div>
         <BtnsDiv>
           <BtnDiv>
-            <Btn>
-              <Link to="/management">근무일정관리</Link>
-            </Btn>
+            <Link to="/management">
+              <Btn>근무일정관리</Btn>
+            </Link>
           </BtnDiv>
           <BtnDiv>
             <Btn
@@ -89,7 +90,7 @@ const Main = () => {
                 window.open('http://kiki-bus.com:8080/api/driver', '_blank')
               }
             >
-              <Link to="/main">운행관리</Link>
+              운행관리
             </Btn>
           </BtnDiv>
         </BtnsDiv>
@@ -102,7 +103,7 @@ const Main = () => {
 const GlobalStyle = createGlobalStyle`
 @font-face {
   font-family: 'agothic14';
-  src: url('../assets/font/agothic14.otf');
+  src: url(${DefaultFont});
 }
 
 body {

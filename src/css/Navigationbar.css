@@ -1,6 +1,6 @@
 .navbar {
   background-color: white;
-  height: 50px;
+  height: 35px;
   display: flex;
   justify-items: center;
   align-items: center;
@@ -9,13 +9,13 @@
   border-color: #dad7d7;
 }
 .menu-bars {
-  margin-left: 2rem;
+  margin-left: 1.3rem;
   font-size: 2rem;
   background: none;
 }
 .nav-menu {
   background-color: white;
-  width: 250px;
+  width: 200px;
   height: 100vh;
   display: flex;
   position: fixed;
@@ -35,6 +35,7 @@
   padding: 8px 0px 8px 16px;
   list-style: none;
   height: 60px;
+  padding: 5px;
 }
 .nav-text a {
   text-decoration: none;
@@ -51,6 +52,7 @@
   background-color: #757575;
 }
 .nav-menu-items {
+  padding: 0;
   width: 100%;
 }
 .navbar-toggle {

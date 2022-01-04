@@ -187,6 +187,7 @@ const WorkSchedule = () => {
       {/* {loading && <div>{loadingImg}</div>} */}
       {
         <SchedulePage>
+          <h1>근무일정표</h1>
           <FullCalendar
             datesSet={handleMonthChange}
             plugins={[dayGridPlugin, timeGridPlugin, interactionPlugin]}
@@ -222,7 +223,7 @@ const WorkSchedule = () => {
 };
 
 const SchedulePage = styled.div`
-  margin-top: 50px;
+  margin-top: 20px;
   margin-bottom: 50px;
   text-align: center;
   height: 100%;
