@@ -7,6 +7,7 @@ import timeGridPlugin from '@fullcalendar/timegrid';
 import interactionPlugin from '@fullcalendar/interaction';
 import axios from 'axios';
 import { useLocation, Navigate } from 'react-router-dom';
+import styled from 'styled-components';
 // import { MdWork } from 'react-icons/md';
 
 axios.withCredentials = true;
@@ -128,7 +129,7 @@ const WorkSchedule = () => {
 
   if (!userInfo) {
     // 없을 때
-    return <Navigate to="/" state={{ from: location }} replace />;
+    return <Navigate to="/login" state={{ from: location }} replace />;
   }
 
   const { userId } = userInfo;
@@ -185,7 +186,7 @@ const WorkSchedule = () => {
       {error && <div>에러가 발생했습니다.</div>}
       {/* {loading && <div>{loadingImg}</div>} */}
       {
-        <div className="schedule-page">
+        <SchedulePage>
           <FullCalendar
             datesSet={handleMonthChange}
             plugins={[dayGridPlugin, timeGridPlugin, interactionPlugin]}
@@ -199,7 +200,7 @@ const WorkSchedule = () => {
             events={allEvents}
             locale="ko"
           />
-          <div className="leave-work-table">
+          <LeaveWorkTable>
             <table>
               <tbody>
                 <tr>
@@ -212,12 +213,39 @@ const WorkSchedule = () => {
                 </tr>
               </tbody>
             </table>
-          </div>
-        </div>
+          </LeaveWorkTable>
+        </SchedulePage>
       }
       <Footer />
     </div>
   );
 };
+
+const SchedulePage = styled.div`
+  margin-top: 50px;
+  margin-bottom: 50px;
+  text-align: center;
+  height: 100%;
+`;
+const LeaveWorkTable = styled.div`
+  text-align: center;
+  margin-left: auto;
+  margin-right: auto;
+
+  &table {
+    border: 2px white;
+    border-style: solid;
+  }
+`;
+styled.th`
+  border: solid;
+  border-width: 1px;
+  padding: 10px 5px;
+`;
+styled.td`
+  border: solid;
+  border-width: 1px;
+  padding: 10px 5px;
+`;
 
 export default WorkSchedule;

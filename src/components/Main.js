@@ -1,7 +1,7 @@
 import React from 'react';
 import Navbar from './Navigationbar';
 import Footer from './Footer';
-import '../css/Main.css';
+import styled, { createGlobalStyle } from 'styled-components';
 import { Link } from 'react-router-dom';
 import Clock from 'react-live-clock';
 import 'moment/locale/ko';
@@ -58,14 +58,15 @@ const Main = () => {
   // const driverId = JSON.parse(userform).data.object.userId;
   return (
     <div>
+      <GlobalStyle />
       <Navbar />
-      <div className="main-page">
-        <div className="user_name">
+      <MainPage>
+        <UserName>
           <h1>
             {userName} {/*bus_num*/}9-3번 승무원님
             {console.log('지금은 메인')}
           </h1>
-        </div>
+        </UserName>
         <div className="date_time_weather">
           <Clock
             format={'MM월 DD일 dddd'}
@@ -76,26 +77,80 @@ const Main = () => {
           <span></span>
           {/* <span><img src={imgURL} alt="Current Weather icon" /></span> */}
         </div>
-        <div className="buttons">
-          <div className="btn">
-            <button>
+        <BtnsDiv>
+          <BtnDiv>
+            <Btn>
               <Link to="/management">근무일정관리</Link>
-            </button>
-          </div>
-          <div className="btn">
-            <button
+            </Btn>
+          </BtnDiv>
+          <BtnDiv>
+            <Btn
               onClick={() =>
                 window.open('http://kiki-bus.com:8080/api/driver', '_blank')
               }
             >
               <Link to="/main">운행관리</Link>
-            </button>
-          </div>
-        </div>
-      </div>
+            </Btn>
+          </BtnDiv>
+        </BtnsDiv>
+      </MainPage>
       <Footer />
     </div>
   );
 };
+
+const GlobalStyle = createGlobalStyle`
+@font-face {
+  font-family: 'agothic14';
+  src: url('../assets/font/agothic14.otf');
+}
+
+body {
+  font-family: agothic14;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  height: 100%;
+}
+
+#root {
+  margin: 10px;
+}
+`;
+const MainPage = styled.div`
+  margin: 50px;
+`;
+
+const UserName = styled.div`
+  text-align: center;
+  margin-bottom: 50px;
+`;
+
+const BtnsDiv = styled.div`
+  text-align: center;
+  min-width: 500px;
+`;
+
+const BtnDiv = styled.div`
+  margin: 30px;
+`;
+
+const Btn = styled.button`
+  min-width: 400px;
+  min-height: 80px;
+  border-style: solid;
+  border-width: 1.5px;
+  border-color: #c0c0c0;
+  border-radius: 1rem;
+  &:hover {
+    background-color: rgb(173, 170, 170);
+  }
+  &a {
+    text-decoration: none;
+    font-weight: bold;
+    font-size: 35px;
+    color: black;
+  }
+`;
 
 export default Main;
