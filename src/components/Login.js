@@ -5,7 +5,7 @@ import logoLogin from '../assets/Drawables/logo_login.png';
 import styled, { createGlobalStyle } from 'styled-components';
 import bgLogin from '../assets/Drawables/img_bg_login.png';
 import DefaultFont from '../assets/font/agothic14.otf';
-import { Mobile, PC } from './MediaQuery';
+import { device } from './Devices';
 
 const Login = () => {
   const [inputId, setId] = useState('');
@@ -64,82 +64,42 @@ const Login = () => {
 
   return (
     <div>
-      <Mobile>
-        <GlobalStyle />
-        <LoginForm autoComplete="off" onKeyPress={onEnter}>
-          <LoginLogo>
-            <Link to="/main">
-              <LoginLogoLink src={logoLogin} alt="Logo" />
-            </Link>
-          </LoginLogo>
-          <InputForm>
-            <IntArea>
-              <InputArea
-                type="text"
-                value={inputId}
-                onChange={handleId}
-                required
-              />
-              <IntLabel htmlFor="id">아이디</IntLabel>
-            </IntArea>
-            <IntArea>
-              <InputArea
-                type="password"
-                value={inputPw}
-                onChange={handlePw}
-                required
-              />
-              <IntLabel htmlFor="id">비밀번호</IntLabel>
-            </IntArea>
-            <BtnArea>
-              <BtnAreaButton onClick={onClickLogin}>
-                키키버스 계정으로 로그인
-              </BtnAreaButton>
-            </BtnArea>
-            <LoginInquiry>
-              <LoginInquiryP>로그인 문의</LoginInquiryP>
-            </LoginInquiry>
-          </InputForm>
-        </LoginForm>
-      </Mobile>
-      <PC>
-        <GlobalStyle />
-        <LoginForm autoComplete="off" onKeyPress={onEnter}>
-          <LoginLogo>
-            <Link to="/main">
-              <LoginLogoLink src={logoLogin} alt="Logo" />
-            </Link>
-          </LoginLogo>
-          <InputForm>
-            <IntArea>
-              <InputArea
-                type="text"
-                value={inputId}
-                onChange={handleId}
-                required
-              />
-              <IntLabel htmlFor="id">아이디</IntLabel>
-            </IntArea>
-            <IntArea>
-              <InputArea
-                type="password"
-                value={inputPw}
-                onChange={handlePw}
-                required
-              />
-              <IntLabel htmlFor="id">비밀번호</IntLabel>
-            </IntArea>
-            <BtnArea>
-              <BtnAreaButton onClick={onClickLogin}>
-                키키버스 계정으로 로그인
-              </BtnAreaButton>
-            </BtnArea>
-            <LoginInquiry>
-              <LoginInquiryP>로그인 문의</LoginInquiryP>
-            </LoginInquiry>
-          </InputForm>
-        </LoginForm>
-      </PC>
+      <GlobalStyle />
+      <LoginForm autoComplete="off" onKeyPress={onEnter}>
+        <LoginLogo>
+          <Link to="/main">
+            <LoginLogoLink src={logoLogin} alt="Logo" />
+          </Link>
+        </LoginLogo>
+        <InputForm>
+          <IntArea>
+            <InputArea
+              type="text"
+              value={inputId}
+              onChange={handleId}
+              required
+            />
+            <IntLabel htmlFor="id">아이디</IntLabel>
+          </IntArea>
+          <IntArea>
+            <InputArea
+              type="password"
+              value={inputPw}
+              onChange={handlePw}
+              required
+            />
+            <IntLabel htmlFor="id">비밀번호</IntLabel>
+          </IntArea>
+          <BtnArea>
+            <BtnAreaButton onClick={onClickLogin}>
+              키키버스 계정으로 로그인
+            </BtnAreaButton>
+          </BtnArea>
+          <LoginInquiry>
+            <LoginInquiryP>로그인 문의</LoginInquiryP>
+          </LoginInquiry>
+        </InputForm>
+      </LoginForm>
     </div>
   );
 };
@@ -153,7 +113,7 @@ const GlobalStyle = createGlobalStyle`
 *{
   margin: 0;
   padding: 0;
-  box-sizing: border-box;
+  box-sizing: content-box;
   }
 
 body {
@@ -165,8 +125,24 @@ body {
     width: 100%;
     overflow: hidden;
     background: url(${bgLogin});
-    background-size: 100% 100%;
+    
     background-repeat: no-repeat;
+    @media ${device.laptop} {
+      background-size: cover;
+      background-size: 100% 100%;
+      background-repeat: no-repeat;
+      background-position: center;
+    }
+    @media ${device.desktop} {
+      background-size: cover;
+      background-size: 100% 100%;
+      background-repeat: no-repeat;
+      background-position: center;
+    }
+    @media ${device.mobileL} {
+      background-size: cover;
+    background-repeat: no-repeat;
+    }
   }
 `;
 
@@ -175,22 +151,68 @@ body {
 // `;
 
 let LoginForm = styled.section`
-  heigth: 100vh;
-  width: 60vh;
-  margin: 10vh;
-  padding: 10vh;
+  display: inline-block;
+  vertical-aline: middle;
   position: relative;
   z-index: 2;
+
+  @media ${device.laptop} {
+    max-width: 500px;
+    padding: 0;
+  }
+  @media ${device.desktop} {
+    width: 60vh;
+    margin: 10vh;
+    padding: 0vh;
+  }
+  @media ${device.mobileL} {
+    vertical-align: middle
+    margin-bottom: 500px;
+    padding: 0;
+    heigth: 700px;
+  }
 `;
 
 let LoginLogo = styled.div`
   text-align: center;
-  size: 32px;
-  margin-bottom: 60px;
+  margin-left: auto;
+  margin-right: auto;
+  @media ${device.laptop} {
+    size: 32px;
+  }
+  @media ${device.desktop} {
+    size: 32px;
+  }
+  @media ${device.mobileL} {
+    max-width: 500px;
+    height: 350px;
+  }
+  &a {
+    @media ${device.laptop} {
+      size: 32px;
+    }
+    @media ${device.desktop} {
+      size: 32px;
+    }
+    @media ${device.mobileL} {
+      max-width: 500px;
+      height: 350px;
+    }
+  }
 `;
 
-// 로고가 안뜸
-let LoginLogoLink = styled.img``;
+let LoginLogoLink = styled.img`
+  display: inline-block;
+  @media ${device.laptop} {
+  }
+  @media ${device.desktop} {
+  }
+  @media ${device.mobileL} {
+    width: 500px;
+    height: 300px;
+  }
+`;
+
 let InputForm = styled.form``;
 
 let IntArea = styled.div`
