@@ -1,12 +1,13 @@
 import React from 'react';
-import Navbar from './Navigationbar';
-import Footer from './Footer';
+// import Navbar from './Navigationbar';
 import styled, { createGlobalStyle } from 'styled-components';
 import { Link } from 'react-router-dom';
 import Clock from 'react-live-clock';
 import 'moment/locale/ko';
 import { useLocation, Navigate } from 'react-router';
 import DefaultFont from '../assets/font/agothic14.otf';
+import { device } from './Devices';
+// import Header from './Header';
 
 // 사용자 위치정보
 // let position;
@@ -60,7 +61,6 @@ const Main = () => {
   return (
     <div>
       <GlobalStyle />
-      <Navbar />
       <MainPage>
         <UserName>
           <h1>
@@ -68,16 +68,19 @@ const Main = () => {
             {console.log('지금은 메인')}
           </h1>
         </UserName>
-        <div className="date_time_weather">
-          <Clock
-            format={'MM월 DD일 dddd'}
-            ticking={true}
-            timezone={'Asia/Seoul'}
-          />
-          <Clock format={'A hh:mm'} ticking={true} timezone={'Asia/Seoul'} />
-          <span></span>
+        <DateTimeWeather>
+          <Daily>
+            <Clock
+              format={'MM월 DD일 dddd'}
+              ticking={true}
+              timezone={'Asia/Seoul'}
+            />
+          </Daily>
+          <Daily>
+            <Clock format={'A hh:mm'} ticking={true} timezone={'Asia/Seoul'} />
+          </Daily>
           {/* <span><img src={imgURL} alt="Current Weather icon" /></span> */}
-        </div>
+        </DateTimeWeather>
         <BtnsDiv>
           <BtnDiv>
             <Link to="/management">
@@ -94,8 +97,10 @@ const Main = () => {
             </Btn>
           </BtnDiv>
         </BtnsDiv>
+        <QrBtnDiv>
+          <QrBtn>관리자 문의하기</QrBtn>
+        </QrBtnDiv>
       </MainPage>
-      <Footer />
     </div>
   );
 };
@@ -106,25 +111,75 @@ const GlobalStyle = createGlobalStyle`
   src: url(${DefaultFont});
 }
 
+*{
+  margin: 0;
+  padding: 0;
+  box-sizing: content-box;
+  }
+
 body {
   font-family: agothic14;
   display: flex;
   justify-content: center;
   align-items: center;
-  height: 100%;
+  margin: 20px
+  width: 100vw;
+  height: 100vh;
 }
 
 #root {
   margin: 10px;
+  width: 100vw;
+  height: 100vh;
+
+  @media ${device.desktop} {
+    height: 100vh;
+    width: 100%;
+    background-size: cover;
+    background-size: 100% 100%;
+    background-repeat: no-repeat;
+    background-position: center;
+  }
+  @media ${device.mobileL} {
+    height: 100vh;
+    width: 100%;
+    background-size: cover;
+  background-repeat: no-repeat;
+  }
 }
 `;
+
 const MainPage = styled.div`
-  margin: 50px;
+  margin: 100px 50px 0 50px;
+  text-aline: center;
 `;
 
 const UserName = styled.div`
   text-align: center;
   margin-bottom: 50px;
+  font-size: 40px;
+`;
+
+const DateTimeWeather = styled.div`
+  margin-top: 100px;
+  margin-bottom: 100px;
+  display: flex;
+  justify-content: center;
+  font-size: 50px;
+`;
+
+const Daily = styled.div`
+  display: inline-block;
+  background-color: #192734;
+  border: solid;
+  border-size: 3px
+  border-color: #1a7473;
+  border-radius: 1.5rem;
+  color: white;
+  width: 220px;
+  height: 130px;
+  padding: 30px;
+  text-aline: center;
 `;
 
 const BtnsDiv = styled.div`
@@ -133,24 +188,44 @@ const BtnsDiv = styled.div`
 `;
 
 const BtnDiv = styled.div`
-  margin: 30px;
+  margin: 100px;
 `;
 
 const Btn = styled.button`
-  min-width: 400px;
-  min-height: 80px;
+  font-size: 70px;
+  font-weight: bold;
+  min-width: 600px;
+  min-height: 200px;
   border-style: solid;
   border-width: 1.5px;
   border-color: #c0c0c0;
-  border-radius: 1rem;
+  border-radius: 3rem;
   &:hover {
     background-color: rgb(173, 170, 170);
   }
   &a {
     text-decoration: none;
-    font-weight: bold;
-    font-size: 35px;
     color: black;
+  }
+`;
+
+const QrBtnDiv = styled.div`
+  text-align: center;
+  margin: 180px;
+`;
+const QrBtn = styled.button`
+  min-width: 300px;
+  min-height: 80px;
+  border-style: solid;
+  border-width: 1.5px;
+  border-color: #c0c0c0;
+  border-radius: 0.8rem;
+  text-decoration: none;
+  font-weight: bold;
+  font-size: 40px;
+  color: black;
+  &:hover {
+    background-color: rgb(173, 170, 170);
   }
 `;
 

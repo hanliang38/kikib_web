@@ -1,17 +1,36 @@
 import React, { useEffect, useState } from 'react';
-import Navbar from './Navigationbar';
-import Footer from './Footer';
+// import Navbar from './Navigationbar';
+// import Footer from './Footer';
 import FullCalendar from '@fullcalendar/react'; // must go before plugins
 import dayGridPlugin from '@fullcalendar/daygrid'; // a plugin!
 import timeGridPlugin from '@fullcalendar/timegrid';
 import interactionPlugin from '@fullcalendar/interaction';
 import axios from 'axios';
 import { useLocation, Navigate } from 'react-router-dom';
-import styled from 'styled-components';
+import styled, { createGlobalStyle } from 'styled-components';
 // import { MdWork } from 'react-icons/md';
+// import { device } from './Devices';
+import DefaultFont from '../assets/font/agothic14.otf';
+import calendarStyled from '@emotion/styled';
+import Header from './Header';
 
 axios.withCredentials = true;
 axios.defaults.withCredentials = true;
+
+export const StyledWrapper = calendarStyled.div`
+.fc-toolbar-title, .fc-col-header-cell-cushion, .fc-daygrid-day-number {
+  font-size: 50px;
+} 
+.fc-event-title {
+  font-size: 40px; 
+}
+.fc-event-title-container{
+  text-align: center;
+}
+.fc-prev-button, .fc-next-button{
+  font-size: 30px;
+}
+`;
 
 const today = new Date();
 const nowYear = today.getFullYear();
@@ -48,7 +67,7 @@ const WorkSchedule = () => {
         return {
           date: workDay.date,
           title: '근무',
-          color: 'blue',
+          color: '#007473',
           url: 'MdWork',
         };
       });
@@ -60,7 +79,7 @@ const WorkSchedule = () => {
         return {
           date: workCheckDay.date,
           title: '근무',
-          color: 'blue',
+          color: '#007473',
           url: 'MdWork',
         };
       });
@@ -72,7 +91,7 @@ const WorkSchedule = () => {
         return {
           date: leaveDay.date,
           title: '휴무',
-          color: 'red',
+          color: '#cc1a0d',
         };
       });
 
@@ -83,7 +102,7 @@ const WorkSchedule = () => {
         return {
           date: leaveCheckDay.date,
           title: '휴무',
-          color: 'red',
+          color: '#cc1a0d',
         };
       });
 
@@ -93,7 +112,7 @@ const WorkSchedule = () => {
         return {
           date: annualDay.date,
           title: '연차',
-          color: 'red',
+          color: '#cc1a0d',
         };
       });
 
@@ -182,27 +201,32 @@ const WorkSchedule = () => {
 
   return (
     <div>
-      <Navbar />
+      <GlobalStyle />
+      {/* <Navbar /> */}
       {error && <div>에러가 발생했습니다.</div>}
       {/* {loading && <div>{loadingImg}</div>} */}
       {
         <SchedulePage>
-          <h1>근무일정표</h1>
-          <FullCalendar
-            datesSet={handleMonthChange}
-            plugins={[dayGridPlugin, timeGridPlugin, interactionPlugin]}
-            initialView="dayGridMonth"
-            headerToolbar={{
-              left: 'prev',
-              center: 'title',
-              right: 'next',
-            }}
-            // eventContent={renderEventContent}
-            events={allEvents}
-            locale="ko"
-          />
+          <Header />
+          <PageTitle>근무일정표</PageTitle>
+          <StyledWrapper>
+            <FullCalendar
+              height="1300px"
+              datesSet={handleMonthChange}
+              plugins={[dayGridPlugin, timeGridPlugin, interactionPlugin]}
+              initialView="dayGridMonth"
+              headerToolbar={{
+                left: 'prev',
+                center: 'title',
+                right: 'next',
+              }}
+              // eventContent={renderEventContent}
+              events={allEvents}
+              locale="ko"
+            />
+          </StyledWrapper>
           <LeaveWorkTable>
-            <table>
+            <table width="100%">
               <tbody>
                 <tr>
                   <th>근무일</th>
@@ -217,22 +241,58 @@ const WorkSchedule = () => {
           </LeaveWorkTable>
         </SchedulePage>
       }
-      <Footer />
     </div>
   );
 };
 
-const SchedulePage = styled.div`
-  margin-top: 20px;
-  margin-bottom: 50px;
-  text-align: center;
-  height: 100%;
-`;
-const LeaveWorkTable = styled.div`
-  text-align: center;
-  margin-left: auto;
-  margin-right: auto;
+const GlobalStyle = createGlobalStyle`
+@font-face {
+  font-family: 'agothic14';
+  src: url(${DefaultFont});
+}
 
+*{
+  margin: 0;
+  padding: 0;
+  box-sizing: content-box;
+  }
+
+body {
+  font-family: agothic14;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  margin: 20px
+  width: 100vw;
+  height: 100vh;
+}
+
+#root {
+  margin: 10px;
+  width: 100vw;
+  height: 100vh;
+}
+`;
+
+const SchedulePage = styled.div`
+  margin-top: 100px;
+  margin-bottom: 100px;
+  text-align: center;
+  height: 100vh;
+`;
+
+const PageTitle = styled.h1`
+  font-size: 80px;
+  font-style: bold;
+  padding-bottom: 30px;
+`;
+
+const LeaveWorkTable = styled.div`
+  margin-left: auto;
+  text-align: center;
+  margin-top: 20px;
+  margin-right: auto;
+  font-size: 50px;
   &table {
     border: 2px white;
     border-style: solid;
@@ -240,8 +300,10 @@ const LeaveWorkTable = styled.div`
 `;
 styled.th`
   border: solid;
-  border-width: 1px;
+  width: 50%;
   padding: 10px 5px;
+  margin-top: 20px;
+  justify-content: space-between;
 `;
 styled.td`
   border: solid;
