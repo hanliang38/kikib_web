@@ -4,6 +4,7 @@
   "private": true,
   "_coment_proxy_": "https://kikib-server.azurewebsites.net",
   "proxy": "http://13.209.203.232:8080",
+  "_proxy_dp_": "http://kiki-bus.com:3000",
   "dependencies": {
     "@emotion/react": "^11.7.1",
     "@emotion/styled": "^11.6.0",
