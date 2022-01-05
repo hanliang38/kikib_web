@@ -62,6 +62,12 @@ const Login = () => {
     }
   };
 
+  var size = {
+    width: window.innerWidth || document.body.clientWidth,
+    height: window.innerHeight || document.body.clientHeight,
+  };
+  console.log(size);
+
   return (
     <div>
       <GlobalStyle />
@@ -104,6 +110,14 @@ const Login = () => {
   );
 };
 
+// ${size.desktop}
+// ${size.laptopL}
+// ${size.laptop}
+// ${size.tablet}
+// ${size.mobileL}
+// ${size.mobileM}
+// ${size.mobileS}
+
 const GlobalStyle = createGlobalStyle`
 @font-face {
   font-family: 'agothic14';
@@ -121,29 +135,26 @@ body {
     display: flex;
     justify-content: center;
     align-items: center;
-    height: 100vh;
-    width: 100%;
     overflow: hidden;
     background: url(${bgLogin});
     
     background-repeat: no-repeat;
-    @media ${device.laptop} {
-      background-size: cover;
-      background-size: 100% 100%;
-      background-repeat: no-repeat;
-      background-position: center;
-    }
+
     @media ${device.desktop} {
+      height: 100vh;
+      width: 100%;
       background-size: cover;
       background-size: 100% 100%;
       background-repeat: no-repeat;
       background-position: center;
     }
     @media ${device.mobileL} {
+      height: 100vh;
+      width: 100%;
       background-size: cover;
     background-repeat: no-repeat;
     }
-  }
+}
 `;
 
 // let LoginPage = styled.div`
@@ -155,11 +166,7 @@ let LoginForm = styled.section`
   vertical-aline: middle;
   position: relative;
   z-index: 2;
-
-  @media ${device.laptop} {
-    max-width: 500px;
-    padding: 0;
-  }
+  
   @media ${device.desktop} {
     width: 60vh;
     margin: 10vh;
@@ -173,39 +180,31 @@ let LoginForm = styled.section`
   }
 `;
 
+// 로고 폼 공간 조절
 let LoginLogo = styled.div`
   text-align: center;
   margin-left: auto;
   margin-right: auto;
-  @media ${device.laptop} {
-    size: 32px;
-  }
+
   @media ${device.desktop} {
-    size: 32px;
+    width: 400px;
+    height: 200px;
+    margin-bottom: 60px;
+    padding-bottom: 40px;
   }
   @media ${device.mobileL} {
-    max-width: 500px;
-    height: 350px;
-  }
-  &a {
-    @media ${device.laptop} {
-      size: 32px;
-    }
-    @media ${device.desktop} {
-      size: 32px;
-    }
-    @media ${device.mobileL} {
-      max-width: 500px;
-      height: 350px;
-    }
+    margin-bottom: 60px;
+    width: 500px;
+    height: 300px;
   }
 `;
 
+// 로고크기조절
 let LoginLogoLink = styled.img`
   display: inline-block;
-  @media ${device.laptop} {
-  }
   @media ${device.desktop} {
+    width: 300px;
+    height: 200px;
   }
   @media ${device.mobileL} {
     width: 500px;
@@ -213,70 +212,118 @@ let LoginLogoLink = styled.img`
   }
 `;
 
-let InputForm = styled.form``;
+// 로그인 폼 전체 크기
+let InputForm = styled.form`
+  @media ${device.desktop} {
+    min-width: 300px;
+    min-height: 250px;
+    margin-top: 30px;
+  }
+  @media ${device.mobileM} {
+    width: 500px;
+    height: 400px;
+    margin-top: 50px;
+  }
+`;
 
 let IntArea = styled.div`
-  min-width: 250px;
+  min-width: 300px;
   position: relative;
-  margin-top: 20px;
+  margin-top: 60px;
   :first-child {
-    margin-top: 0;
+    margin-top: 80px;
   }
 `;
 let InputArea = styled.input`
   width: 100%;
-  padding: 20px 10px 10px;
+  height: 80px;
   background-color: transparent;
   border: none;
-  border-bottom: 1.5px solid #999;
-  font-size: 18px;
+  border-bottom: 2px solid #999;
+  font-size: 30px;
   color: #fff;
   outline: none;
   &:focus + label,
   &:valid + label {
     top: -2px;
-    font-size: 13px;
+    font-size: 25px;
     color: #fff;
   }
+
+  @media ${device.desktop} {
+    font-size: 30px;
+    padding: 15px 8px 8px;
+  }
+  @media ${device.mobileM} {
+    font-size: 50px;
+    padding: 20px 10px 10px;
+  }
 `;
+
 let IntLabel = styled.label`
   position: absolute;
-  left: 10px;
-  top: 15px;
-  font-size: 18px;
   color: #fff;
   transition: all 0.5s ease;
+  @media ${device.desktop} {
+    font-size: 28px
+    left: 10px;
+    top: 15px;
+  }
+  @media ${device.mobileM} {
+    font-size: 40px;
+    left: 15px;
+    top: 30px;
+  }
+
 `;
 let BtnArea = styled.div`
-  margin-top: 30px;
+  @media ${device.desktop} {
+    margin-top: 30px;
+  }
+  @media ${device.mobileM} {
+    margin-top: 80px;
+  }
 `;
 
 let BtnAreaButton = styled.button`
   width: 100%;
   min-width: 250px;
-  height: 50px;
   background: linear-gradient(0.25turn, #39aea1, #76bd72, #80bfb5);
   color: #fff;
-  font-size: 20px;
+  font-size: 35px;
   border: none;
-  border-radius: 25px;
+  border-radius: 3rem;
   cursor: pointer;
   position: relative;
   &:hover {
     background: #999;
   }
+
+  @media ${device.desktop} {
+    margin-top: 20px;
+    height: 80px;
+  }
+  @media ${device.mobileM} {
+    margin-top: 30px;
+    height: 80px;
+  }
 `;
 
 let LoginInquiry = styled.div`
   width: 100%;
+  margin-top: 50px;
   min-width: 250px;
-  margin-top: 20px;
   text-align: center;
-  font-size: 15px;
+  font-size: 30px;
   color: #fff;
   position: relative;
   &:hover {
     color: orange;
+  }
+
+  @media ${device.desktop} {
+  }
+  @media ${device.mobileM} {
   }
 `;
 
