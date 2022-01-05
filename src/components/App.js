@@ -8,7 +8,7 @@ import Login from './Login';
 
 function App() {
   // const navigate = useNavigate();
-  console.log('#APPP');
+  // console.log('#APPP');
 
   function RequireAuth({ children }) {
     // let auth = useAuth();

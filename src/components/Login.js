@@ -6,6 +6,7 @@ import styled, { createGlobalStyle } from 'styled-components';
 import bgLogin from '../assets/Drawables/img_bg_login.png';
 import DefaultFont from '../assets/font/agothic14.otf';
 import { device } from './Devices';
+import { useNavigate } from 'react-router-dom';
 
 const Login = () => {
   const [inputId, setId] = useState('');
@@ -18,10 +19,11 @@ const Login = () => {
     setPw(e.currentTarget.value);
   };
 
+  const navigate = useNavigate();
   const onClickLogin = (e) => {
     // console.log('click login');
-    console.log('ID : ', inputId);
-    console.log('PW : ', inputPw);
+    // console.log('ID : ', inputId);
+    // console.log('PW : ', inputPw);
 
     let formData = new FormData();
     formData.append('loginId', inputId);
@@ -38,7 +40,7 @@ const Login = () => {
         if (res.data.status === 200) {
           const userInfo = res.data.object;
           window.sessionStorage.setItem('userInfo', JSON.stringify(userInfo));
-          console.log(userInfo);
+          // console.log(userInfo);
         }
         //서버의 Json형태의 로컬스토리지 우선 저장
         // window.sessionStorage.setItem('userInfo', res);
@@ -47,7 +49,7 @@ const Login = () => {
         //   window.localStorage.setItem('userInfo', JSON.stringify(res))
         // );
         // 작업 완료 되면 페이지 이동(새로고침)
-        document.location.href = '/main';
+        navigate('/main', { replace: true });
       })
       .catch((error) => {
         //handle error
@@ -62,11 +64,11 @@ const Login = () => {
     }
   };
 
-  var size = {
-    width: window.innerWidth || document.body.clientWidth,
-    height: window.innerHeight || document.body.clientHeight,
-  };
-  console.log(size);
+  // var size = {
+  //   width: window.innerWidth || document.body.clientWidth,
+  //   height: window.innerHeight || document.body.clientHeight,
+  // };
+  // console.log(size);
 
   return (
     <div>

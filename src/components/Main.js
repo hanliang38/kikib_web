@@ -65,7 +65,6 @@ const Main = () => {
         <UserName>
           <h1>
             {userName} {/*bus_num*/}9-3번 승무원님
-            {console.log('지금은 메인')}
           </h1>
         </UserName>
         <DateTimeWeather>
@@ -169,7 +168,7 @@ const DateTimeWeather = styled.div`
 `;
 
 const Daily = styled.div`
-  display: inline-block;
+  display:table-cell;
   background-color: #192734;
   border: solid;
   border-size: 3px
@@ -179,7 +178,8 @@ const Daily = styled.div`
   width: 220px;
   height: 130px;
   padding: 30px;
-  text-aline: center;
+  text-align:center;
+  vertical-align:middle;
 `;
 
 const BtnsDiv = styled.div`
