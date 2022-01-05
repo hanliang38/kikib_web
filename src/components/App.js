@@ -8,7 +8,7 @@ import Login from './Login';
 
 function App() {
   // const navigate = useNavigate();
-  console.log('#APPP');
+  // console.log('#APPP');
 
   function RequireAuth({ children }) {
     // let auth = useAuth();
@@ -31,7 +31,6 @@ function App() {
 
   return (
     <Routes>
-      {/* {!isAuthorized ? navigate('/') : navigate('/main')} */}
       <Route path="/" element={<Login />} />
       <Route
         path="/main"
@@ -42,7 +41,7 @@ function App() {
         }
       />
       <Route
-        path="management"
+        path="/management"
         element={
           <RequireAuth>
             <WorkScheduleManagement />
@@ -50,7 +49,7 @@ function App() {
         }
       />
       <Route
-        path="schedule"
+        path="/schedule"
         element={
           <RequireAuth>
             <WorkSchedule />
