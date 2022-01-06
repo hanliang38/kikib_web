@@ -6,7 +6,7 @@ import styled, { createGlobalStyle } from 'styled-components';
 import bgLogin from '../assets/Drawables/img_bg_login.png';
 import DefaultFont from '../assets/font/agothic14.otf';
 import { device } from './Devices';
-import { useNavigate } from 'react-router-dom';
+// import { useNavigate } from 'react-router-dom';
 
 const Login = () => {
   const [inputId, setId] = useState('');
@@ -19,7 +19,14 @@ const Login = () => {
     setPw(e.currentTarget.value);
   };
 
-  const navigate = useNavigate();
+  // const navigate = useNavigate();
+
+  const onEnter = (e) => {
+    if (e.key === 'Enter') {
+      onClickLogin();
+    }
+  };
+
   const onClickLogin = (e) => {
     // console.log('click login');
     // console.log('ID : ', inputId);
@@ -49,19 +56,13 @@ const Login = () => {
         //   window.localStorage.setItem('userInfo', JSON.stringify(res))
         // );
         // 작업 완료 되면 페이지 이동(새로고침)
-        navigate('/main', { replace: true });
+        document.location.href = '/main';
       })
       .catch((error) => {
         //handle error
         console.log(error);
       });
     e.preventDefault();
-  };
-
-  const onEnter = (e) => {
-    if (e.key === 'Enter') {
-      onClickLogin();
-    }
   };
 
   // var size = {
