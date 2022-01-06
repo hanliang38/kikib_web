@@ -101,7 +101,7 @@ const Login = () => {
           </IntArea>
           <BtnArea>
             <BtnAreaButton onClick={onClickLogin}>
-              계정으로 로그인
+              키키버스 계정으로 로그인
             </BtnAreaButton>
           </BtnArea>
           <LoginInquiry>
