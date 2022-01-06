@@ -21,13 +21,8 @@ const Login = () => {
 
   // const navigate = useNavigate();
 
-  const onEnter = (e) => {
-    if (e.key === 'Enter') {
-      onClickLogin();
-    }
-  };
-
   const onClickLogin = (e) => {
+    e.preventDefault();
     // console.log('click login');
     // console.log('ID : ', inputId);
     // console.log('PW : ', inputPw);
@@ -62,7 +57,12 @@ const Login = () => {
         //handle error
         console.log(error);
       });
-    e.preventDefault();
+  };
+
+  const onEnter = (e) => {
+    if (e.key === 'Enter') {
+      onClickLogin(e);
+    }
   };
 
   // var size = {
@@ -101,7 +101,7 @@ const Login = () => {
           </IntArea>
           <BtnArea>
             <BtnAreaButton onClick={onClickLogin}>
-              키키버스 계정으로 로그인
+              계정으로 로그인
             </BtnAreaButton>
           </BtnArea>
           <LoginInquiry>
