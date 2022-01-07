@@ -13,7 +13,7 @@ import styled, { createGlobalStyle } from 'styled-components';
 import DefaultFont from '../assets/font/agothic14.otf';
 import calendarStyled from '@emotion/styled';
 import Header from './Header';
-import { configs } from '../config/config';
+// import { configs } from '../config/config';
 
 axios.withCredentials = true;
 axios.defaults.withCredentials = true;

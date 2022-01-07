@@ -7,7 +7,7 @@ import bgLogin from '../assets/Drawables/img_bg_login.png';
 import DefaultFont from '../assets/font/agothic14.otf';
 import { device } from './Devices';
 // import { useNavigate } from 'react-router-dom';
-import { configs } from '../config/config';
+// import { configs } from '../config/config';
 
 const Login = () => {
   const [inputId, setId] = useState('');
