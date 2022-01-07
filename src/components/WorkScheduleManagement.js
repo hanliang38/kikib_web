@@ -14,6 +14,7 @@ const WorkScheduleManagement = () => {
   if (sessionStorage.getItem('userInfo') === null) {
     return navigate('/login');
   }
+
   return (
     <div>
       <GlobalStyle />
@@ -39,12 +40,16 @@ const WorkScheduleManagement = () => {
           </BtnDiv>
           <BtnDiv>
             {/* <Link to="/main"> */}
-            <Btn>근무 일정 확인</Btn>
+            <Btn onClick={() => alert('준비중인 기능입니다.')}>
+              근무 일정 확인
+            </Btn>
             {/* </Link> */}
           </BtnDiv>
           <BtnDiv>
             {/* <Link to="/main"> */}
-            <Btn>배차 일보 조회</Btn>
+            <Btn onClick={() => alert('준비중인 기능입니다.')}>
+              배차 일보 조회
+            </Btn>
             {/* </Link> */}
           </BtnDiv>
         </BtnsDiv>

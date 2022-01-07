@@ -140,7 +140,7 @@ body {
     justify-content: center;
     align-items: center;
     overflow: hidden;
-    background: url(${bgLogin});
+    background: url(${bgLogin});cd
     
     background-repeat: no-repeat;
 
@@ -241,6 +241,7 @@ let IntArea = styled.div`
 let InputArea = styled.input`
   width: 100%;
   height: 80px;
+  text-transform: lowercase;
   background-color: transparent;
   border: none;
   border-bottom: 2px solid #999;
@@ -268,6 +269,7 @@ let IntLabel = styled.label`
   position: absolute;
   color: #fff;
   transition: all 0.5s ease;
+  text-transform: lowercase;
   @media ${device.desktop} {
     font-size: 28px
     left: 10px;
