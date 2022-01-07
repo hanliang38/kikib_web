@@ -158,7 +158,7 @@ const WorkSchedule = () => {
       setError(null);
       // setCurrentYearMonth(nowYearMonth);
       const response = await axios.get(
-        `/api/driver/${userId}?yearMonth=${dateString}`
+        `http://kiki-bus.com:8080/api/driver/${userId}?yearMonth=${dateString}`
       );
 
       let res = response.data.object;
