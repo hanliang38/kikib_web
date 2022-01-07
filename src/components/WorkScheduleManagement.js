@@ -38,14 +38,14 @@ const WorkScheduleManagement = () => {
             </Link>
           </BtnDiv>
           <BtnDiv>
-            <Link to="/main">
-              <Btn>근무 일정 확인</Btn>
-            </Link>
+            {/* <Link to="/main"> */}
+            <Btn>근무 일정 확인</Btn>
+            {/* </Link> */}
           </BtnDiv>
           <BtnDiv>
-            <Link to="/main">
-              <Btn>배차 일보 조회</Btn>
-            </Link>
+            {/* <Link to="/main"> */}
+            <Btn>배차 일보 조회</Btn>
+            {/* </Link> */}
           </BtnDiv>
         </BtnsDiv>
       </ManagePage>
