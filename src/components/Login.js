@@ -7,6 +7,7 @@ import bgLogin from '../assets/Drawables/img_bg_login.png';
 import DefaultFont from '../assets/font/agothic14.otf';
 import { device } from './Devices';
 // import { useNavigate } from 'react-router-dom';
+import { configs } from '../config/config';
 
 const Login = () => {
   const [inputId, setId] = useState('');
@@ -33,7 +34,7 @@ const Login = () => {
 
     axios({
       method: 'post',
-      url: 'http://kiki-bus.com:8080/api/login',
+      url: 'http://13.209.203.232:8080/api/login',
       data: formData,
       headers: { 'Content-Type': 'multipart/form-data' },
     })

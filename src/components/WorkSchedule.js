@@ -13,6 +13,7 @@ import styled, { createGlobalStyle } from 'styled-components';
 import DefaultFont from '../assets/font/agothic14.otf';
 import calendarStyled from '@emotion/styled';
 import Header from './Header';
+import { configs } from '../config/config';
 
 axios.withCredentials = true;
 axios.defaults.withCredentials = true;
@@ -158,7 +159,7 @@ const WorkSchedule = () => {
       setError(null);
       // setCurrentYearMonth(nowYearMonth);
       const response = await axios.get(
-        `http://kiki-bus.com:8080/api/driver/${userId}?yearMonth=${dateString}`
+        `http://13.209.203.232:8080/api/driver/${userId}?yearMonth=${dateString}`
       );
 
       let res = response.data.object;
