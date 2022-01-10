@@ -223,6 +223,12 @@ const WorkSchedule = () => {
               }}
               // eventContent={renderEventContent}
               events={allEvents}
+              eventClick={(event) => {
+                // event에서 url 호출 하는걸 막는 방법
+                event.jsEvent.cancelBubble = true;
+                event.jsEvent.preventDefault();
+                event.jsEvent = alert('추후 업데이트 예정입니다.');
+              }}
               locale="ko"
             />
           </StyledWrapper>
