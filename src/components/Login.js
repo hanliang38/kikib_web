@@ -34,7 +34,7 @@ const Login = () => {
 
     axios({
       method: 'post',
-      url: 'http://kiki-bus.com:8080/api/login',
+      url: 'http://13.209.203.232:8080/api/login',
       data: formData,
       headers: { 'Content-Type': 'multipart/form-data' },
     })

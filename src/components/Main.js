@@ -89,7 +89,7 @@ const Main = () => {
           <BtnDiv>
             <Btn
               onClick={() =>
-                window.open('http://kiki-bus.com:8080/api/driver', '_blank')
+                window.open('http://13.209.203.232:8080/api/driver', '_blank')
               }
             >
               운행관리
