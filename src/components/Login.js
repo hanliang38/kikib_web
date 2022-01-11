@@ -9,7 +9,7 @@ import { device } from './Devices';
 // import { useNavigate } from 'react-router-dom';
 // import { configs } from '../config/config';
 
-axios.defaults.baseURL = 'http://kiki-bus.com:8080/api';
+// axios.defaults.baseURL = 'http://kiki-bus.com:8080/api';
 
 const Login = () => {
   const [inputId, setId] = useState('');
@@ -36,7 +36,7 @@ const Login = () => {
 
     axios({
       method: 'post',
-      url: 'login',
+      url: 'http://kiki-bus.com:8080/api/login',
       data: formData,
       headers: { 'Content-Type': 'multipart/form-data' },
     })
