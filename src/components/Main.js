@@ -87,13 +87,9 @@ const Main = () => {
             </Link>
           </BtnDiv>
           <BtnDiv>
-            <Btn
-              onClick={() =>
-                window.open('http://kiki-bus.com:8080/api/driver', '_blank')
-              }
-            >
-              운행관리
-            </Btn>
+            <Link to="/personalTimeTable">
+              <Btn>배차일보조회</Btn>
+            </Link>
           </BtnDiv>
         </BtnsDiv>
         <QrBtnDiv>
@@ -199,7 +195,7 @@ const Btn = styled.button`
   border-style: solid;
   border-width: 1.5px;
   border-color: #c0c0c0;
-  border-radius: 3rem;
+  border-radius: 1.5rem;
   &:hover {
     background-color: rgb(173, 170, 170);
   }

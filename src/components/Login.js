@@ -188,11 +188,11 @@ body {
 }
 `;
 
-// let LoginPage = styled.div`
+// const LoginPage = styled.div`
 //   height: 100vh;
 // `;
 
-let LoginForm = styled.section`
+const LoginForm = styled.section`
   display: inline-block;
   vertical-aline: middle;
   position: relative;
@@ -212,7 +212,7 @@ let LoginForm = styled.section`
 `;
 
 // 로고 폼 공간 조절
-let LoginLogo = styled.div`
+const LoginLogo = styled.div`
   text-align: center;
   margin-left: auto;
   margin-right: auto;
@@ -231,7 +231,7 @@ let LoginLogo = styled.div`
 `;
 
 // 로고크기조절
-let LoginLogoLink = styled.img`
+const LoginLogoLink = styled.img`
   display: inline-block;
   @media ${device.desktop} {
     width: 300px;
@@ -244,7 +244,7 @@ let LoginLogoLink = styled.img`
 `;
 
 // 로그인 폼 전체 크기
-let InputForm = styled.form`
+const InputForm = styled.form`
   @media ${device.desktop} {
     min-width: 300px;
     min-height: 250px;
@@ -257,7 +257,7 @@ let InputForm = styled.form`
   }
 `;
 
-let IntArea = styled.div`
+const IntArea = styled.div`
   min-width: 300px;
   position: relative;
   margin-top: 60px;
@@ -266,7 +266,7 @@ let IntArea = styled.div`
     margin-top: 80px;
   }
 `;
-let InputArea = styled.input`
+const InputArea = styled.input`
   width: 100%;
   height: 80px;
   text-transform: lowercase;
@@ -293,7 +293,7 @@ let InputArea = styled.input`
   }
 `;
 
-let IntLabel = styled.label`
+const IntLabel = styled.label`
   position: absolute;
   color: #fff;
   transition: all 0.5s ease;
@@ -311,20 +311,20 @@ let IntLabel = styled.label`
   }
 `;
 
-let RememberIdLabel = styled.label`
+const RememberIdLabel = styled.label`
   position: relative;
   padding: 20px;
   color: white;
   font-size: 30px;
 `;
 
-let RemeberIdCheckbox = styled.input`
+const RemeberIdCheckbox = styled.input`
   position: relative;
   margin-right: 20px;
   transform: scale(2);
 `;
 
-let BtnArea = styled.div`
+const BtnArea = styled.div`
   @media ${device.desktop} {
     margin-top: 30px;
   }
@@ -333,7 +333,7 @@ let BtnArea = styled.div`
   }
 `;
 
-let BtnAreaButton = styled.button`
+const BtnAreaButton = styled.button`
   width: 100%;
   min-width: 250px;
   background: linear-gradient(0.25turn, #39aea1, #76bd72, #80bfb5);
@@ -357,7 +357,7 @@ let BtnAreaButton = styled.button`
   }
 `;
 
-let LoginInquiry = styled.div`
+const LoginInquiry = styled.div`
   width: 100%;
   margin-top: 50px;
   min-width: 250px;
@@ -375,7 +375,7 @@ let LoginInquiry = styled.div`
   }
 `;
 
-let LoginInquiryP = styled.p`
+const LoginInquiryP = styled.p`
   cursor: pointer;
   text-decoration: none;
 `;

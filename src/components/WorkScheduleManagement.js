@@ -41,6 +41,13 @@ const WorkScheduleManagement = () => {
           <BtnDiv>
             {/* <Link to="/main"> */}
             <Btn onClick={() => alert('준비중인 기능입니다.')}>
+              휴무 신청 / 교환 현황
+            </Btn>
+            {/* </Link> */}
+          </BtnDiv>
+          <BtnDiv>
+            {/* <Link to="/main"> */}
+            <Btn onClick={() => alert('준비중인 기능입니다.')}>
               근무 일정 확인
             </Btn>
             {/* </Link> */}
@@ -122,18 +129,18 @@ const BtnsDiv = styled.div`
 `;
 
 const BtnDiv = styled.div`
-  margin: 100px;
+  margin: 3%;
 `;
 
 const Btn = styled.button`
   font-size: 70px;
   font-weight: bold;
-  min-width: 600px;
-  min-height: 200px;
+  width: 85%;
+  min-height: 180px;
   border-style: solid;
   border-width: 1.5px;
   border-color: #c0c0c0;
-  border-radius: 3rem;
+  border-radius: 1.5rem;
   text-decoration: none;
   color: black;
   &:hover {

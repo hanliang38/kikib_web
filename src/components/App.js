@@ -4,6 +4,7 @@ import Main from './Main';
 import WorkScheduleManagement from './WorkScheduleManagement';
 import WorkSchedule from './WorkSchedule';
 import Login from './Login';
+import PersonalTimeTable from './PersonalTimeTable';
 // import withAuthHoc from './withAuthHoc';
 
 function App() {
@@ -45,6 +46,14 @@ function App() {
         element={
           <RequireAuth>
             <WorkScheduleManagement />
+          </RequireAuth>
+        }
+      />
+      <Route
+        path="/personalTimeTable"
+        element={
+          <RequireAuth>
+            <PersonalTimeTable />
           </RequireAuth>
         }
       />
