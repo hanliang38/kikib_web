@@ -12,8 +12,9 @@ import styled, { createGlobalStyle } from 'styled-components';
 // import { device } from './Devices';
 import DefaultFont from '../assets/font/agothic14.otf';
 import calendarStyled from '@emotion/styled';
-import Header from './Header';
+import Header from '../components/Header';
 // import { configs } from '../config/config';
+import apiClient from '../config/apiClient';
 
 axios.withCredentials = true;
 axios.defaults.withCredentials = true;
@@ -158,7 +159,7 @@ const WorkSchedule = () => {
     try {
       setError(null);
       // setCurrentYearMonth(nowYearMonth);
-      const response = await axios.get(
+      const response = await apiClient.get(
         `http://kiki-bus.com:8080/api/driver/${userId}?yearMonth=${dateString}`
       );
 
@@ -306,16 +307,16 @@ const LeaveWorkTable = styled.div`
   }
 `;
 styled.th`
-  border: solid;
   width: 50%;
   padding: 10px 5px;
   margin-top: 20px;
   justify-content: space-between;
 `;
 styled.td`
-  border: solid;
   border-width: 1px;
   padding: 10px 5px;
+  border: solid 2px;
+  border-color: red;
 `;
 
 export default WorkSchedule;

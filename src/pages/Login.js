@@ -5,7 +5,7 @@ import logoLogin from '../assets/Drawables/logo_login.png';
 import styled, { createGlobalStyle } from 'styled-components';
 import bgLogin from '../assets/Drawables/img_bg_login.png';
 import DefaultFont from '../assets/font/agothic14.otf';
-import { device } from './Devices';
+import { device } from '../components/Devices';
 import { useCookies } from 'react-cookie';
 // import { useNavigate } from 'react-router-dom';
 // import { configs } from '../config/config';
@@ -47,29 +47,35 @@ const Login = () => {
     // console.log('ID : ', inputId);
     // console.log('PW : ', inputPw);
 
-    let formData = new FormData();
-    formData.append('loginId', inputId);
-    formData.append('password', inputPw);
-
     axios({
-      method: 'post',
-      url: 'http://kiki-bus.com:8080/api/login',
-      data: formData,
-      headers: { 'Content-Type': 'multipart/form-data' },
+      method: 'POST',
+      url: '/auth/login',
+      headers: {
+        Accept: 'application/json',
+        'Content-Type': 'application/json',
+      },
+      data: {
+        loginId: inputId,
+        password: inputPw,
+      },
     })
       .then((res) => {
+        console.log(res);
+        // console.log(res.data.object.token);
         //handle success
+        const accessToken = res.data.object.token;
+        axios.defaults.headers.common[
+          'Authorization'
+        ] = `Bearer ${accessToken}`;
+
+        console.log(axios.defaults.headers.common);
+
         if (res.data.status === 200) {
           const userInfo = res.data.object;
           window.sessionStorage.setItem('userInfo', JSON.stringify(userInfo));
+          window.sessionStorage.setItem('token', accessToken);
           // console.log(userInfo);
         }
-        //서버의 Json형태의 로컬스토리지 우선 저장
-        // window.sessionStorage.setItem('userInfo', res);
-        // window.sessionStorage.setItem('userInfo', JSON.stringify(res));
-        // console.log(
-        //   window.localStorage.setItem('userInfo', JSON.stringify(res))
-        // );
         // 작업 완료 되면 페이지 이동(새로고침)
         document.location.href = '/main';
       })

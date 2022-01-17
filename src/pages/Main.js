@@ -6,7 +6,7 @@ import Clock from 'react-live-clock';
 import 'moment/locale/ko';
 import { useLocation, Navigate } from 'react-router';
 import DefaultFont from '../assets/font/agothic14.otf';
-import { device } from './Devices';
+import { device } from '../components/Devices';
 // import Header from './Header';
 
 // 사용자 위치정보
@@ -70,7 +70,7 @@ const Main = () => {
         <DateTimeWeather>
           <Daily>
             <Clock
-              format={'MM월 DD일 dddd'}
+              format={'MM/DD dddd'}
               ticking={true}
               timezone={'Asia/Seoul'}
             />

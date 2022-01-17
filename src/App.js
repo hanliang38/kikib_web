@@ -1,10 +1,10 @@
 import React from 'react';
 import { Routes, Route, useLocation, Navigate } from 'react-router-dom';
-import Main from './Main';
-import WorkScheduleManagement from './WorkScheduleManagement';
-import WorkSchedule from './WorkSchedule';
-import Login from './Login';
-import PersonalTimeTable from './PersonalTimeTable';
+import Main from './pages/Main';
+import WorkScheduleManagement from './pages/WorkScheduleManagement';
+import WorkSchedule from './pages/WorkSchedule';
+import Login from './pages/Login';
+import PersonalTimeTable from './pages/PersonalTimeTable';
 // import withAuthHoc from './withAuthHoc';
 
 function App() {

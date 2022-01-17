@@ -7,8 +7,8 @@ import { Link } from 'react-router-dom';
 import { useNavigate as navigate } from 'react-router';
 import styled, { createGlobalStyle } from 'styled-components';
 import DefaultFont from '../assets/font/agothic14.otf';
-import { device } from './Devices';
-import Header from './Header';
+import { device } from '../components/Devices';
+import Header from '../components/Header';
 
 const WorkScheduleManagement = () => {
   if (sessionStorage.getItem('userInfo') === null) {

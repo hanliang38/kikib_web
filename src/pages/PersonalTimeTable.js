@@ -1,14 +1,32 @@
-import React from 'react';
+import React, { useState } from 'react';
 import styled, { createGlobalStyle } from 'styled-components';
-import { Link } from 'react-router-dom';
-import Clock from 'react-live-clock';
 import 'moment/locale/ko';
 import { useLocation, Navigate } from 'react-router';
 import DefaultFont from '../assets/font/agothic14.otf';
-import { device } from './Devices';
-import Header from './Header';
+import { device } from '../components/Devices';
+import Header from '../components/Header';
+import BusTimeTable from '../components/BusTimeTable';
+import RouteTimeTable from '../components/RouteTimeTable';
+import apiClient from '../config/apiClient';
+
+const today = new Date();
+const year = today.getFullYear();
+const month = today.getMonth() + 1;
+const nowMonth = month < 10 ? `0${month}` : month;
+const date = today.getDate();
+const nowDate = date < 10 ? `0${date}` : date;
+const hours = today.getHours();
+const minutes = today.getMinutes();
+const seconds = today.getSeconds();
+
+const currentYMD = `${year}-${nowMonth}-${nowDate}`;
 
 const PersonalTimeTable = () => {
+  const [currentPage, setCurrentPage] = useState(true);
+  const [timeData, setTimeData] = useState([]);
+  const [error, setError] = useState(null);
+
+  // 로그인 여부
   const location = useLocation();
   const userInfo = JSON.parse(window.sessionStorage.getItem('userInfo'));
 
@@ -19,6 +37,25 @@ const PersonalTimeTable = () => {
   }
 
   // 있는 경우
+  const accessToken = window.sessionStorage.getItem('token');
+  // console.log(accessToken);
+  // data
+
+  const fetchData = async () => {
+    try {
+      setError(null);
+      // setCurrentYearMonth(nowYearMonth);
+      const response = await apiClient.get(`/dispatch/driver/${currentYMD}`);
+      let res = response.data.object;
+      // console.log(res);
+      setTimeData(res);
+    } catch (e) {
+      setError(e);
+    }
+  };
+
+  console.log(fetchData);
+  // console.log(axiosCli);
 
   return (
     <>
@@ -34,19 +71,13 @@ const PersonalTimeTable = () => {
           </BusNumTime>
         </RouteBusInfo>
         <SelectBox>
-          <TimeTableBtn>배차일보</TimeTableBtn>
-          <RouteBtn>노선도</RouteBtn>
+          <TimeTableBtn onClick={() => setCurrentPage(true)}>
+            배차일보
+          </TimeTableBtn>
+          <RouteBtn onClick={() => setCurrentPage(false)}>노선도</RouteBtn>
         </SelectBox>
         <CurrentPage>
-          <DailyTimeTable>
-            <ColunmTitle>
-              <ColunmTitleItem>회차</ColunmTitleItem>
-              <ColunmTitleItem>출발</ColunmTitleItem>
-              <ColunmTitleItem>도착</ColunmTitleItem>
-              <ColunmTitleItem>상태</ColunmTitleItem>
-            </ColunmTitle>
-          </DailyTimeTable>
-          <RouteLine></RouteLine>
+          {currentPage ? <BusTimeTable /> : <RouteTimeTable />}
         </CurrentPage>
       </PersonalTimeTablePage>
     </>
@@ -156,25 +187,6 @@ const RouteBtn = styled.button`
 const CurrentPage = styled.div`
   margin-top: 20px;
   height: 72vh;
-  border: solid 2px;
-  border-color: red;
 `;
-const DailyTimeTable = styled.div``;
-const ColunmTitle = styled.div`
-display: flex;
-padding 10px;
-justify-contetnt: space-between;
-border: solid 2px;
-border-color: blue;`;
-
-const ColunmTitleItem = styled.div`
-  display: inline-block;
-  text-align: center;
-  font-size: 50px;
-  border: solid 2px;
-  border-color: green;
-`;
-
-const RouteLine = styled.div``;
 
 export default PersonalTimeTable;
