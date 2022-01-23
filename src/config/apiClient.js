@@ -1,7 +1,7 @@
 import axios from 'axios';
 
 const accessToken = window.sessionStorage.getItem('token');
-console.log(accessToken);
+// console.log(accessToken);
 
 const apiClient = axios.create({
   baseURL: 'http://api.kiki-bus.com',

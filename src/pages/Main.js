@@ -171,7 +171,7 @@ const Daily = styled.div`
   border-color: #1a7473;
   border-radius: 1.5rem;
   color: white;
-  width: 220px;
+  width: 22%;
   height: 130px;
   padding: 30px;
   text-align:center;

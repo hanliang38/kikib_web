@@ -15,6 +15,7 @@ import calendarStyled from '@emotion/styled';
 import Header from '../components/Header';
 // import { configs } from '../config/config';
 import apiClient from '../config/apiClient';
+import { cleanup } from '@testing-library/react';
 
 axios.withCredentials = true;
 axios.defaults.withCredentials = true;
@@ -54,11 +55,9 @@ const WorkSchedule = () => {
 
   useEffect(() => {
     // console.log('currentYearMonth', currentYearMonth);
-
     fetchData(currentYearMonth);
-  }, [currentYearMonth]);
-
-  useEffect(() => {
+    if (!workData) return;
+    cleanup();
     // obj 분할 (array) status ==> work, work-check, leave, leave-check
     // console.log('workData::', workData);
     // console.log('workData.status::', workData);
@@ -146,7 +145,11 @@ const WorkSchedule = () => {
       ...annualCheckDays,
     ]);
     // console.log('workEvents::', workEvents);
+    cleanup();
   }, [workData]);
+
+  // useEffect(() => {
+  // }, [workData]);
 
   if (!userInfo) {
     // 없을 때
@@ -162,7 +165,6 @@ const WorkSchedule = () => {
       const response = await apiClient.get(
         `http://kiki-bus.com:8080/api/driver/${userId}?yearMonth=${dateString}`
       );
-
       let res = response.data.object;
       // console.log(res);
       setWorkData(res);

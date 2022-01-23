@@ -1,7 +1,7 @@
 import React from 'react';
 
 function RouteTimeTable(props) {
-  return <div>이것은 노선도</div>;
+  return <div>준비중인 기능입니다.(노선도)</div>;
 }
 
 export default RouteTimeTable;

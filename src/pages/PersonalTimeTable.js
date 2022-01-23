@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React, { useEffect, useState } from 'react';
 import styled, { createGlobalStyle } from 'styled-components';
 import 'moment/locale/ko';
 import { useLocation, Navigate } from 'react-router';
@@ -8,6 +8,7 @@ import Header from '../components/Header';
 import BusTimeTable from '../components/BusTimeTable';
 import RouteTimeTable from '../components/RouteTimeTable';
 import apiClient from '../config/apiClient';
+import { cleanup } from '@testing-library/react';
 
 const today = new Date();
 const year = today.getFullYear();
@@ -15,16 +16,37 @@ const month = today.getMonth() + 1;
 const nowMonth = month < 10 ? `0${month}` : month;
 const date = today.getDate();
 const nowDate = date < 10 ? `0${date}` : date;
-const hours = today.getHours();
-const minutes = today.getMinutes();
-const seconds = today.getSeconds();
-
 const currentYMD = `${year}-${nowMonth}-${nowDate}`;
 
 const PersonalTimeTable = () => {
   const [currentPage, setCurrentPage] = useState(true);
   const [timeData, setTimeData] = useState([]);
   const [error, setError] = useState(null);
+  const [routeName, setRouteName] = useState('');
+  const [busNumber, setBusNumber] = useState('');
+  const [workingHours, setWorkingHours] = useState('');
+
+  // api 데이터 최초 1회 렌더링 (useEffect(1))
+  useEffect(() => {
+    fetchData(timeData);
+    // timeData가 없을 경우
+    if (timeData.length === 0) {
+      // setTimeout(() => {
+      //   setInterval
+      // }, timeout);
+      return;
+    }
+    // 노선번호
+    setRouteName(timeData[0].routeName);
+    // 차량번호
+    setBusNumber(timeData[0].busNumber);
+    // 근무시간
+    const firstStartTime = timeData[0].startTime;
+    // console.log(firstStartTime);
+    const lastEndTime = timeData[timeData.length - 1].endTime;
+    // console.log(lastEndTime);
+    setWorkingHours(`${firstStartTime}~${lastEndTime}`);
+  }, [timeData]);
 
   // 로그인 여부
   const location = useLocation();
@@ -37,8 +59,6 @@ const PersonalTimeTable = () => {
   }
 
   // 있는 경우
-  const accessToken = window.sessionStorage.getItem('token');
-  // console.log(accessToken);
   // data
 
   const fetchData = async () => {
@@ -46,6 +66,7 @@ const PersonalTimeTable = () => {
       setError(null);
       // setCurrentYearMonth(nowYearMonth);
       const response = await apiClient.get(`/dispatch/driver/${currentYMD}`);
+      // console.log(response);
       let res = response.data.object;
       // console.log(res);
       setTimeData(res);
@@ -54,22 +75,26 @@ const PersonalTimeTable = () => {
     }
   };
 
-  console.log(fetchData);
-  // console.log(axiosCli);
+  // console.log(timeData);
 
   return (
     <>
       <GlobalStyle />
+      {error && <div>에러가 발생했습니다.</div>}
       <PersonalTimeTablePage>
         <Header />
         <PageTitle>배차일보</PageTitle>
-        <RouteBusInfo>
-          <BusRoute>9-3번 노선</BusRoute>
-          <BusNumTime>
-            <BusNum>1060차량</BusNum>
-            <BusRunTime>06:50~00:13 근무</BusRunTime>
-          </BusNumTime>
-        </RouteBusInfo>
+        {timeData ? (
+          <RouteBusInfo>
+            <BusRoute>{routeName}번 노선</BusRoute>
+            <BusNumTime>
+              <BusNum>{busNumber}차량</BusNum>
+              <BusRunTime>{workingHours} 근무</BusRunTime>
+            </BusNumTime>
+          </RouteBusInfo>
+        ) : (
+          <></>
+        )}
         <SelectBox>
           <TimeTableBtn onClick={() => setCurrentPage(true)}>
             배차일보
