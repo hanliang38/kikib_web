@@ -46,6 +46,8 @@ const PersonalTimeTable = () => {
     const lastEndTime = timeData[timeData.length - 1].endTime;
     // console.log(lastEndTime);
     setWorkingHours(`${firstStartTime}~${lastEndTime}`);
+
+    cleanup();
   }, [timeData]);
 
   // 로그인 여부
