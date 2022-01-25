@@ -55,12 +55,11 @@ const BusTimeTable = () => {
   const [error, setError] = useState(null);
   // const [currentDate, setCurrentDate] = useState(currentYMD);
   const [dataRow, setDataRow] = useState([]);
-  // const [statusBus, setStatusBus] = useState('');
-  // const [runTimes, setRunTimes] = useState([]);
 
   // 전체 데이터를 보여주는 effect
   useEffect(() => {
     fetchData(currentYMD);
+    // console.log(statusBus);
     cleanup();
   }, []);
 
@@ -75,6 +74,10 @@ const BusTimeTable = () => {
     return rows.push(createData(item[0], item[1], item[2], item[3]));
   });
 
+  // useInterval(() => {
+  //   set;
+  // });
+
   const fetchData = async () => {
     try {
       setError(null);
@@ -82,7 +85,7 @@ const BusTimeTable = () => {
       // api 데이터 추출
       const response = await apiClient.get(`/dispatch/driver/${currentYMD}`);
       let res = response.data.object;
-      console.log('res::', res);
+      // console.log('res::', res);
 
       // 버스 회차
       const busRound = res.map((item) => {
@@ -97,8 +100,6 @@ const BusTimeTable = () => {
         return item.endTime;
       });
 
-      // 유닉스 시간
-      const unixRunTimes = [];
       // 유닉스 버스 출발 시간
       const busUnixStartTime = res.map((item) => {
         return item.unixStartTime * 1000;
@@ -107,13 +108,6 @@ const BusTimeTable = () => {
       const busUnixEndTime = res.map((item) => {
         return item.unixEndTime * 1000;
       });
-
-      busUnixStartTime.map((itemx, i) =>
-        unixRunTimes.push(itemx, busUnixEndTime[i])
-      );
-      // const unixRunTimesData = division(unixRunTimes, 2);
-      // console.log(unixRunTimesData);
-      // setRunTimes(unixRunTimesData);
 
       // 필요한 data만 순차적으로 담은 배열 (운행시간표)
       const data = [];
@@ -134,6 +128,7 @@ const BusTimeTable = () => {
         };
         data.push(busStatus());
       }
+
       // data 4개씩 나누기
       // console.log('data::', data);
       const rowArr = division(data, 4);
@@ -198,7 +193,7 @@ const BusTimeTable = () => {
         0 < bFastArr.length
           ? rowArr.splice(index + 1, 0, ['', '중식', '권장시간', ''])
           : rowArr.splice(index, 0, ['', '중식', '권장시간', '']);
-        console.log('## 중식 index 구하기', index);
+        // console.log('## 중식 index 구하기', index);
       }
 
       // 석식
@@ -219,9 +214,7 @@ const BusTimeTable = () => {
         // console.log('## 석식 index 구하기', index);
       }
 
-      // setStatusBus();
-
-      console.log('rowArr::', rowArr);
+      // console.log('rowArr::', rowArr);
       setDataRow(rowArr);
     } catch (e) {
       setError(e);
@@ -243,22 +236,62 @@ const BusTimeTable = () => {
           {error && <div>잘못된 정보입니다.</div>}
           {dataRow ? (
             <TableBody>
-              {rows.map((row, i) => (
-                <StyledTableRow key={`list1-${i}`}>
-                  <StyledTableCell align="center" component="th" scope="row">
-                    {dataRow ? row.num : row.empty}
-                  </StyledTableCell>
-                  <StyledTableCell align="center">
-                    {dataRow ? row.start : row.meal}
-                  </StyledTableCell>
-                  <StyledTableCell align="center">
-                    {dataRow ? row.arrive : row.recomand}
-                  </StyledTableCell>
-                  <StyledTableCell align="center">
-                    {dataRow ? row.status : row.place}
-                  </StyledTableCell>
-                </StyledTableRow>
-              ))}
+              {rows.map((row, i) =>
+                row.status === '운행중' ? (
+                  <StyledTableRowIng key={`list1-${i}`}>
+                    <StyledTableCellIng
+                      align="center"
+                      component="th"
+                      scope="row"
+                    >
+                      {row.num}
+                    </StyledTableCellIng>
+                    <StyledTableCellIng align="center">
+                      {row.start}
+                    </StyledTableCellIng>
+                    <StyledTableCellIng align="center">
+                      {row.arrive}
+                    </StyledTableCellIng>
+                    <StyledTableCellIng align="center">
+                      {row.status}
+                    </StyledTableCellIng>
+                  </StyledTableRowIng>
+                ) : row.status === '운행완료' ? (
+                  <StyledTableRow key={`list1-${i}`}>
+                    <StyledTableCelled
+                      align="center"
+                      component="th"
+                      scope="row"
+                    >
+                      {row.num}
+                    </StyledTableCelled>
+                    <StyledTableCelled align="center">
+                      {row.start}
+                    </StyledTableCelled>
+                    <StyledTableCelled align="center">
+                      {row.arrive}
+                    </StyledTableCelled>
+                    <StyledTableCelled align="center">
+                      {row.status}
+                    </StyledTableCelled>
+                  </StyledTableRow>
+                ) : (
+                  <StyledTableRow key={`list1-${i}`}>
+                    <StyledTableCell align="center" component="th" scope="row">
+                      {row.num}
+                    </StyledTableCell>
+                    <StyledTableCell align="center">
+                      {row.start}
+                    </StyledTableCell>
+                    <StyledTableCell align="center">
+                      {row.arrive}
+                    </StyledTableCell>
+                    <StyledTableCell align="center">
+                      {row.status}
+                    </StyledTableCell>
+                  </StyledTableRow>
+                )
+              )}
             </TableBody>
           ) : (
             <div>배차일보가 없습니다.</div>
@@ -283,16 +316,63 @@ const StyledTableCell = materialStyled(TableCell)(({ theme }) => ({
   },
 }));
 
+// 운행중
+const StyledTableCellIng = materialStyled(TableCell)(({ theme }) => ({
+  [`&.${tableCellClasses.head}`]: {
+    color: theme.palette.common.black,
+    height: 80,
+    fontSize: 60,
+    fontStyle: { DefaultFont },
+    borderBottomWidth: 3,
+    borderBottomColor: 'black',
+  },
+  [`&.${tableCellClasses.body}`]: {
+    fontSize: 50,
+    color: theme.palette.common.white,
+  },
+}));
+
+// 운행완료
+const StyledTableCelled = materialStyled(TableCell)(({ theme }) => ({
+  [`&.${tableCellClasses.head}`]: {
+    color: theme.palette.common.black,
+    height: 80,
+    fontSize: 60,
+    fontStyle: { DefaultFont },
+    borderBottomWidth: 3,
+    borderBottomColor: 'black',
+  },
+  [`&.${tableCellClasses.body}`]: {
+    fontSize: 50,
+    color: '#7B868C',
+  },
+}));
+
 const StyledTableRow = materialStyled(TableRow)(({ theme }) => ({
-  // '&:nth-of-type(odd)': {
-  //   backgroundColor: theme.palette.action.hover,
-  // },
+  backgroundColor: '#EFEFEF',
+  borderBottom: 'solid',
+  borderBlockEndWidth: 10,
+  borderBlockColor: 'white',
+
   // hide last border
   '&:last-child td, &:last-child th': {
-    border: 0,
+    borderBottom: 0,
   },
 
   // '&:.MuiTableRow-root css-11toj2m-MuiTableRow-root':{}
+}));
+
+// 운행중 row
+const StyledTableRowIng = materialStyled(TableRow)(({ theme }) => ({
+  backgroundColor: '#007473',
+  borderBottom: 'solid',
+  borderBlockEndWidth: 10,
+  borderBlockColor: 'white',
+
+  // hide last border
+  '&:last-child td, &:last-child th': {
+    borderBottom: 0,
+  },
 }));
 
 export default BusTimeTable;
