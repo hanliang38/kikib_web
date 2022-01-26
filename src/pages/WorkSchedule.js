@@ -8,7 +8,7 @@ import interactionPlugin from '@fullcalendar/interaction';
 import axios from 'axios';
 import { useLocation, Navigate } from 'react-router-dom';
 import styled, { createGlobalStyle } from 'styled-components';
-import { MdWork } from 'react-icons/md';
+// import { MdWork } from 'react-icons/md';
 // import { device } from './Devices';
 import DefaultFont from '../assets/font/agothic14.otf';
 import calendarStyled from '@emotion/styled';
@@ -52,6 +52,23 @@ const WorkSchedule = () => {
   const [leaveNum, setLeaveNum] = useState(0);
   const [allEvents, setAllEvents] = useState([]);
   const [currentYearMonth, setCurrentYearMonth] = useState(nowYearMonth);
+
+  const { userId } = userInfo;
+
+  const fetchData = async (dateString = '') => {
+    try {
+      setError(null);
+      // setCurrentYearMonth(nowYearMonth);
+      const response = await apiClient.get(
+        `http://kiki-bus.com:8080/api/driver/${userId}?yearMonth=${dateString}`
+      );
+      let res = response.data.object;
+      // console.log(res);
+      setWorkData(res);
+    } catch (e) {
+      setError(e);
+    }
+  };
 
   useEffect(() => {
     // console.log('currentYearMonth', currentYearMonth);
@@ -146,32 +163,13 @@ const WorkSchedule = () => {
     ]);
     // console.log('workEvents::', workEvents);
     cleanup();
+    // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [workData]);
-
-  // useEffect(() => {
-  // }, [workData]);
 
   if (!userInfo) {
     // 없을 때
     return <Navigate to="/login" state={{ from: location }} replace />;
   }
-
-  const { userId } = userInfo;
-
-  const fetchData = async (dateString = '') => {
-    try {
-      setError(null);
-      // setCurrentYearMonth(nowYearMonth);
-      const response = await apiClient.get(
-        `http://kiki-bus.com:8080/api/driver/${userId}?yearMonth=${dateString}`
-      );
-      let res = response.data.object;
-      // console.log(res);
-      setWorkData(res);
-    } catch (e) {
-      setError(e);
-    }
-  };
 
   // 근무일 데이터를 구하기
   // * 이부분은 JSX 쪽으로 넣어야 이중렌더링이 발생하지 않는다.
@@ -231,6 +229,10 @@ const WorkSchedule = () => {
                 event.jsEvent.cancelBubble = true;
                 event.jsEvent.preventDefault();
                 // event.jsEvent = alert('추후 업데이트 예정입니다.');
+              }}
+              // 날짜 클릭 이벤트
+              dateClick={(info) => {
+                alert('Clicked on' + info.dateStr);
               }}
               locale="ko"
             />

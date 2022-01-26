@@ -31,9 +31,6 @@ const PersonalTimeTable = () => {
     fetchData(data);
     // data가 없을 경우
     if (data.length === 0) {
-      // setTimeout(() => {
-      //   setInterval
-      // }, timeout);
       return;
     }
     // 노선번호

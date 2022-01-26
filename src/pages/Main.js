@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { useState, useEffect } from 'react';
 // import Navbar from './Navigationbar';
 import styled, { createGlobalStyle } from 'styled-components';
 import { Link } from 'react-router-dom';
@@ -8,6 +8,8 @@ import { useLocation, Navigate } from 'react-router';
 import DefaultFont from '../assets/font/agothic14.otf';
 import { device } from '../components/Devices';
 // import Header from './Header';
+import apiClient from '../config/apiClient';
+import { cleanup } from '@testing-library/react';
 
 // 사용자 위치정보
 // let position;
@@ -40,31 +42,55 @@ import { device } from '../components/Devices';
 // // 날씨 아이콘 가져오기
 
 const Main = () => {
-  // const navigate = useNavigate();
+  const [busRouteData, setBusRouteData] = useState();
+  const [error, setError] = useState(null);
+  const [busNum, setBusNum] = useState();
+
   const location = useLocation();
 
   // 유저정보 불러오기
-  // console.log(sessionStorage.getItem('userInfo'));
   const userInfo = JSON.parse(window.sessionStorage.getItem('userInfo'));
-
-  // 세션에 저장된 값이 없는 경우
-  if (!userInfo) {
-    // return navigate('/login');
-    return <Navigate to="/" state={{ from: location }} replace />;
-  }
 
   // 있는 경우
   const userName = userInfo.name;
+  const driverId = userInfo.userId;
 
-  // console.log(userName);
-  // const driverId = JSON.parse(userform).data.object.userId;
+  const fetchData = async () => {
+    try {
+      setError(null);
+      const response = await apiClient.get(
+        `/route/driver?driverId=${driverId}`
+      );
+      let res = response.data.object;
+      // console.log(res);
+      setBusRouteData(res);
+    } catch (e) {
+      setError(e);
+    }
+  };
+
+  useEffect(() => {
+    fetchData(busRouteData);
+    if (!busRouteData) return;
+    setBusNum(busRouteData.name);
+    cleanup();
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [busRouteData]);
+
+  window.sessionStorage.setItem('busNum', busNum);
+
+  // 세션에 저장된 값이 없는 경우
+  if (!userInfo) {
+    return <Navigate to="/" state={{ from: location }} replace />;
+  }
+
   return (
     <div>
       <GlobalStyle />
       <MainPage>
         <UserName>
           <h1>
-            {userName} {/*bus_num*/}9-3번 승무원님
+            {userName} {error ? `?` : busNum}번 승무원님
           </h1>
         </UserName>
         <DateTimeWeather>
