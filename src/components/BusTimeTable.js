@@ -12,6 +12,7 @@ import Paper from '@mui/material/Paper';
 import axios from 'axios';
 import apiClient from '../config/apiClient';
 import { cleanup } from '@testing-library/react';
+// import useInterval from './useInterval';
 
 axios.withCredentials = true;
 axios.defaults.withCredentials = true;
@@ -55,6 +56,8 @@ const BusTimeTable = () => {
   const [error, setError] = useState(null);
   // const [currentDate, setCurrentDate] = useState(currentYMD);
   const [dataRow, setDataRow] = useState([]);
+  // const [delay, setDelay] = useState(1000);
+  // const [busStatusValue, setBusStatusValue] = useState([]);
 
   // 전체 데이터를 보여주는 effect
   useEffect(() => {
@@ -62,6 +65,12 @@ const BusTimeTable = () => {
     // console.log(statusBus);
     cleanup();
   }, []);
+
+  // useEffect(() => {
+  //   useInterval(() => {
+  //     busStatusValue;
+  //   }, delay);
+  // }, [busStatusValue, delay]);
 
   // 승무원 운행시간 데이터
   function createData(num, start, arrive, status) {
@@ -132,6 +141,13 @@ const BusTimeTable = () => {
       // data 4개씩 나누기
       // console.log('data::', data);
       const rowArr = division(data, 4);
+
+      // // data상태 실시간으로 구하기
+      // const statusValue = rowArr.map((item) => {
+      //   return item[3];
+      // });
+
+      // setBusStatusValue(statusValue);
 
       // 조, 중, 석 끼워넣기 : {} 형식으로 해당값에 splice
       const bFastArr = [];
@@ -233,7 +249,6 @@ const BusTimeTable = () => {
               <StyledTableCell align="center">상태</StyledTableCell>
             </TableRow>
           </TableHead>
-          {error && <div>잘못된 정보입니다.</div>}
           {dataRow ? (
             <TableBody>
               {rows.map((row, i) =>
@@ -256,7 +271,22 @@ const BusTimeTable = () => {
                       {row.status}
                     </StyledTableCellIng>
                   </StyledTableRowIng>
-                ) : row.status === '운행완료' ? (
+                ) : row.status === '운행대기' ? (
+                  <StyledTableRow key={`list1-${i}`}>
+                    <StyledTableCell align="center" component="th" scope="row">
+                      {row.num}
+                    </StyledTableCell>
+                    <StyledTableCell align="center">
+                      {row.start}
+                    </StyledTableCell>
+                    <StyledTableCell align="center">
+                      {row.arrive}
+                    </StyledTableCell>
+                    <StyledTableCell align="center">
+                      {row.status}
+                    </StyledTableCell>
+                  </StyledTableRow>
+                ) : (
                   <StyledTableRow key={`list1-${i}`}>
                     <StyledTableCelled
                       align="center"
@@ -275,21 +305,6 @@ const BusTimeTable = () => {
                       {row.status}
                     </StyledTableCelled>
                   </StyledTableRow>
-                ) : (
-                  <StyledTableRow key={`list1-${i}`}>
-                    <StyledTableCell align="center" component="th" scope="row">
-                      {row.num}
-                    </StyledTableCell>
-                    <StyledTableCell align="center">
-                      {row.start}
-                    </StyledTableCell>
-                    <StyledTableCell align="center">
-                      {row.arrive}
-                    </StyledTableCell>
-                    <StyledTableCell align="center">
-                      {row.status}
-                    </StyledTableCell>
-                  </StyledTableRow>
                 )
               )}
             </TableBody>
@@ -298,11 +313,13 @@ const BusTimeTable = () => {
           )}
         </Table>
       </TableContainer>
+      {error && <div>페이지 에러입니다.</div>}
     </>
   );
 };
 
-const StyledTableCell = materialStyled(TableCell)(({ theme }) => ({
+// 운행대기
+const StyledTableCelled = materialStyled(TableCell)(({ theme }) => ({
   [`&.${tableCellClasses.head}`]: {
     color: theme.palette.common.black,
     height: 80,
@@ -313,6 +330,7 @@ const StyledTableCell = materialStyled(TableCell)(({ theme }) => ({
   },
   [`&.${tableCellClasses.body}`]: {
     fontSize: 50,
+    color: '#7B868C',
   },
 }));
 
@@ -332,8 +350,7 @@ const StyledTableCellIng = materialStyled(TableCell)(({ theme }) => ({
   },
 }));
 
-// 운행완료
-const StyledTableCelled = materialStyled(TableCell)(({ theme }) => ({
+const StyledTableCell = materialStyled(TableCell)(({ theme }) => ({
   [`&.${tableCellClasses.head}`]: {
     color: theme.palette.common.black,
     height: 80,
@@ -344,7 +361,6 @@ const StyledTableCelled = materialStyled(TableCell)(({ theme }) => ({
   },
   [`&.${tableCellClasses.body}`]: {
     fontSize: 50,
-    color: '#7B868C',
   },
 }));
 

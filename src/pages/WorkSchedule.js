@@ -8,7 +8,7 @@ import interactionPlugin from '@fullcalendar/interaction';
 import axios from 'axios';
 import { useLocation, Navigate } from 'react-router-dom';
 import styled, { createGlobalStyle } from 'styled-components';
-// import { MdWork } from 'react-icons/md';
+import { MdWork } from 'react-icons/md';
 // import { device } from './Devices';
 import DefaultFont from '../assets/font/agothic14.otf';
 import calendarStyled from '@emotion/styled';
@@ -55,9 +55,9 @@ const WorkSchedule = () => {
 
   useEffect(() => {
     // console.log('currentYearMonth', currentYearMonth);
+    // cleanup();
     fetchData(currentYearMonth);
     if (!workData) return;
-    cleanup();
     // obj 분할 (array) status ==> work, work-check, leave, leave-check
     // console.log('workData::', workData);
     // console.log('workData.status::', workData);
@@ -69,7 +69,7 @@ const WorkSchedule = () => {
           date: workDay.date,
           title: '근무',
           color: '#007473',
-          url: 'MdWork',
+          Image: 'MdWork',
         };
       });
 
@@ -81,7 +81,7 @@ const WorkSchedule = () => {
           date: workCheckDay.date,
           title: '근무',
           color: '#007473',
-          url: 'MdWork',
+          Image: 'Mdwork',
         };
       });
 
@@ -230,7 +230,7 @@ const WorkSchedule = () => {
                 // event에서 url 호출 하는걸 막는 방법
                 event.jsEvent.cancelBubble = true;
                 event.jsEvent.preventDefault();
-                event.jsEvent = alert('추후 업데이트 예정입니다.');
+                // event.jsEvent = alert('추후 업데이트 예정입니다.');
               }}
               locale="ko"
             />

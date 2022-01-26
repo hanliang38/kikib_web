@@ -20,7 +20,7 @@ const currentYMD = `${year}-${nowMonth}-${nowDate}`;
 
 const PersonalTimeTable = () => {
   const [currentPage, setCurrentPage] = useState(true);
-  const [timeData, setTimeData] = useState([]);
+  const [data, setData] = useState([]);
   const [error, setError] = useState(null);
   const [routeName, setRouteName] = useState('');
   const [busNumber, setBusNumber] = useState('');
@@ -28,27 +28,27 @@ const PersonalTimeTable = () => {
 
   // api 데이터 최초 1회 렌더링 (useEffect(1))
   useEffect(() => {
-    fetchData(timeData);
-    // timeData가 없을 경우
-    if (timeData.length === 0) {
+    fetchData(data);
+    // data가 없을 경우
+    if (data.length === 0) {
       // setTimeout(() => {
       //   setInterval
       // }, timeout);
       return;
     }
     // 노선번호
-    setRouteName(timeData[0].routeName);
+    setRouteName(data[0].routeName);
     // 차량번호
-    setBusNumber(timeData[0].busNumber);
+    setBusNumber(data[0].busNumber);
     // 근무시간
-    const firstStartTime = timeData[0].startTime;
+    const firstStartTime = data[0].startTime;
     // console.log(firstStartTime);
-    const lastEndTime = timeData[timeData.length - 1].endTime;
+    const lastEndTime = data[data.length - 1].endTime;
     // console.log(lastEndTime);
     setWorkingHours(`${firstStartTime}~${lastEndTime}`);
 
     cleanup();
-  }, [timeData]);
+  }, [data]);
 
   // 로그인 여부
   const location = useLocation();
@@ -62,7 +62,6 @@ const PersonalTimeTable = () => {
 
   // 있는 경우
   // data
-
   const fetchData = async () => {
     try {
       setError(null);
@@ -71,13 +70,13 @@ const PersonalTimeTable = () => {
       // console.log(response);
       let res = response.data.object;
       // console.log(res);
-      setTimeData(res);
+      setData(res);
     } catch (e) {
       setError(e);
     }
   };
 
-  // console.log(timeData);
+  // console.log(data);
 
   return (
     <>
@@ -86,7 +85,7 @@ const PersonalTimeTable = () => {
       <PersonalTimeTablePage>
         <Header />
         <PageTitle>배차일보</PageTitle>
-        {timeData ? (
+        {data ? (
           <RouteBusInfo>
             <BusRoute>{routeName}번 노선</BusRoute>
             <BusNumTime>
@@ -98,10 +97,12 @@ const PersonalTimeTable = () => {
           <></>
         )}
         <SelectBox>
-          <TimeTableBtn onClick={() => setCurrentPage(true)}>
+          <TimeTableBtn onClick={() => setCurrentPage(true)} data={data}>
             배차일보
           </TimeTableBtn>
-          <RouteBtn onClick={() => setCurrentPage(false)}>노선도</RouteBtn>
+          <RouteBtn onClick={() => setCurrentPage(false)} busNumber={busNumber}>
+            노선도
+          </RouteBtn>
         </SelectBox>
         <CurrentPage>
           {currentPage ? <BusTimeTable /> : <RouteTimeTable />}
