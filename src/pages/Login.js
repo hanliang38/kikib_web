@@ -7,7 +7,7 @@ import bgLogin from '../assets/Drawables/img_bg_login.png';
 import DefaultFont from '../assets/font/agothic14.otf';
 import { device } from '../components/Devices';
 import { useCookies } from 'react-cookie';
-// import { useNavigate } from 'react-router-dom';
+import { useNavigate } from 'react-router-dom';
 // import { configs } from '../config/config';
 
 const Login = () => {
@@ -15,6 +15,8 @@ const Login = () => {
   const [inputPw, setPw] = useState('');
   const [isRemember, setIsRemember] = useState(false);
   const [cookies, setCookie, removeCookie] = useCookies(['rememberId']);
+
+  const navigate = useNavigate();
 
   useEffect(() => {
     if (cookies.rememberId !== undefined) {
@@ -60,7 +62,7 @@ const Login = () => {
       },
     })
       .then((res) => {
-        console.log(res);
+        // console.log(res);
         // console.log(res.data.object.token);
         //handle success
         const accessToken = res.data.object.token;
@@ -68,7 +70,7 @@ const Login = () => {
           'Authorization'
         ] = `Bearer ${accessToken}`;
 
-        console.log(axios.defaults.headers.common);
+        // console.log(axios.defaults.headers.common);
 
         if (res.data.status === 200) {
           const userInfo = res.data.object;
@@ -77,7 +79,8 @@ const Login = () => {
           // console.log(userInfo);
         }
         // 작업 완료 되면 페이지 이동(새로고침)
-        document.location.href = '/main';
+        // document.location.replace('/main');
+        navigate('/main', { replace: true });
       })
       .catch((error) => {
         //handle error

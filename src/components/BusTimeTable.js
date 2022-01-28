@@ -309,7 +309,7 @@ const BusTimeTable = () => {
               )}
             </TableBody>
           ) : (
-            <div>배차일보가 없습니다.</div>
+            <p>배차일보가 없습니다.</p>
           )}
         </Table>
       </TableContainer>

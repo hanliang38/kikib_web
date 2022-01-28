@@ -42,7 +42,10 @@ const currentMonth = nowMonth < 10 ? `0${nowMonth}` : nowMonth;
 const nowYearMonth = `${nowYear}-${currentMonth}`;
 
 const WorkSchedule = () => {
+  // const navigate = useNavigate();
   const location = useLocation();
+
+  // const title = '근무일정표';
   let userInfo = JSON.parse(sessionStorage.getItem('userInfo'));
 
   // 근무일 수
@@ -232,7 +235,10 @@ const WorkSchedule = () => {
               }}
               // 날짜 클릭 이벤트
               dateClick={(info) => {
-                alert('Clicked on' + info.dateStr);
+                info.jsEvent.preventDefault(); // don't let the browser navigate
+                console.log(info);
+                info.jsEvent((document.location.href = '/workerNoff'));
+                // document.location.href = '/workerNoff';
               }}
               locale="ko"
             />

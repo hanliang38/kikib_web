@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from 'react';
+import React, { useState, useLayoutEffect } from 'react';
 // import Navbar from './Navigationbar';
 import styled, { createGlobalStyle } from 'styled-components';
 import { Link } from 'react-router-dom';
@@ -69,12 +69,11 @@ const Main = () => {
     }
   };
 
-  useEffect(() => {
+  useLayoutEffect(() => {
     fetchData(busRouteData);
     if (!busRouteData) return;
     setBusNum(busRouteData.name);
     cleanup();
-    // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [busRouteData]);
 
   window.sessionStorage.setItem('busNum', busNum);
@@ -191,7 +190,7 @@ const DateTimeWeather = styled.div`
 
 const Daily = styled.div`
   display:table-cell;
-  background-color: #192734;
+  background-color: #007473;
   border: solid;
   border-size: 3px
   border-color: #1a7473;
