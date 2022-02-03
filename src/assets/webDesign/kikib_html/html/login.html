@@ -1,0 +1,66 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=0">
+    <meta name="description" content="">
+    <meta name="keywords" content="">
+    <title>kikiB</title>
+	<meta property="og:title" content="kikiB">
+	<meta property="og:description" content="kikiB">
+
+    <!-- <link rel="shortcut icon" href="favicon.ico"> -->
+    <!-- <link rel="apple-touch-icon" href="favicon.png"> -->
+    <link rel="stylesheet" type="text/css" href="../assets/css/common.css">
+    <script type="text/javascript" src="../assets/js/jquery-3.4.1.min.js"></script>
+</head>
+
+<body>
+    <div class="container login">
+        <span class="pagetype">운수사업자용</span>
+
+        <div class="logo">
+            <div class="img-box"><img src="../assets/image/logo_login.png" alt="kikiB"/></div>
+            <p>스마트 운수 솔루션</p>
+        </div>
+
+        <form>
+            <div class="input-box">
+                <label>
+                    <input type="text" required /><i></i>
+                    <span class="title">아이디</span>
+                </label>
+            </div>
+            
+            <div class="input-box password">
+                <label>
+                    <input type="password" required /><i></i><!-- .btn-password.on 일 때 type="text"로 변경 -->
+                    <span class="title">비밀번호</span>
+                
+                    <button type="button" class="btn-password"></button><!-- 토글 .on -->
+                </label>
+            </div>
+
+            <label class="chkbox-box"><input type="checkbox" /><i></i>로그인 정보 기억하기</label>
+
+            <button type="button" class="btn-login">로그인하기</button>
+            <button type="button" class="btn-inquiry">로그인 문의</button>
+        </form>
+    </div>
+
+    <script>
+        // password 아이콘 클릭 시 text
+        $('.input-box.password').on('click', '.btn-password', function(){
+            var $this = $(this);
+
+            $this.toggleClass('on');
+            if($this.hasClass('on')){
+                $this.siblings('input').attr('type', 'text');
+            } else {
+                $this.siblings('input').attr('type', 'password');
+            }
+        });
+    </script>
+</body>
+</html>
