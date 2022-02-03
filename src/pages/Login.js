@@ -5,9 +5,9 @@ import logoLogin from '../assets/Drawables/logo_login.png';
 import styled, { createGlobalStyle } from 'styled-components';
 import bgLogin from '../assets/Drawables/img_bg_login.png';
 import DefaultFont from '../assets/font/agothic14.otf';
-import { device } from './Devices';
+import { device } from '../components/Devices';
 import { useCookies } from 'react-cookie';
-// import { useNavigate } from 'react-router-dom';
+import { useNavigate } from 'react-router-dom';
 // import { configs } from '../config/config';
 
 const Login = () => {
@@ -15,6 +15,8 @@ const Login = () => {
   const [inputPw, setPw] = useState('');
   const [isRemember, setIsRemember] = useState(false);
   const [cookies, setCookie, removeCookie] = useCookies(['rememberId']);
+
+  const navigate = useNavigate();
 
   useEffect(() => {
     if (cookies.rememberId !== undefined) {
@@ -47,31 +49,38 @@ const Login = () => {
     // console.log('ID : ', inputId);
     // console.log('PW : ', inputPw);
 
-    let formData = new FormData();
-    formData.append('loginId', inputId);
-    formData.append('password', inputPw);
-
     axios({
-      method: 'post',
-      url: 'http://kiki-bus.com:8080/api/login',
-      data: formData,
-      headers: { 'Content-Type': 'multipart/form-data' },
+      method: 'POST',
+      url: '/auth/login',
+      headers: {
+        Accept: 'application/json',
+        'Content-Type': 'application/json',
+      },
+      data: {
+        loginId: inputId,
+        password: inputPw,
+      },
     })
       .then((res) => {
+        // console.log(res);
+        // console.log(res.data.object.token);
         //handle success
+        const accessToken = res.data.object.token;
+        axios.defaults.headers.common[
+          'Authorization'
+        ] = `Bearer ${accessToken}`;
+
+        // console.log(axios.defaults.headers.common);
+
         if (res.data.status === 200) {
           const userInfo = res.data.object;
           window.sessionStorage.setItem('userInfo', JSON.stringify(userInfo));
+          window.sessionStorage.setItem('token', accessToken);
           // console.log(userInfo);
         }
-        //서버의 Json형태의 로컬스토리지 우선 저장
-        // window.sessionStorage.setItem('userInfo', res);
-        // window.sessionStorage.setItem('userInfo', JSON.stringify(res));
-        // console.log(
-        //   window.localStorage.setItem('userInfo', JSON.stringify(res))
-        // );
         // 작업 완료 되면 페이지 이동(새로고침)
-        document.location.href = '/main';
+        // document.location.replace('/main');
+        navigate('/main', { replace: true });
       })
       .catch((error) => {
         //handle error
@@ -188,11 +197,11 @@ body {
 }
 `;
 
-// let LoginPage = styled.div`
+// const LoginPage = styled.div`
 //   height: 100vh;
 // `;
 
-let LoginForm = styled.section`
+const LoginForm = styled.section`
   display: inline-block;
   vertical-aline: middle;
   position: relative;
@@ -212,7 +221,7 @@ let LoginForm = styled.section`
 `;
 
 // 로고 폼 공간 조절
-let LoginLogo = styled.div`
+const LoginLogo = styled.div`
   text-align: center;
   margin-left: auto;
   margin-right: auto;
@@ -231,7 +240,7 @@ let LoginLogo = styled.div`
 `;
 
 // 로고크기조절
-let LoginLogoLink = styled.img`
+const LoginLogoLink = styled.img`
   display: inline-block;
   @media ${device.desktop} {
     width: 300px;
@@ -244,7 +253,7 @@ let LoginLogoLink = styled.img`
 `;
 
 // 로그인 폼 전체 크기
-let InputForm = styled.form`
+const InputForm = styled.form`
   @media ${device.desktop} {
     min-width: 300px;
     min-height: 250px;
@@ -257,7 +266,7 @@ let InputForm = styled.form`
   }
 `;
 
-let IntArea = styled.div`
+const IntArea = styled.div`
   min-width: 300px;
   position: relative;
   margin-top: 60px;
@@ -266,7 +275,7 @@ let IntArea = styled.div`
     margin-top: 80px;
   }
 `;
-let InputArea = styled.input`
+const InputArea = styled.input`
   width: 100%;
   height: 80px;
   text-transform: lowercase;
@@ -293,7 +302,7 @@ let InputArea = styled.input`
   }
 `;
 
-let IntLabel = styled.label`
+const IntLabel = styled.label`
   position: absolute;
   color: #fff;
   transition: all 0.5s ease;
@@ -311,20 +320,20 @@ let IntLabel = styled.label`
   }
 `;
 
-let RememberIdLabel = styled.label`
+const RememberIdLabel = styled.label`
   position: relative;
   padding: 20px;
   color: white;
   font-size: 30px;
 `;
 
-let RemeberIdCheckbox = styled.input`
+const RemeberIdCheckbox = styled.input`
   position: relative;
   margin-right: 20px;
   transform: scale(2);
 `;
 
-let BtnArea = styled.div`
+const BtnArea = styled.div`
   @media ${device.desktop} {
     margin-top: 30px;
   }
@@ -333,7 +342,7 @@ let BtnArea = styled.div`
   }
 `;
 
-let BtnAreaButton = styled.button`
+const BtnAreaButton = styled.button`
   width: 100%;
   min-width: 250px;
   background: linear-gradient(0.25turn, #39aea1, #76bd72, #80bfb5);
@@ -357,7 +366,7 @@ let BtnAreaButton = styled.button`
   }
 `;
 
-let LoginInquiry = styled.div`
+const LoginInquiry = styled.div`
   width: 100%;
   margin-top: 50px;
   min-width: 250px;
@@ -375,7 +384,7 @@ let LoginInquiry = styled.div`
   }
 `;
 
-let LoginInquiryP = styled.p`
+const LoginInquiryP = styled.p`
   cursor: pointer;
   text-decoration: none;
 `;

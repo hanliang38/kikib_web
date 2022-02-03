@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { useState, useLayoutEffect } from 'react';
 // import Navbar from './Navigationbar';
 import styled, { createGlobalStyle } from 'styled-components';
 import { Link } from 'react-router-dom';
@@ -6,8 +6,9 @@ import Clock from 'react-live-clock';
 import 'moment/locale/ko';
 import { useLocation, Navigate } from 'react-router';
 import DefaultFont from '../assets/font/agothic14.otf';
-import { device } from './Devices';
+import { device } from '../components/Devices';
 // import Header from './Header';
+import apiClient from '../config/apiClient';
 
 // 사용자 위치정보
 // let position;
@@ -40,37 +41,57 @@ import { device } from './Devices';
 // // 날씨 아이콘 가져오기
 
 const Main = () => {
-  // const navigate = useNavigate();
+  const [busRouteData, setBusRouteData] = useState();
+  const [error, setError] = useState(null);
+
   const location = useLocation();
 
   // 유저정보 불러오기
-  // console.log(sessionStorage.getItem('userInfo'));
   const userInfo = JSON.parse(window.sessionStorage.getItem('userInfo'));
-
-  // 세션에 저장된 값이 없는 경우
-  if (!userInfo) {
-    // return navigate('/login');
-    return <Navigate to="/" state={{ from: location }} replace />;
-  }
 
   // 있는 경우
   const userName = userInfo.name;
+  const driverId = userInfo.userId;
 
-  // console.log(userName);
-  // const driverId = JSON.parse(userform).data.object.userId;
+  const fetchData = async () => {
+    try {
+      setError(null);
+      await apiClient
+        .get(`/route/driver?driverId=${driverId}`)
+        .then((res) => setBusRouteData(res.data.object.name));
+      // let res = response.data.object;
+      // console.log(res);
+      // setBusRouteData(res);
+    } catch (e) {
+      setError(e);
+    }
+  };
+
+  useLayoutEffect(() => {
+    fetchData();
+    // if (!busRouteData) return;
+    // setBusNum(busRouteData.name);
+    // cleanup();
+  }, []);
+
+  // 세션에 저장된 값이 없는 경우
+  if (!userInfo) {
+    return <Navigate to="/" state={{ from: location }} replace />;
+  }
+
   return (
     <div>
       <GlobalStyle />
       <MainPage>
         <UserName>
           <h1>
-            {userName} {/*bus_num*/}9-3번 승무원님
+            {userName} {error ? `?` : busRouteData}번 승무원님
           </h1>
         </UserName>
         <DateTimeWeather>
           <Daily>
             <Clock
-              format={'MM월 DD일 dddd'}
+              format={'MM/DD dddd'}
               ticking={true}
               timezone={'Asia/Seoul'}
             />
@@ -82,18 +103,16 @@ const Main = () => {
         </DateTimeWeather>
         <BtnsDiv>
           <BtnDiv>
-            <Link to="/management">
+            <Link to="/management" component={busRouteData}>
               <Btn>근무일정관리</Btn>
             </Link>
           </BtnDiv>
           <BtnDiv>
-            <Btn
-              onClick={() =>
-                window.open('http://kiki-bus.com:8080/api/driver', '_blank')
-              }
-            >
-              운행관리
+            {/* <Link to="/personalTimeTable"> */}
+            <Btn onClick={() => alert('준비중인 기능입니다.')}>
+              배차일보조회
             </Btn>
+            {/* </Link> */}
           </BtnDiv>
         </BtnsDiv>
         <QrBtnDiv>
@@ -169,13 +188,13 @@ const DateTimeWeather = styled.div`
 
 const Daily = styled.div`
   display:table-cell;
-  background-color: #192734;
+  background-color: #007473;
   border: solid;
   border-size: 3px
   border-color: #1a7473;
   border-radius: 1.5rem;
   color: white;
-  width: 220px;
+  width: 22%;
   height: 130px;
   padding: 30px;
   text-align:center;
@@ -199,7 +218,7 @@ const Btn = styled.button`
   border-style: solid;
   border-width: 1.5px;
   border-color: #c0c0c0;
-  border-radius: 3rem;
+  border-radius: 1.5rem;
   &:hover {
     background-color: rgb(173, 170, 170);
   }
