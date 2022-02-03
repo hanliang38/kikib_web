@@ -1,7 +1,5 @@
-import React from 'react';
-import company from '../assets/WebDrawable/충훈부영업소.png';
-import bus_route from '../assets/WebDrawable/9-3번노선.png';
-// import Navbar from './Navigationbar';
+import React, { useState, useLayoutEffect } from 'react';
+
 // import Footer from './Footer';
 import { Link } from 'react-router-dom';
 import { useNavigate as navigate } from 'react-router';
@@ -9,8 +7,39 @@ import styled, { createGlobalStyle } from 'styled-components';
 import DefaultFont from '../assets/font/agothic14.otf';
 import { device } from '../components/Devices';
 import Header from '../components/Header';
+import apiClient from '../config/apiClient';
 
-const WorkScheduleManagement = () => {
+const WorkScheduleManagement = (props) => {
+  const [busRouteData, setBusRouteData] = useState();
+  const [error, setError] = useState(null);
+
+  // 유저정보 불러오기
+  const userInfo = JSON.parse(window.sessionStorage.getItem('userInfo'));
+
+  // 있는 경우
+  const driverId = userInfo.userId;
+
+  const fetchData = async () => {
+    try {
+      setError(null);
+      await apiClient
+        .get(`/route/driver?driverId=${driverId}`)
+        .then((res) => setBusRouteData(res.data.object.name));
+      // let res = response.data.object;
+      // console.log(res);
+      // setBusRouteData(res);
+    } catch (e) {
+      setError(e);
+    }
+  };
+
+  useLayoutEffect(() => {
+    fetchData();
+    // if (!busRouteData) return;
+    // setBusNum(busRouteData.name);
+    // cleanup();
+  }, []);
+
   if (sessionStorage.getItem('userInfo') === null) {
     return navigate('/login');
   }
@@ -25,12 +54,15 @@ const WorkScheduleManagement = () => {
           <h1>근무일정관리</h1>
         </TitleName>
         <UserInfo>
-          <span>
-            <img src={company} alt="company" height={360} width={340} />
-          </span>
-          <span>
-            <img src={bus_route} alt="bus_route" height={360} width={340} />
-          </span>
+          <CompanyBox>
+            충훈부
+            <br />
+            영업소
+          </CompanyBox>
+          <RouteBox>
+            {error ? `?` : busRouteData}번
+            <br /> 노선
+          </RouteBox>
         </UserInfo>
         <BtnsDiv>
           <BtnDiv>
@@ -121,7 +153,39 @@ const TitleName = styled.div`
   font-size: 40px;
 `;
 const UserInfo = styled.div`
+  margin-top: 100px;
+  margin-bottom: 100px;
+  display: flex;
+  justify-content: center;
+  font-size: 50px;
+`;
+const CompanyBox = styled.div`
+  display: table-cell;
+  background-color: #192734;
+  border: solid;
+  border-size: 10px;
+  border-color: #e7e6e6;
+  border-radius: 1.5rem;
+  color: white;
+  width: 22%;
+  height: 130px;
+  padding: 30px;
   text-align: center;
+  vertical-align: middle;
+`;
+const RouteBox = styled.div`
+display:table-cell;
+background-color: #017574;
+border: solid;
+border-size: 3px
+border-color: #20928C;
+border-radius: 1.5rem;
+color: white;
+width: 22%;
+height: 130px;
+padding: 30px;
+text-align:center;
+vertical-align:middle;
 `;
 const BtnsDiv = styled.div`
   text-align: center;

@@ -8,7 +8,6 @@ import Header from '../components/Header';
 import BusTimeTable from '../components/BusTimeTable';
 import RouteTimeTable from '../components/RouteTimeTable';
 import apiClient from '../config/apiClient';
-import { cleanup } from '@testing-library/react';
 
 const today = new Date();
 const year = today.getFullYear();
@@ -20,7 +19,6 @@ const currentYMD = `${year}-${nowMonth}-${nowDate}`;
 
 const PersonalTimeTable = () => {
   const [currentPage, setCurrentPage] = useState(true);
-  const [data, setData] = useState([]);
   const [error, setError] = useState(null);
   const [routeName, setRouteName] = useState('');
   const [busNumber, setBusNumber] = useState('');
@@ -28,24 +26,8 @@ const PersonalTimeTable = () => {
 
   // api 데이터 최초 1회 렌더링 (useEffect(1))
   useEffect(() => {
-    fetchData(data);
-    // data가 없을 경우
-    if (data.length === 0) {
-      return;
-    }
-    // 노선번호
-    setRouteName(data[0].routeName);
-    // 차량번호
-    setBusNumber(data[0].busNumber);
-    // 근무시간
-    const firstStartTime = data[0].startTime;
-    // console.log(firstStartTime);
-    const lastEndTime = data[data.length - 1].endTime;
-    // console.log(lastEndTime);
-    setWorkingHours(`${firstStartTime}~${lastEndTime}`);
-
-    cleanup();
-  }, [data]);
+    fetchData();
+  }, []);
 
   // 로그인 여부
   const location = useLocation();
@@ -63,14 +45,30 @@ const PersonalTimeTable = () => {
     try {
       setError(null);
       // setCurrentYearMonth(nowYearMonth);
-      const response = await apiClient.get(`/dispatch/driver/${currentYMD}`);
+      await apiClient
+        .get(`/dispatch/driver/${currentYMD}`)
+        .then((res) => next(res.data.object));
       // console.log(response);
-      let res = response.data.object;
       // console.log(res);
-      setData(res);
     } catch (e) {
       setError(e);
     }
+  };
+
+  const next = (data) => {
+    if (data.length === 0) {
+      return;
+    }
+    // 노선번호
+    setRouteName(data[0].routeName);
+    // 차량번호
+    setBusNumber(data[0].busNumber);
+    // 근무시간
+    const firstStartTime = data[0].startTime;
+    // console.log(firstStartTime);
+    const lastEndTime = data[data.length - 1].endTime;
+    // console.log(lastEndTime);
+    setWorkingHours(`${firstStartTime}~${lastEndTime}`);
   };
 
   // console.log(data);
@@ -82,7 +80,7 @@ const PersonalTimeTable = () => {
       <PersonalTimeTablePage>
         <Header />
         <PageTitle>배차일보</PageTitle>
-        {data ? (
+        {busNumber ? (
           <RouteBusInfo>
             <BusRoute>{routeName}번 노선</BusRoute>
             <BusNumTime>
@@ -94,7 +92,7 @@ const PersonalTimeTable = () => {
           <></>
         )}
         <SelectBox>
-          <TimeTableBtn onClick={() => setCurrentPage(true)} data={data}>
+          <TimeTableBtn onClick={() => setCurrentPage(true)}>
             배차일보
           </TimeTableBtn>
           <RouteBtn onClick={() => setCurrentPage(false)} busNumber={busNumber}>

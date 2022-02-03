@@ -9,7 +9,6 @@ import DefaultFont from '../assets/font/agothic14.otf';
 import { device } from '../components/Devices';
 // import Header from './Header';
 import apiClient from '../config/apiClient';
-import { cleanup } from '@testing-library/react';
 
 // 사용자 위치정보
 // let position;
@@ -44,7 +43,6 @@ import { cleanup } from '@testing-library/react';
 const Main = () => {
   const [busRouteData, setBusRouteData] = useState();
   const [error, setError] = useState(null);
-  const [busNum, setBusNum] = useState();
 
   const location = useLocation();
 
@@ -58,25 +56,23 @@ const Main = () => {
   const fetchData = async () => {
     try {
       setError(null);
-      const response = await apiClient.get(
-        `/route/driver?driverId=${driverId}`
-      );
-      let res = response.data.object;
+      await apiClient
+        .get(`/route/driver?driverId=${driverId}`)
+        .then((res) => setBusRouteData(res.data.object.name));
+      // let res = response.data.object;
       // console.log(res);
-      setBusRouteData(res);
+      // setBusRouteData(res);
     } catch (e) {
       setError(e);
     }
   };
 
   useLayoutEffect(() => {
-    fetchData(busRouteData);
-    if (!busRouteData) return;
-    setBusNum(busRouteData.name);
-    cleanup();
-  }, [busRouteData]);
-
-  window.sessionStorage.setItem('busNum', busNum);
+    fetchData();
+    // if (!busRouteData) return;
+    // setBusNum(busRouteData.name);
+    // cleanup();
+  }, []);
 
   // 세션에 저장된 값이 없는 경우
   if (!userInfo) {
@@ -89,7 +85,7 @@ const Main = () => {
       <MainPage>
         <UserName>
           <h1>
-            {userName} {error ? `?` : busNum}번 승무원님
+            {userName} {error ? `?` : busRouteData}번 승무원님
           </h1>
         </UserName>
         <DateTimeWeather>
@@ -107,7 +103,7 @@ const Main = () => {
         </DateTimeWeather>
         <BtnsDiv>
           <BtnDiv>
-            <Link to="/management">
+            <Link to="/management" component={busRouteData}>
               <Btn>근무일정관리</Btn>
             </Link>
           </BtnDiv>

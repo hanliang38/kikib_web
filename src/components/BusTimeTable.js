@@ -54,10 +54,7 @@ const division = (arr, size) => {
 const BusTimeTable = () => {
   // Data
   const [error, setError] = useState(null);
-  // const [currentDate, setCurrentDate] = useState(currentYMD);
   const [dataRow, setDataRow] = useState([]);
-  // const [delay, setDelay] = useState(1000);
-  // const [busStatusValue, setBusStatusValue] = useState([]);
 
   // 전체 데이터를 보여주는 effect
   useEffect(() => {

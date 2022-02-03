@@ -7,17 +7,15 @@ import WorkerList from '../components/WorkerList';
 import OffList from '../components/OffList';
 
 const DailyWorkerNOff = (props) => {
-  console.log(props);
   const [currentPage, setCurrentPage] = useState(true);
-
-  // const title = '몇월 몇일';
+  console.log(props);
 
   return (
     <>
       <GlobalStyle />
       <DailyWorkerNOffPage>
         <Header />
-        <PageTitle>몇월 몇일</PageTitle>
+        <PageTitle>{props.title}</PageTitle>
         <TableContainer>
           <Table>
             <TableTitle>가동대수</TableTitle>
@@ -40,6 +38,10 @@ const DailyWorkerNOff = (props) => {
       </DailyWorkerNOffPage>
     </>
   );
+};
+
+DailyWorkerNOff.defaultProps = {
+  title: '몇월 몇일',
 };
 
 const GlobalStyle = createGlobalStyle`
@@ -131,7 +133,7 @@ const Btn = styled.button`
     border-bottom: solid 5px;
     border-color: #007473;
   }
-  &:target {
+  &:active {
     color: #007473;
     border-bottom: solid 5px;
     border-color: #007473;
