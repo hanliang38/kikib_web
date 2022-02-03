@@ -108,9 +108,11 @@ const Main = () => {
             </Link>
           </BtnDiv>
           <BtnDiv>
-            <Link to="/personalTimeTable">
-              <Btn>배차일보조회</Btn>
-            </Link>
+            {/* <Link to="/personalTimeTable"> */}
+            <Btn onClick={() => alert('준비중인 기능입니다.')}>
+              배차일보조회
+            </Btn>
+            {/* </Link> */}
           </BtnDiv>
         </BtnsDiv>
         <QrBtnDiv>

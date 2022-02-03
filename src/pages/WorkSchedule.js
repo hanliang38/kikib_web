@@ -199,10 +199,11 @@ const WorkSchedule = () => {
               // 날짜 클릭 이벤트
               dateClick={(info) => {
                 info.jsEvent.preventDefault(); // don't let the browser navigate
+                info.jsEvent = alert('추후 업데이트 예정입니다.');
                 // console.log(info.dateStr);
-                info.jsEvent((document.location.href = '/workerNoff'), {
-                  title: info.dateStr,
-                });
+                // info.jsEvent((document.location.href = '/workerNoff'), {
+                //   title: info.dateStr,
+                // });
               }}
               locale="ko"
             />
