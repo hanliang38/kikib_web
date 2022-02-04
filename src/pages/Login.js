@@ -5,6 +5,7 @@ import logoLogin from '../assets/img/logo_login.png';
 import { useCookies } from 'react-cookie';
 import { useNavigate } from 'react-router-dom';
 import '../css/common.css';
+import '../css/login.css';
 
 const Login = () => {
   const [inputId, setId] = useState('');
@@ -47,9 +48,6 @@ const Login = () => {
 
   const onClickLogin = (e) => {
     e.preventDefault();
-    // console.log('click login');
-    // console.log('ID : ', inputId);
-    // console.log('PW : ', inputPw);
 
     axios({
       method: 'POST',
@@ -64,24 +62,18 @@ const Login = () => {
       },
     })
       .then((res) => {
-        // console.log(res);
-        // console.log(res.data.object.token);
         //handle success
         const accessToken = res.data.object.token;
         axios.defaults.headers.common[
           'Authorization'
         ] = `Bearer ${accessToken}`;
 
-        // console.log(axios.defaults.headers.common);
-
         if (res.data.status === 200) {
           const userInfo = res.data.object;
           window.sessionStorage.setItem('userInfo', JSON.stringify(userInfo));
           window.sessionStorage.setItem('token', accessToken);
-          // console.log(userInfo);
         }
         // 작업 완료 되면 페이지 이동(새로고침)
-        // document.location.replace('/main');
         navigate('/main', { replace: true });
       })
       .catch((error) => {
@@ -96,15 +88,9 @@ const Login = () => {
     }
   };
 
-  // var size = {
-  //   width: window.innerWidth || document.body.clientWidth,
-  //   height: window.innerHeight || document.body.clientHeight,
-  // };
-  // console.log(size);
-
   return (
     <div className="container login">
-      <span className="pagetype">운수사업자용</span>
+      <p className="pagetype">운수사업자용</p>
 
       <Link to="/main">
         <div className="logo">
@@ -133,14 +119,18 @@ const Login = () => {
           <label>
             {/* <!-- .btn-password.on 일 때 type="text"로 변경 --> */}
             <input
-              type="password"
+              type={isOpen ? 'text' : 'password'}
               value={inputPw || ''}
               onChange={handlePw}
               required
             />
+            <i></i>
             <span className="title">비밀번호</span>
             {/* <!-- 토글 .on --> */}
-            <span className="btn-password"></span>
+            <span
+              className={isOpen ? 'btn-password on' : 'btn-password'}
+              onClick={togglePw}
+            ></span>
           </label>
         </div>
 
@@ -150,7 +140,8 @@ const Login = () => {
             checked={isRemember}
             onChange={(e) => handleOnRemember(e)}
           />
-          <i></i>로그인 정보 기억하기
+          <i></i>
+          <span>로그인 정보 기억하기</span>
         </label>
 
         <button type="button" onClick={onClickLogin} className="btn-login">
