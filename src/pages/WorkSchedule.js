@@ -45,7 +45,7 @@ const WorkSchedule = () => {
         `http://kiki-bus.com:8080/api/driver/${userId}?yearMonth=${currentYearMonth}`
       )
       .then((res) => {
-        console.log(res);
+        // console.log(res);
         // setWorkData(res.data.object);
         // console.log('workData222::', workData);
         next(res.data.object);
@@ -60,7 +60,7 @@ const WorkSchedule = () => {
     // if (!workData) return;
     // obj 분할 (array) status ==> work, work-check, leave, leave-check
     // 근무일
-    console.log('workData::', data);
+    // console.log('workData::', data);
     const workDays = data
       .filter((item) => item.status === 'WORK')
       .map((workDay) => {
