@@ -5,6 +5,7 @@ import logoLogin from '../assets/img/logo_login.png';
 import { useCookies } from 'react-cookie';
 import { useNavigate } from 'react-router-dom';
 import '../css/common.css';
+import '../css/login.css';
 
 const Login = () => {
   const [inputId, setId] = useState('');
@@ -104,7 +105,7 @@ const Login = () => {
 
   return (
     <div className="container login">
-      <span className="pagetype">운수사업자용</span>
+      <p className="pagetype">운수사업자용</p>
 
       <Link to="/main">
         <div className="logo">
@@ -133,14 +134,15 @@ const Login = () => {
           <label>
             {/* <!-- .btn-password.on 일 때 type="text"로 변경 --> */}
             <input
-              type="password"
+              type={isOpen ? "text" : "password"}
               value={inputPw || ''}
               onChange={handlePw}
               required
             />
+            <i></i>
             <span className="title">비밀번호</span>
             {/* <!-- 토글 .on --> */}
-            <span className="btn-password"></span>
+            <span className={isOpen ? "btn-password on" : "btn-password"} onClick={togglePw}></span>
           </label>
         </div>
 
@@ -150,7 +152,8 @@ const Login = () => {
             checked={isRemember}
             onChange={(e) => handleOnRemember(e)}
           />
-          <i></i>로그인 정보 기억하기
+          <i></i>
+          <span>로그인 정보 기억하기</span>
         </label>
 
         <button type="button" onClick={onClickLogin} className="btn-login">
