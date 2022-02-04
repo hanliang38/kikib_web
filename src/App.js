@@ -5,7 +5,7 @@ import WorkScheduleManagement from './pages/WorkScheduleManagement';
 import WorkSchedule from './pages/WorkSchedule';
 import Login from './pages/Login';
 import PersonalTimeTable from './pages/PersonalTimeTable';
-import DailyWorkerNOff from './pages/DailyWorkerNOff';
+import DailyWorkerAndOff from './pages/DailyWorkerAndOff';
 // import withAuthHoc from './withAuthHoc';
 
 function App() {
@@ -67,10 +67,10 @@ function App() {
         }
       />
       <Route
-        path="/workerNoff"
+        path="/workerAndOff"
         element={
           <RequireAuth>
-            <DailyWorkerNOff />
+            <DailyWorkerAndOff />
           </RequireAuth>
         }
       />

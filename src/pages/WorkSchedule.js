@@ -6,7 +6,7 @@ import dayGridPlugin from '@fullcalendar/daygrid'; // a plugin!
 import timeGridPlugin from '@fullcalendar/timegrid';
 import interactionPlugin from '@fullcalendar/interaction';
 import axios from 'axios';
-import { useLocation, Navigate } from 'react-router-dom';
+import { useLocation, Navigate, useNavigate } from 'react-router-dom';
 import styled, { createGlobalStyle } from 'styled-components';
 // import { MdWork } from 'react-icons/md';
 // import { device } from './Devices';
@@ -27,6 +27,7 @@ const nowYearMonth = `${nowYear}-${currentMonth}`;
 
 const WorkSchedule = () => {
   const location = useLocation();
+  const navigate = useNavigate();
 
   // const title = '근무일정표';
   let userInfo = JSON.parse(sessionStorage.getItem('userInfo'));
@@ -199,11 +200,11 @@ const WorkSchedule = () => {
               // 날짜 클릭 이벤트
               dateClick={(info) => {
                 info.jsEvent.preventDefault(); // don't let the browser navigate
-                info.jsEvent = alert('추후 업데이트 예정입니다.');
+                // info.jsEvent = alert('추후 업데이트 예정입니다.');
                 // console.log(info.dateStr);
-                // info.jsEvent((document.location.href = '/workerNoff'), {
-                //   title: info.dateStr,
-                // });
+                info.jsEvent = navigate('/workerAndOff', {
+                  state: info.dateStr,
+                });
               }}
               locale="ko"
             />

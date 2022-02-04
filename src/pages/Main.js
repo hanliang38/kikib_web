@@ -90,14 +90,14 @@ const Main = () => {
         </UserName>
         <DateTimeWeather>
           <Daily>
-            <Clock
-              format={'MM/DD dddd'}
-              ticking={true}
-              timezone={'Asia/Seoul'}
-            />
+            <Clock format={'MM/DD'} ticking={true} timezone={'Asia/Seoul'} />
+            <br />
+            <Clock format={'dddd'} ticking={true} timezone={'Asia/Seoul'} />
           </Daily>
           <Daily>
-            <Clock format={'A hh:mm'} ticking={true} timezone={'Asia/Seoul'} />
+            <Clock format={'A'} ticking={true} timezone={'Asia/Seoul'} />
+            <br />
+            <Clock format={'hh:mm'} ticking={true} timezone={'Asia/Seoul'} />
           </Daily>
           {/* <span><img src={imgURL} alt="Current Weather icon" /></span> */}
         </DateTimeWeather>
@@ -108,11 +108,9 @@ const Main = () => {
             </Link>
           </BtnDiv>
           <BtnDiv>
-            {/* <Link to="/personalTimeTable"> */}
-            <Btn onClick={() => alert('준비중인 기능입니다.')}>
-              배차일보조회
-            </Btn>
-            {/* </Link> */}
+            <Link to="/personalTimeTable">
+              <Btn>배차일보조회</Btn>
+            </Link>
           </BtnDiv>
         </BtnsDiv>
         <QrBtnDiv>
@@ -194,8 +192,8 @@ const Daily = styled.div`
   border-color: #1a7473;
   border-radius: 1.5rem;
   color: white;
-  width: 22%;
-  height: 130px;
+  width: 25%;
+  height: 20%;
   padding: 30px;
   text-align:center;
   vertical-align:middle;

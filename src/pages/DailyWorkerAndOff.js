@@ -5,17 +5,20 @@ import Header from '../components/Header';
 // import apiClient from '../config/apiClient';
 import WorkerList from '../components/WorkerList';
 import OffList from '../components/OffList';
+import { useLocation } from 'react-router-dom';
 
-const DailyWorkerAndOff = (props) => {
+const DailyWorkerAndOff = () => {
   const [currentPage, setCurrentPage] = useState(true);
-  console.log(props);
+  let location = useLocation();
+
+  console.log(location.state);
 
   return (
     <>
       <GlobalStyle />
       <DailyWorkerAndOffPage>
         <Header />
-        <PageTitle>{props.title}</PageTitle>
+        <PageTitle>{location.state}</PageTitle>
         <TableContainer>
           <Table>
             <TableTitle>가동대수</TableTitle>
@@ -38,10 +41,6 @@ const DailyWorkerAndOff = (props) => {
       </DailyWorkerAndOffPage>
     </>
   );
-};
-
-DailyWorkerAndOff.defaultProps = {
-  title: '몇월 몇일',
 };
 
 const GlobalStyle = createGlobalStyle`
