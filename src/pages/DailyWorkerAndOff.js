@@ -10,15 +10,15 @@ import { useLocation } from 'react-router-dom';
 const DailyWorkerAndOff = () => {
   const [currentPage, setCurrentPage] = useState(true);
   let location = useLocation();
-
-  console.log(location.state);
+  const dateArr = location.state.split('-');
+  const title = `${dateArr[1]}월 ${dateArr[2]}일`;
 
   return (
     <>
       <GlobalStyle />
       <DailyWorkerAndOffPage>
         <Header />
-        <PageTitle>{location.state}</PageTitle>
+        <PageTitle>{title}</PageTitle>
         <TableContainer>
           <Table>
             <TableTitle>가동대수</TableTitle>
