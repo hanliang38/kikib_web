@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from 'react';
+import React, { useLayoutEffect, useState } from 'react';
 // import Navbar from './Navigationbar';
 // import Footer from './Footer';
 import FullCalendar from '@fullcalendar/react'; // must go before plugins
@@ -6,32 +6,18 @@ import dayGridPlugin from '@fullcalendar/daygrid'; // a plugin!
 import timeGridPlugin from '@fullcalendar/timegrid';
 import interactionPlugin from '@fullcalendar/interaction';
 import axios from 'axios';
-import { useLocation, Navigate } from 'react-router-dom';
+import { useLocation, Navigate, useNavigate } from 'react-router-dom';
 import styled, { createGlobalStyle } from 'styled-components';
 // import { MdWork } from 'react-icons/md';
 // import { device } from './Devices';
 import DefaultFont from '../assets/font/agothic14.otf';
 import calendarStyled from '@emotion/styled';
-import Header from './Header';
+import Header from '../components/Header';
 // import { configs } from '../config/config';
+import apiClient from '../config/apiClient';
 
 axios.withCredentials = true;
 axios.defaults.withCredentials = true;
-
-export const StyledWrapper = calendarStyled.div`
-.fc-toolbar-title, .fc-col-header-cell-cushion, .fc-daygrid-day-number {
-  font-size: 50px;
-} 
-.fc-event-title {
-  font-size: 40px; 
-}
-.fc-event-title-container{
-  text-align: center;
-}
-.fc-prev-button, .fc-next-button{
-  font-size: 30px;
-}
-`;
 
 const today = new Date();
 const nowYear = today.getFullYear();
@@ -41,52 +27,66 @@ const nowYearMonth = `${nowYear}-${currentMonth}`;
 
 const WorkSchedule = () => {
   const location = useLocation();
+  const navigate = useNavigate();
+
+  // const title = '근무일정표';
   let userInfo = JSON.parse(sessionStorage.getItem('userInfo'));
 
   // 근무일 수
-  const [workData, setWorkData] = useState([]);
-  const [error, setError] = useState(null);
   const [dayNum, setDayNum] = useState(0);
   const [leaveNum, setLeaveNum] = useState(0);
   const [allEvents, setAllEvents] = useState([]);
   const [currentYearMonth, setCurrentYearMonth] = useState(nowYearMonth);
 
-  useEffect(() => {
-    // console.log('currentYearMonth', currentYearMonth);
+  const { userId } = userInfo;
 
-    fetchData(currentYearMonth);
-  }, [currentYearMonth]);
+  const fetchData = async () => {
+    await apiClient
+      .get(
+        `http://kiki-bus.com:8080/api/driver/${userId}?yearMonth=${currentYearMonth}`
+      )
+      .then((res) => {
+        // console.log(res);
+        // setWorkData(res.data.object);
+        // console.log('workData222::', workData);
+        next(res.data.object);
+      });
+  };
 
-  useEffect(() => {
+  useLayoutEffect(() => {
+    fetchData();
+  }, []);
+
+  const next = (data) => {
+    // if (!workData) return;
     // obj 분할 (array) status ==> work, work-check, leave, leave-check
-    // console.log('workData::', workData);
-    // console.log('workData.status::', workData);
     // 근무일
-    const workDays = workData
+    // console.log('workData::', data);
+    const workDays = data
       .filter((item) => item.status === 'WORK')
       .map((workDay) => {
         return {
           date: workDay.date,
           title: '근무',
           color: '#007473',
-          url: 'MdWork',
+          Image: 'MdWork',
         };
       });
 
     // 근무확인
-    const workCheckDays = workData
+    const workCheckDays = data
       .filter((item) => item.status === 'WORK-CHECK')
       .map((workCheckDay) => {
         return {
           date: workCheckDay.date,
           title: '근무',
           color: '#007473',
-          url: 'MdWork',
+          Image: 'Mdwork',
         };
       });
 
     // 휴무일
-    const leaveDays = workData
+    const leaveDays = data
       .filter((item) => item.status === 'LEAVE')
       .map((leaveDay) => {
         return {
@@ -97,7 +97,7 @@ const WorkSchedule = () => {
       });
 
     // 휴무확인
-    const leaveCheckDays = workData
+    const leaveCheckDays = data
       .filter((item) => item.status === 'LEAVE-CHECK')
       .map((leaveCheckDay) => {
         return {
@@ -107,7 +107,7 @@ const WorkSchedule = () => {
         };
       });
 
-    const annualDays = workData
+    const annualDays = data
       .filter((item) => item.status === 'ANNUAL')
       .map((annualDay) => {
         return {
@@ -117,7 +117,7 @@ const WorkSchedule = () => {
         };
       });
 
-    const annualCheckDays = workData
+    const annualCheckDays = data
       .filter((item) => item.status === 'ANNUAL-CHECK')
       .map((annualCheckDay) => {
         return {
@@ -144,44 +144,12 @@ const WorkSchedule = () => {
       ...annualDays,
       ...annualCheckDays,
     ]);
-    // console.log('workEvents::', workEvents);
-  }, [workData]);
+  };
 
   if (!userInfo) {
     // 없을 때
     return <Navigate to="/login" state={{ from: location }} replace />;
   }
-
-  const { userId } = userInfo;
-
-  const fetchData = async (dateString = '') => {
-    try {
-      setError(null);
-      // setCurrentYearMonth(nowYearMonth);
-      const response = await axios.get(
-        `http://13.209.203.232:8080/api/driver/${userId}?yearMonth=${dateString}`
-      );
-
-      let res = response.data.object;
-      // console.log(res);
-      setWorkData(res);
-    } catch (e) {
-      setError(e);
-    }
-  };
-
-  // 근무일 데이터를 구하기
-  // * 이부분은 JSX 쪽으로 넣어야 이중렌더링이 발생하지 않는다.
-  // if (loading) return <div>{loadingImg}</div>;
-  // if (error) return <div>에러가 발생했습니다.</div>;
-  // if (!workData) return null;
-
-  // console.log('workData::', workData);
-
-  // // 이벤트 아이콘 호출하는 함수
-  // function renderEventContent(eventInfo) {
-  //   return {eventInfo.event.url === "MdWork" ? <MdWork /> : <></>};
-  // }
 
   const handleMonthChange = async (e) => {
     try {
@@ -204,7 +172,7 @@ const WorkSchedule = () => {
     <div>
       <GlobalStyle />
       {/* <Navbar /> */}
-      {error && <div>에러가 발생했습니다.</div>}
+      {/* {error && <div>에러가 발생했습니다.</div>} */}
       {/* {loading && <div>{loadingImg}</div>} */}
       {
         <SchedulePage>
@@ -227,7 +195,16 @@ const WorkSchedule = () => {
                 // event에서 url 호출 하는걸 막는 방법
                 event.jsEvent.cancelBubble = true;
                 event.jsEvent.preventDefault();
-                event.jsEvent = alert('추후 업데이트 예정입니다.');
+                // event.jsEvent = alert('추후 업데이트 예정입니다.');
+              }}
+              // 날짜 클릭 이벤트
+              dateClick={(info) => {
+                info.jsEvent.preventDefault(); // don't let the browser navigate
+                // info.jsEvent = alert('추후 업데이트 예정입니다.');
+                // console.log(info.dateStr);
+                info.jsEvent = navigate('/workerAndOff', {
+                  state: info.dateStr,
+                });
               }}
               locale="ko"
             />
@@ -251,6 +228,21 @@ const WorkSchedule = () => {
     </div>
   );
 };
+
+export const StyledWrapper = calendarStyled.div`
+.fc-toolbar-title, .fc-col-header-cell-cushion, .fc-daygrid-day-number {
+  font-size: 50px;
+} 
+.fc-event-title {
+  font-size: 40px; 
+}
+.fc-event-title-container{
+  text-align: center;
+}
+.fc-prev-button, .fc-next-button{
+  font-size: 30px;
+}
+`;
 
 const GlobalStyle = createGlobalStyle`
 @font-face {
@@ -306,16 +298,16 @@ const LeaveWorkTable = styled.div`
   }
 `;
 styled.th`
-  border: solid;
   width: 50%;
   padding: 10px 5px;
   margin-top: 20px;
   justify-content: space-between;
 `;
 styled.td`
-  border: solid;
   border-width: 1px;
   padding: 10px 5px;
+  border: solid 2px;
+  border-color: red;
 `;
 
 export default WorkSchedule;
