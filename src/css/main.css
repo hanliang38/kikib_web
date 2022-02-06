@@ -1,0 +1,65 @@
+/********************
+    MAIN
+********************/
+/* user-box */
+.user-box {display:flex; align-items:center; height:13rem; padding:0 4.8rem; background-color:#fff;}
+.user-box .logo {width:5.8rem; margin-right:2rem;}
+.user-box h1 {font-size:4.2rem;}
+.user-box h1 > span {font-weight:400;}
+.user-box .btn-timetable {display:inline-flex; justify-content:center; align-items:center; width:20.8rem; height:7.4rem; border-radius:3.7rem; margin-left:5rem; background-color:#007473; color:#fff; font-size:3.4rem; box-shadow: 0.3rem 0.3rem 2.4rem rgba(0,0,0,0.1);}
+
+.inner {background:url('../assets/img/bg_daily.jpg') no-repeat top center / contain;}
+
+/* daily-box */
+.daily-box {padding:3.5rem 0;}
+.daily-box .box-inner {display:flex; justify-content:space-between; align-items:center; width:65.4rem; height:12.4rem; margin:0 auto; padding:0 4.6rem; border:0.3rem solid rgba(255, 255, 255, 0.24); border-radius:6.2rem; background-color:rgba(255, 255, 255, 0.4); line-height:1.2;}
+.daily-box .item {height:8.2rem;}
+.daily-box .item + .item {position: relative;}
+.daily-box .item + .item::before {content:''; position:absolute; top:0; left:0; width:0.2rem; height:8.2rem; background-color:#000;}
+.daily-box .item {width:13.4rem; padding:0 2.4rem; text-align:center; box-sizing:content-box;}
+.daily-box .date {width:14.4rem; font-size:3.4rem;}
+.daily-box .clock {font-size:3.4rem;}
+.daily-box .date .first,
+.daily-box .clock .first {font-weight:400; line-height:2rem;}
+.daily-box .clock .second {font-size:3.8rem; line-height:2rem;}
+.daily-box .weather {height:3.8rem; padding-top:4.4rem; background:url('../assets/img/ico_weather.png') no-repeat top center / 6.6rem 4.4rem; font-size:3.8rem;}
+.daily-box .weather.ico-weather01 {background-image:url('../assets/img/ico_weather.png')}
+
+/* menu-list */
+.menu-list {display:flex; justify-content:space-between; flex-wrap:wrap; padding:4.2rem 4.8rem 21rem; border-top-right-radius:6rem; border-top-left-radius:0.8rem; background-color:#f2f3f7;}
+.menu-list > li {position:relative; width:30.4rem; height:25.5rem; border:1px solid rgba(255, 255, 255, 0.5); border-radius:2rem; background:linear-gradient(-45deg, #f2f3f7, #e8eBf2); box-shadow:2rem 2rem 3rem rgba(15, 41, 107, 0.12); font-size:5.2rem;}
+.menu-list > li:first-child {border-bottom-right-radius:5rem;}
+.menu-list > li:nth-child(2) {border-bottom-left-radius:5rem;}
+.menu-list > li:nth-child(3) {border-top-right-radius:5rem;}
+.menu-list > li:nth-child(4) {border-top-left-radius:5rem;}
+.menu-list > li:nth-child(2) ~ li {margin-top:4.8rem;}
+.menu-list > li:last-child {margin-top:3.6rem;}
+.menu-list > li .menu-title {line-height:1.2;}
+.menu-list > li > a {display:block; height:100%; padding:3.4rem 4.4rem; }
+
+.menu-list .btn-common.btn-disabled {color:#bcbcbc; pointer-events:none;}
+.menu-list .btn-common.btn-disabled::after {content:'준비중'; position:absolute; bottom:2.5rem; right:2rem; color:#007473; font-size:2.8rem;}
+.menu-list .btn-common.btn-holiday::after {content:'휴무신청기간'; position:absolute; bottom:2.5rem; right:2rem; color:#e12c03; font-size:2.8rem;}
+
+.menu-list .icon-box {position:absolute; top:3rem; right:2rem;}
+.menu-list .icon-box > i {display:block; width:6.4rem; height:6.4rem; background-repeat:no-repeat; background-position:center; background-size:5.2rem;}
+.menu-list .icon-box > i.ico-alarm {background-image:url('../assets/img/ico_alarm_off.png'); background-size:6.4rem;}
+.menu-list .icon-box > i.ico-alarm.on {background-image:url('../assets/img/ico_alarm_on.png');}
+.menu-list .icon-box > i.ico-calendar {background-image:url('../assets/img/ico_calendar.png');}
+.menu-list .icon-box > i.ico-bus-run {background-image:url('../assets/img/ico_bus_run.png');}
+.menu-list .icon-box > i.ico-update {background-image:url('../assets/img/ico_update_on.png'); background-size:6.4rem;}
+.menu-list .icon-box > i.ico-bus-admin {background-image:url('../assets/img/ico_bus_admin.png');}
+.menu-list .icon-box > i.ico-analysis {background-image:url('../assets/img/ico_analysis.png');}
+.menu-list .icon-box > i.ico-notice {background-image:url('../assets/img/ico_notice.png');}
+.menu-list .icon-box > i.ico-lost-item {background-image:url('../assets/img/ico_lost_item.png');}
+
+.menu-list > li.type-cell .menu-title {text-shadow:0.5rem 0.5rem 1rem rgba(0,0,0,0.14);}
+.menu-list > li.type-cell .btn-disabled .menu-title {text-shadow:none;}
+.menu-list > li.type-cell:nth-child(2n) {text-align:right;}
+.menu-list > li.type-cell:nth-child(2n) .btn-disabled::after {right:auto; left:2rem;}
+.menu-list > li.type-cell:nth-child(2n) .icon-box {position:absolute; top:3rem; left:2rem;}
+
+.menu-list > li.type-row {width:64rem; height:12.4rem; font-size:4.8rem;}
+.menu-list > li.type-row .btn-disabled::after {position:static; display:inline-block; margin-left:2rem;}
+.menu-list > li.type-row .icon-box > i {display:inline-block; vertical-align:middle;}
+.menu-list > li.type-row .icon-box > i + i {margin-left:3.4rem;}

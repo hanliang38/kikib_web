@@ -1,5 +1,11 @@
 @font-face {
   font-family: "Roboto";
+  font-weight: 400;
+  src: url("../assets/font/Roboto-Regular.eot") format("eot"), url("../assets/font/Roboto-Regular.woff") format("woff"), url("../assets/font/Roboto-Regular.ttf") format("truetype");
+}
+
+@font-face {
+  font-family: "Roboto";
   font-weight: 700;
   src: url("../assets/font/Roboto-Bold.eot") format("eot"), url("../assets/font/Roboto-Bold.woff") format("woff"), url("../assets/font/Roboto-Bold.ttf") format("truetype");
 }
@@ -15,10 +21,9 @@ html, body, div, h1, h2, h3, h4, h5, h6, p, dl, dt, dd, ol, ul, li, form, fields
 }
 
 html, body, button, input, select, textarea {
-  font-family: "Roboto";
+  font-family: "Roboto" ;
   font-size: 1.333vw;
   font-weight: 700;
-  letter-spacing: -0.2rem;
 }
 
 html {
@@ -198,6 +203,7 @@ input[type=number]::-webkit-inner-spin-button {
     font-size: 10px;
   }
 }
+
 .blind {
   position: absolute;
   top: 0;
@@ -214,3 +220,60 @@ body.scroll-lock {
   width: 100%;
   height: 100%;
 }
+
+.container {position: relative;}
+
+/********************
+    HEADER
+********************/
+header {
+  position: relative;
+  height: 10rem;
+  box-shadow: 0.3rem 0.3rem 2.4rem rgba(0,0,0,0.1);
+}
+
+header .logo {
+  position: absolute;
+  top: 50%;
+  transform: translateY(-50%);
+  left: 4.8rem;
+  width: 10rem;
+}
+
+header .page-title {
+  font-size: 3.4rem;
+  text-align: center;
+  line-height: 10rem;
+}
+
+header .btn-box {
+  position: absolute;
+  top: 50%;
+  transform: translateY(-50%);
+  right: 4rem;
+}
+
+header .btn-box > a {
+  display: inline-block;
+  width: 4rem;
+}
+
+header .btn-box > a + a {
+  margin-left: 4rem;
+}
+
+/********************
+    NAV
+********************/
+nav.nav {position:fixed; bottom:0; left:0; width:100%; height:14.4rem; padding:2rem 8rem 0; border-top-right-radius:4rem; border-top-left-radius:4rem; background-color:#191919;}
+nav.nav .nav-list {display:flex; justify-content:space-between;}
+nav.nav .nav-list li {width:7.2rem; height:7.2rem; background-repeat:no-repeat; background-position:center;}
+nav.nav .nav-list li:first-child {background-image:url('../assets/img/ico_nav_home_off.png'); background-size:7.2rem;}
+nav.nav .nav-list li:nth-child(2) {background-image:url('../assets/img/ico_nav_calendar_off.png'); background-size:7.2rem;}
+nav.nav .nav-list li:nth-child(3) {background-image:url('../assets/img/ico_nav_bus_off.png'); background-size:8rem;}
+nav.nav .nav-list li:last-child {background-image:url('../assets/img/ico_nav_setting_off.png');background-size:6.4rem;}
+nav.nav .nav-list li:first-child.on {background-image:url('../assets/img/ico_nav_home_on.png');}
+nav.nav .nav-list li:nth-child(2).on {background-image:url('../assets/img/ico_nav_calendar_on.png');}
+nav.nav .nav-list li:nth-child(3).on {background-image:url('../assets/img/ico_nav_bus_on.png');}
+/* nav.nav .nav-list li:last-child.on {background-image:url('../assets/img/ico_nav_setting_on.png');} 디자인 반영 아직 안됨 */
+nav.nav .nav-list li > a {display:block; height:100%;}
