@@ -8,14 +8,19 @@ import OffList from '../components/OffList';
 import { useLocation, Navigate } from 'react-router-dom';
 import apiClient from '../config/apiClient';
 
+// data form set
+function createData(name, status) {
+  return { name, status };
+}
+
 const DailyWorkerAndOff = () => {
   const [currentPage, setCurrentPage] = useState(true);
   const [error, setError] = useState(null);
   const [activeBusCntData, setActiveBusCntData] = useState();
   const [workerData, setWorkerData] = useState();
   const [workerCntData, setWorkerCntData] = useState();
-  const [OffData, setOffData] = useState();
-  const [OffCntData, setOffCntData] = useState();
+  const [offData, setOffData] = useState();
+  const [offCntData, setOffCntData] = useState();
 
   const location = useLocation();
   const dateArr = location.state.split('-');
@@ -54,21 +59,44 @@ const DailyWorkerAndOff = () => {
           // 가동대수 state
           setActiveBusCntData(busRouteCnt);
         });
+
       // 근무자 API 구하기
       await apiClient
         .get(`/work/${busRouteId}/${location.state}/work`)
         .then((res) => {
-          setWorkerData(res.data);
           const WorkerObj = res.data.object;
+          // console.log(WorkerObj);
           setWorkerCntData(`${WorkerObj.length}명`);
+
+          // WorkerList props 로 넘길 data
+          const WorkerRows = [];
+          WorkerObj.map((item) =>
+            item.status === 'WORK'
+              ? WorkerRows.push(createData(item.driverName, '근무'))
+              : null
+          );
+          // console.log(WorkerRows);
+          setWorkerData(WorkerRows);
         });
+
       // 휴무자 API 구하기
       await apiClient
         .get(`/work/${busRouteId}/${location.state}/not-work`)
         .then((res) => {
-          setOffData(res.data);
           const OffObj = res.data.object;
           setOffCntData(`${OffObj.length}명`);
+          console.log(OffObj);
+
+          // OffList props 로 넘길 data
+          const OffRows = [];
+          OffObj.map((item) =>
+            item.status === 'LEAVE'
+              ? OffRows.push(createData(item.driverName, '휴무'))
+              : item.status === 'ANNUAL'
+              ? OffRows.push(createData(item.driverName, '연차'))
+              : null
+          );
+          setOffData(OffRows);
         });
     } catch (e) {
       setError(e);
@@ -97,7 +125,7 @@ const DailyWorkerAndOff = () => {
           <Table>
             <TableTitle>휴무인원</TableTitle>
             <TableContent>
-              {error ? '정보가 없습니다' : OffCntData}
+              {error ? '정보가 없습니다' : offCntData}
             </TableContent>
           </Table>
         </TableContainer>
@@ -110,9 +138,9 @@ const DailyWorkerAndOff = () => {
         ) : (
           <CurrentPage>
             {currentPage ? (
-              <WorkerList data={workerData} />
+              <WorkerList wdata={workerData} />
             ) : (
-              <OffList data={OffData} />
+              <OffList odata={offData} />
             )}
           </CurrentPage>
         )}

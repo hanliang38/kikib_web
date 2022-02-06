@@ -1,8 +1,19 @@
-import React from 'react';
+import React, { useState, useEffect } from 'react';
 import styled, { createGlobalStyle } from 'styled-components';
 import DefaultFont from '../assets/font/agothic14.otf';
 
 const WorkerList = (props) => {
+  const [offDataObj, setOffDataObj] = useState();
+
+  useEffect(() => {
+    fetchData();
+  }, []);
+
+  const fetchData = () => {
+    const offDataRows = props.odata;
+    setOffDataObj(offDataRows);
+  };
+
   return (
     <>
       <GlobalStyle />
@@ -12,11 +23,14 @@ const WorkerList = (props) => {
           <ListTitle>상태</ListTitle>
         </ListHead>
         <ListBody>
-          <ListElements>
-            <ListElement>공남식</ListElement>
-            <ListElement>연차</ListElement>
-            <EtcSetting>···</EtcSetting>
-          </ListElements>
+          {offDataObj &&
+            offDataObj.map((row, i) => (
+              <ListElements key={`offList-${i}`}>
+                <ListElement>{row.name}</ListElement>
+                <ListElement>{row.status}</ListElement>
+                <EtcSetting>···</EtcSetting>
+              </ListElements>
+            ))}
         </ListBody>
       </WorkerListComponent>
     </>
