@@ -56,12 +56,15 @@ const Main = () => {
   const fetchData = async () => {
     try {
       setError(null);
-      await apiClient
-        .get(`/route/driver?driverId=${driverId}`)
-        .then((res) => setBusRouteData(res.data.object.name));
+      await apiClient.get(`/route/driver?driverId=${driverId}`).then((res) => {
+        // session에 routeId 저장
+        if (res.data.object !== null) {
+          const routeId = res.data.object.id;
+          window.sessionStorage.setItem('routeId', routeId);
+        }
+        setBusRouteData(res.data.object.name);
+      });
       // let res = response.data.object;
-      // console.log(res);
-      // setBusRouteData(res);
     } catch (e) {
       setError(e);
     }

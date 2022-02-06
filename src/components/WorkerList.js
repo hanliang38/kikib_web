@@ -1,8 +1,19 @@
-import React from 'react';
+import React, { useEffect, useState } from 'react';
 import styled, { createGlobalStyle } from 'styled-components';
 import DefaultFont from '../assets/font/agothic14.otf';
 
 const WorkerList = (props) => {
+  const [workerDataObj, setWorkerDataObj] = useState();
+
+  useEffect(() => {
+    fetchData();
+  }, []);
+
+  const fetchData = () => {
+    const workDataRows = props.wdata;
+    setWorkerDataObj(workDataRows);
+  };
+
   return (
     <>
       <GlobalStyle />
@@ -12,14 +23,13 @@ const WorkerList = (props) => {
           <ListTitle>상태</ListTitle>
         </ListHead>
         <ListBody>
-          <ListElements>
-            <ListElement>김기원2</ListElement>
-            <ListElement>근무</ListElement>
-          </ListElements>
-          <ListElements>
-            <ListElement>김기원2</ListElement>
-            <ListElement>근무</ListElement>
-          </ListElements>
+          {workerDataObj &&
+            workerDataObj.map((row, i) => (
+              <ListElements key={`workList-${i}`}>
+                <ListElement>{row.name}</ListElement>
+                <ListElement>{row.status}</ListElement>
+              </ListElements>
+            ))}
         </ListBody>
       </WorkerListComponent>
     </>
