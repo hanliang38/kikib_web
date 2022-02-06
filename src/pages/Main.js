@@ -1,14 +1,14 @@
 import React, { useState, useLayoutEffect } from 'react';
-// import Navbar from './Navigationbar';
-import styled, { createGlobalStyle } from 'styled-components';
-import { Link } from 'react-router-dom';
+import logoHeader from '../assets/img/logo_header.png';
+import icoSearch from '../assets/img/ico_search.png';
+import icoMsg from '../assets/img/ico_msg.png';
+import logoBus from '../assets/img/logo_bus.svg';
 import Clock from 'react-live-clock';
 import 'moment/locale/ko';
 import { useLocation, Navigate } from 'react-router';
-import DefaultFont from '../assets/font/agothic14.otf';
-import { device } from '../components/Devices';
-// import Header from './Header';
 import apiClient from '../config/apiClient';
+import '../css/common.css';
+import '../css/main.css';
 
 // 사용자 위치정보
 // let position;
@@ -42,7 +42,6 @@ import apiClient from '../config/apiClient';
 
 const Main = () => {
   const [busRouteData, setBusRouteData] = useState();
-  const [error, setError] = useState(null);
 
   const location = useLocation();
 
@@ -55,7 +54,6 @@ const Main = () => {
 
   const fetchData = async () => {
     try {
-      setError(null);
       await apiClient.get(`/route/driver?driverId=${driverId}`).then((res) => {
         // session에 routeId 저장
         if (res.data.object !== null) {
@@ -64,17 +62,11 @@ const Main = () => {
         }
         setBusRouteData(res.data.object.name);
       });
-      // let res = response.data.object;
-    } catch (e) {
-      setError(e);
-    }
+    } catch (e) {}
   };
 
   useLayoutEffect(() => {
     fetchData();
-    // if (!busRouteData) return;
-    // setBusNum(busRouteData.name);
-    // cleanup();
   }, []);
 
   // 세션에 저장된 값이 없는 경우
@@ -83,170 +75,245 @@ const Main = () => {
   }
 
   return (
-    <div>
-      <GlobalStyle />
-      <MainPage>
-        <UserName>
-          <h1>
-            {userName} {error ? `?` : busRouteData}번 승무원님
-          </h1>
-        </UserName>
-        <DateTimeWeather>
-          <Daily>
-            <Clock format={'MM/DD'} ticking={true} timezone={'Asia/Seoul'} />
-            <br />
-            <Clock format={'dddd'} ticking={true} timezone={'Asia/Seoul'} />
-          </Daily>
-          <Daily>
-            <Clock format={'A'} ticking={true} timezone={'Asia/Seoul'} />
-            <br />
-            <Clock format={'hh:mm'} ticking={true} timezone={'Asia/Seoul'} />
-          </Daily>
-          {/* <span><img src={imgURL} alt="Current Weather icon" /></span> */}
-        </DateTimeWeather>
-        <BtnsDiv>
-          <BtnDiv>
-            <Link to="/management" component={busRouteData}>
-              <Btn>근무일정관리</Btn>
-            </Link>
-          </BtnDiv>
-          <BtnDiv>
-            <Link to="/personalTimeTable">
-              <Btn>배차일보조회</Btn>
-            </Link>
-          </BtnDiv>
-        </BtnsDiv>
-        <QrBtnDiv>
-          <QrBtn>관리자 문의하기</QrBtn>
-        </QrBtnDiv>
-      </MainPage>
+    <div className="container main">
+      <header>
+        <div className="logo">
+          <a href="/main">
+            <img src={logoHeader} alt="kikiB" />
+          </a>
+        </div>
+        <p className="page-title">메인화면</p>
+        <div className="btn-box">
+          <a href="#!" className="btn-search">
+            <img src={icoSearch} alt="검색" />
+          </a>
+          <a href="#!" className="btn-msg">
+            <img src={icoMsg} alt="메시지" />
+          </a>
+        </div>
+      </header>
+
+      <div className="user-box">
+        {/* <h1>{userName} {error ? `?` : busRouteData}번 승무원님</h1> //디자인 버스번호 없어서 주석처리 */}
+        <div className="logo">
+          <img src={logoBus} alt="" />
+        </div>
+        <h1>
+          <span>삼영운수</span> {userName}님
+        </h1>
+        <a href="#!" className="btn-timetable">
+          출근부
+        </a>
+      </div>
+
+      <div className="inner">
+        <div className="daily-box">
+          <div className="box-inner">
+            <div className="item date">
+              <Clock
+                className="first"
+                format={'MM월DD일'}
+                ticking={true}
+                timezone={'Asia/Seoul'}
+              />
+              <br />
+              <Clock
+                className="second"
+                format={'dddd'}
+                ticking={true}
+                timezone={'Asia/Seoul'}
+              />
+            </div>
+            <div className="item clock">
+              <Clock
+                className="first"
+                format={'A'}
+                ticking={true}
+                timezone={'Asia/Seoul'}
+              />
+              <br />
+              <Clock
+                className="second"
+                format={'hh:mm'}
+                ticking={true}
+                timezone={'Asia/Seoul'}
+              />
+            </div>
+            <div className="item weather ico-weather01">-3°C</div>
+          </div>
+        </div>
+
+        {/* 
+          1. .btn-common에 추가
+            1) .btn-disabled : 버튼 텍스트 회색 처리, 준비중 추가
+            2) .btn-holiday : 휴무신청기간 추가
+        */}
+        <ul className="menu-list">
+          <li className="type-cell">
+            <a
+              href="/management"
+              className="btn-common"
+              component={busRouteData}
+            >
+              <span className="menu-title">
+                근무
+                <br />
+                일정
+              </span>
+
+              <div className="icon-box">
+                <i className="ico-alarm on"></i>
+                <i className="ico-calendar"></i>
+              </div>
+            </a>
+          </li>
+          <li className="type-cell">
+            <a
+              href="/personalTimeTable"
+              className="btn-common"
+              // onClick={() => alert('준비중인 기능입니다.')}
+            >
+              <span className="menu-title">
+                배차
+                <br />
+                일보
+              </span>
+
+              <div className="icon-box">
+                <i className="ico-alarm"></i>
+                <i className="ico-bus-run"></i>
+              </div>
+            </a>
+          </li>
+          <li className="type-cell">
+            <a
+              href="#!"
+              className="btn-common btn-disabled"
+              onClick={(e) => e.preventDefault}
+            >
+              <span className="menu-title">
+                차량
+                <br />
+                관리
+              </span>
+
+              <div className="icon-box">
+                <i className="ico-update"></i>
+                <i className="ico-bus-admin"></i>
+              </div>
+            </a>
+          </li>
+          <li className="type-cell">
+            <a
+              href="#!"
+              className="btn-common btn-disabled"
+              onClick={(e) => e.preventDefault}
+            >
+              <span className="menu-title">
+                운행
+                <br />
+                분석
+              </span>
+
+              <div className="icon-box">
+                <i className="ico-alarm"></i>
+                <i className="ico-analysis"></i>
+              </div>
+            </a>
+          </li>
+          <li className="type-row">
+            <a href="#!" className="btn-common btn-disabled">
+              <span className="menu-title">공지사항</span>
+
+              <div className="icon-box">
+                <i className="ico-alarm"></i>
+                <i className="ico-notice"></i>
+              </div>
+            </a>
+          </li>
+          <li className="type-row">
+            <a
+              href="#!"
+              className="btn-common btn-disabled"
+              onClick={(e) => e.preventDefault}
+            >
+              <span className="menu-title">분실물 관리</span>
+
+              <div className="icon-box">
+                <i className="ico-update"></i>
+                <i className="ico-lost-item"></i>
+              </div>
+            </a>
+          </li>
+        </ul>
+      </div>
+
+      <nav className="nav">
+        <ul className="nav-list">
+          <li className="on">
+            <a href="#!">
+              <span className="blind">홈</span>
+            </a>
+          </li>
+          <li>
+            <a href="/management">
+              <span className="blind">근무관리</span>
+            </a>
+          </li>
+          <li>
+            <a href="#!">
+              <span className="blind">배차일보</span>
+            </a>
+          </li>
+          <li>
+            <a href="#!">
+              <span className="blind">사용자설정</span>
+            </a>
+          </li>
+        </ul>
+      </nav>
     </div>
   );
 };
 
-const GlobalStyle = createGlobalStyle`
-@font-face {
-  font-family: 'agothic14';
-  src: url(${DefaultFont});
-}
-
-*{
-  margin: 0;
-  padding: 0;
-  box-sizing: content-box;
-  }
-
-body {
-  font-family: agothic14;
-  display: flex;
-  justify-content: center;
-  align-items: center;
-  margin: 20px
-  width: 100vw;
-  height: 100vh;
-}
-
-#root {
-  margin: 10px;
-  width: 100vw;
-  height: 100vh;
-
-  @media ${device.desktop} {
-    height: 100vh;
-    width: 100%;
-    background-size: cover;
-    background-size: 100% 100%;
-    background-repeat: no-repeat;
-    background-position: center;
-  }
-  @media ${device.mobileL} {
-    height: 100vh;
-    width: 100%;
-    background-size: cover;
-  background-repeat: no-repeat;
-  }
-}
-`;
-
-const MainPage = styled.div`
-  margin: 100px 50px 0 50px;
-  text-aline: center;
-`;
-
-const UserName = styled.div`
-  text-align: center;
-  margin-bottom: 50px;
-  font-size: 40px;
-`;
-
-const DateTimeWeather = styled.div`
-  margin-top: 100px;
-  margin-bottom: 100px;
-  display: flex;
-  justify-content: center;
-  font-size: 50px;
-`;
-
-const Daily = styled.div`
-  display:table-cell;
-  background-color: #007473;
-  border: solid;
-  border-size: 3px
-  border-color: #1a7473;
-  border-radius: 1.5rem;
-  color: white;
-  width: 25%;
-  height: 20%;
-  padding: 30px;
-  text-align:center;
-  vertical-align:middle;
-`;
-
-const BtnsDiv = styled.div`
-  text-align: center;
-  min-width: 500px;
-`;
-
-const BtnDiv = styled.div`
-  margin: 100px;
-`;
-
-const Btn = styled.button`
-  font-size: 70px;
-  font-weight: bold;
-  min-width: 600px;
-  min-height: 200px;
-  border-style: solid;
-  border-width: 1.5px;
-  border-color: #c0c0c0;
-  border-radius: 1.5rem;
-  &:hover {
-    background-color: rgb(173, 170, 170);
-  }
-  &a {
-    text-decoration: none;
-    color: black;
-  }
-`;
-
-const QrBtnDiv = styled.div`
-  text-align: center;
-  margin: 180px;
-`;
-const QrBtn = styled.button`
-  min-width: 300px;
-  min-height: 80px;
-  border-style: solid;
-  border-width: 1.5px;
-  border-color: #c0c0c0;
-  border-radius: 0.8rem;
-  text-decoration: none;
-  font-weight: bold;
-  font-size: 40px;
-  color: black;
-  &:hover {
-    background-color: rgb(173, 170, 170);
-  }
-`;
+// 기존 소스
+// <GlobalStyle />
+// <MainPage>
+//   <UserName>
+//     <h1>
+//       {userName} {error ? `?` : busRouteData}번 승무원님
+//     </h1>
+//   </UserName>
+//   <DateTimeWeather>
+//     <Daily>
+//       <Clock
+//         format={'MM/DD dddd'}
+//         ticking={true}
+//         timezone={'Asia/Seoul'}
+//       />
+//     </Daily>
+//     <Daily>
+//       <Clock format={'A hh:mm'} ticking={true} timezone={'Asia/Seoul'} />
+//     </Daily>
+//     <span><img src={imgURL} alt="Current Weather icon" /></span>
+//   </DateTimeWeather>
+//   <BtnsDiv>
+//     <BtnDiv>
+//       <Link to="/management" component={busRouteData}>
+//         <Btn>근무일정관리</Btn>
+//       </Link>
+//     </BtnDiv>
+//     <BtnDiv>
+//       <Link to="/personalTimeTable">
+//       <Btn onClick={() => alert('준비중인 기능입니다.')}>
+//         배차일보조회
+//       </Btn>
+//       </Link>
+//     </BtnDiv>
+//   </BtnsDiv>
+//   <QrBtnDiv>
+//     <QrBtn>관리자 문의하기</QrBtn>
+//   </QrBtnDiv>
+// </MainPage>
 
 export default Main;

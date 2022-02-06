@@ -310,7 +310,7 @@ const BusTimeTable = () => {
           )}
         </Table>
       </TableContainer>
-      {error && <div>페이지 에러입니다.</div>}
+      {error && <div>배차일보가 없습니다.</div>}
     </>
   );
 };
