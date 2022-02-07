@@ -1,4 +1,4 @@
-import React, { useState, useLayoutEffect } from 'react';
+import React from 'react';
 
 // import Footer from './Footer';
 import { Link } from 'react-router-dom';
@@ -7,92 +7,49 @@ import styled, { createGlobalStyle } from 'styled-components';
 import DefaultFont from '../assets/font/agothic14.otf';
 import { device } from '../components/Devices';
 import Header from '../components/Header';
-import apiClient from '../config/apiClient';
 
-const WorkScheduleManagement = (props) => {
-  const [busRouteData, setBusRouteData] = useState();
-  const [error, setError] = useState(null);
-
-  // 유저정보 불러오기
-  const userInfo = JSON.parse(window.sessionStorage.getItem('userInfo'));
-
-  // 있는 경우
-  const driverId = userInfo.userId;
-
-  const fetchData = async () => {
-    try {
-      setError(null);
-      await apiClient
-        .get(`/route/driver?driverId=${driverId}`)
-        .then((res) => setBusRouteData(res.data.object.name));
-      // let res = response.data.object;
-      // console.log(res);
-      // setBusRouteData(res);
-    } catch (e) {
-      setError(e);
-    }
-  };
-
-  useLayoutEffect(() => {
-    fetchData();
-    // if (!busRouteData) return;
-    // setBusNum(busRouteData.name);
-    // cleanup();
-  }, []);
-
+const ReplaceManagement = (props) => {
   if (sessionStorage.getItem('userInfo') === null) {
     return navigate('/login');
   }
 
   return (
-    <div>
+    <>
       <GlobalStyle />
-      {/* <Navbar /> */}
       <ManagePage>
         <Header />
         <TitleName>
-          <h1>근무일정관리</h1>
+          <h1>휴무 교환 / 처리 내역</h1>
         </TitleName>
         <UserInfo>
           <CompanyBox>
-            충훈부
+            문의
             <br />
-            영업소
+            하기
           </CompanyBox>
-          <RouteBox>
-            {error ? `?` : busRouteData}번
-            <br /> 노선
-          </RouteBox>
         </UserInfo>
         <BtnsDiv>
           <BtnDiv>
-            <Link to="/schedule">
-              <Btn>근무 일정표</Btn>
-            </Link>
-          </BtnDiv>
-          <BtnDiv>
-            <Link to="/replaceManage">
-              <Btn>휴무 신청 / 교환 현황</Btn>
+            <Link to="/replaceReq">
+              <Btn>내 신청 내역</Btn>
             </Link>
           </BtnDiv>
           <BtnDiv>
             {/* <Link to="/main"> */}
             <Btn onClick={() => alert('준비중인 기능입니다.')}>
-              근무 일정 확인
+              내 요청 내역
             </Btn>
             {/* </Link> */}
           </BtnDiv>
           <BtnDiv>
             {/* <Link to="/main"> */}
-            <Btn onClick={() => alert('준비중인 기능입니다.')}>
-              배차 일보 조회
-            </Btn>
+            <Btn onClick={() => alert('준비중인 기능입니다.')}>처리 내역</Btn>
             {/* </Link> */}
           </BtnDiv>
         </BtnsDiv>
       </ManagePage>
       {/* <Footer /> */}
-    </div>
+    </>
   );
 };
 
@@ -171,20 +128,7 @@ const CompanyBox = styled.div`
   text-align: center;
   vertical-align: middle;
 `;
-const RouteBox = styled.div`
-display:table-cell;
-background-color: #017574;
-border: solid;
-border-size: 3px
-border-color: #20928C;
-border-radius: 1.5rem;
-color: white;
-width: 22%;
-height: 130px;
-padding: 30px;
-text-align:center;
-vertical-align:middle;
-`;
+
 const BtnsDiv = styled.div`
   text-align: center;
   min-width: 500px;
@@ -210,4 +154,4 @@ const Btn = styled.button`
   }
 `;
 
-export default WorkScheduleManagement;
+export default ReplaceManagement;

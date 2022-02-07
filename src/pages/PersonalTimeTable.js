@@ -21,7 +21,7 @@ const PersonalTimeTable = () => {
   const [currentPage, setCurrentPage] = useState(true);
   const [error, setError] = useState(null);
   const [routeName, setRouteName] = useState('');
-  const [busNumber, setBusNumber] = useState('');
+  const [busNumber, setBusNumber] = useState();
   const [workingHours, setWorkingHours] = useState('');
 
   // api 데이터 최초 1회 렌더링 (useEffect(1))
@@ -95,12 +95,14 @@ const PersonalTimeTable = () => {
           <TimeTableBtn onClick={() => setCurrentPage(true)}>
             배차일보
           </TimeTableBtn>
-          <RouteBtn onClick={() => setCurrentPage(false)} busNumber={busNumber}>
-            노선도
-          </RouteBtn>
+          <RouteBtn onClick={() => setCurrentPage(false)}>노선도</RouteBtn>
         </SelectBox>
         <CurrentPage>
-          {currentPage ? <BusTimeTable /> : <RouteTimeTable />}
+          {currentPage ? (
+            <BusTimeTable />
+          ) : (
+            <RouteTimeTable busNumber={routeName} />
+          )}
         </CurrentPage>
       </PersonalTimeTablePage>
     </>
