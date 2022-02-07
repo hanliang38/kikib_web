@@ -221,7 +221,7 @@ body.scroll-lock {
   height: 100%;
 }
 
-.container {position: relative;}
+.container {position: relative; max-width: 750px; margin: 0 auto;}
 
 /********************
     HEADER
@@ -265,7 +265,7 @@ header .btn-box > a + a {
 /********************
     NAV
 ********************/
-nav.nav {position:fixed; bottom:0; left:0; width:100%; height:14.4rem; padding:2rem 8rem 0; border-top-right-radius:4rem; border-top-left-radius:4rem; background-color:#191919;}
+nav.nav {position:fixed; bottom:0; left:50%; transform: translateX(-50%); width:100%; max-width: 750px; height:14.4rem; padding:2rem 8rem 0; border-top-right-radius:4rem; border-top-left-radius:4rem; background-color:#191919;}
 nav.nav .nav-list {display:flex; justify-content:space-between;}
 nav.nav .nav-list li {width:7.2rem; height:7.2rem; background-repeat:no-repeat; background-position:center;}
 nav.nav .nav-list li:first-child {background-image:url('../assets/img/ico_nav_home_off.png'); background-size:7.2rem;}

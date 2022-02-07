@@ -2,11 +2,11 @@
     MAIN
 ********************/
 /* user-box */
-.user-box {display:flex; align-items:center; height:13rem; padding:0 4.8rem; background-color:#fff;}
-.user-box .logo {width:5.8rem; margin-right:2rem;}
-.user-box h1 {font-size:4.2rem;}
+.user-box {position:relative; display:flex; align-items:center; height:13rem; padding:0 21rem 0 12.6rem;}
+.user-box .logo {position:absolute; top:50%; left:4.8rem; transform:translateY(-50%); width:5.8rem;}
+.user-box h1 {font-size:4.2rem; letter-spacing:-0.1px;}
 .user-box h1 > span {font-weight:400;}
-.user-box .btn-timetable {display:inline-flex; justify-content:center; align-items:center; width:20.8rem; height:7.4rem; border-radius:3.7rem; margin-left:5rem; background-color:#007473; color:#fff; font-size:3.4rem; box-shadow: 0.3rem 0.3rem 2.4rem rgba(0,0,0,0.1);}
+.user-box .btn-timetable {position:absolute; top:50%; right:4.8rem; transform:translateY(-50%); display:inline-flex; justify-content:center; align-items:center; width:20.8rem; height:7.4rem; border-radius:3.7rem; background-color:#007473; color:#fff; font-size:3.4rem; box-shadow: 0.3rem 0.3rem 2.4rem rgba(0,0,0,0.1);}
 
 .inner {background:url('../assets/img/bg_daily.jpg') no-repeat top center / contain;}
 
@@ -16,7 +16,7 @@
 .daily-box .item {height:8.2rem;}
 .daily-box .item + .item {position: relative;}
 .daily-box .item + .item::before {content:''; position:absolute; top:0; left:0; width:0.2rem; height:8.2rem; background-color:#000;}
-.daily-box .item {width:13.4rem; padding:0 2.4rem; text-align:center; box-sizing:content-box;}
+.daily-box .item {width:13.4rem; padding:0 2.4rem; text-align:center; white-space:nowrap; box-sizing:content-box;}
 .daily-box .date {width:14.4rem; font-size:3.4rem;}
 .daily-box .clock {font-size:3.4rem;}
 .daily-box .date .first,
