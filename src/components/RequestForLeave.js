@@ -1,17 +1,81 @@
-import React from 'react';
+import React, { useState } from 'react';
 import styled from 'styled-components';
+import InfoModal from './modal/InfoModal';
+import LeaveReqModal from './modal/LeaveReqModal';
+import AnnualReqModal from './modal/AnnualReqModal';
+import LeaveReqReplaceModal from './modal/LeaveReqReplaceModal';
 
 const RequestForLeave = (props) => {
+  const [infoModal, setInfoModal] = useState(false);
+  const [leaveRequestModal, setLeaveRequestModal] = useState(false);
+  const [annualRequestModal, setAnnualRequestModal] = useState(false);
+  const [leaveRequestReplaceModal, setLeaveRequestReplaceModal] =
+    useState(false);
+
+  const openHandleInfo = (e) => {
+    setInfoModal(true);
+  };
+  const closeHandleInfo = (e) => {
+    setInfoModal(false);
+  };
+
+  const openLeaveReq = (e) => {
+    setLeaveRequestModal(true);
+  };
+  const closeLeaveReq = (e) => {
+    setLeaveRequestModal(false);
+  };
+
+  const openAnnualReq = (e) => {
+    setAnnualRequestModal(true);
+  };
+  const closeAnnualReq = (e) => {
+    setAnnualRequestModal(false);
+  };
+
+  const openReplace = (e) => {
+    setLeaveRequestReplaceModal(true);
+  };
+  const closeReplace = (e) => {
+    setLeaveRequestReplaceModal(false);
+  };
+
   return (
     <>
       <LeavePageContainer>
         <Title>
           휴무 신청
-          <HelpModal>?</HelpModal>
+          <HelpModal onClick={openHandleInfo}>?</HelpModal>
+          <InfoModal open={infoModal} close={closeHandleInfo} header="도움말">
+            도움말 팝업창
+          </InfoModal>
         </Title>
-        <LeaveReqBtn>휴무 신청</LeaveReqBtn>
-        <LeaveReqBtn>연차 신청</LeaveReqBtn>
-        <LeaveChangeReqBtn>휴무 교환 신청</LeaveChangeReqBtn>
+        <LeaveReqBtn onClick={openLeaveReq}>휴무 신청</LeaveReqBtn>
+        <LeaveReqModal
+          open={leaveRequestModal}
+          close={closeLeaveReq}
+          header="휴무 신청"
+        >
+          휴무 신청 팝업창
+        </LeaveReqModal>
+        <LeaveReqBtn onClick={openAnnualReq}>연차 신청</LeaveReqBtn>
+        <AnnualReqModal
+          open={annualRequestModal}
+          close={closeAnnualReq}
+          header="연차 신청"
+        >
+          연차 신청 팝업창
+        </AnnualReqModal>
+        <LeaveChangeReqBtn onClick={openReplace}>
+          휴무 교환 신청
+        </LeaveChangeReqBtn>
+        <LeaveReqReplaceModal
+          open={leaveRequestReplaceModal}
+          close={closeReplace}
+          header="휴무 교환 신청"
+        >
+          휴무 교환 신청 팝업창
+        </LeaveReqReplaceModal>
       </LeavePageContainer>
     </>
   );

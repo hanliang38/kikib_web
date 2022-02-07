@@ -38,13 +38,9 @@ const WorkSchedule = () => {
   const [allEvents, setAllEvents] = useState([]);
   const [currentYearMonth, setCurrentYearMonth] = useState(nowYearMonth);
 
-  const { userId } = userInfo;
-
   const fetchData = async () => {
     await apiClient
-      .get(
-        `http://kiki-bus.com:8080/api/driver/${userId}?yearMonth=${currentYearMonth}`
-      )
+      .get(`/driver/work?yearMonth=${currentYearMonth}`)
       .then((res) => {
         // console.log(res);
         // setWorkData(res.data.object);
