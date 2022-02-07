@@ -85,7 +85,7 @@ const DailyWorkerAndOff = () => {
         .then((res) => {
           const OffObj = res.data.object;
           setOffCntData(`${OffObj.length}명`);
-          console.log(OffObj);
+          // console.log(OffObj);
 
           // OffList props 로 넘길 data
           const OffRows = [];

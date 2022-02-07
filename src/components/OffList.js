@@ -1,6 +1,7 @@
 import React, { useState, useEffect } from 'react';
 import styled, { createGlobalStyle } from 'styled-components';
 import DefaultFont from '../assets/font/agothic14.otf';
+import RequestForLeave from './RequestForLeave';
 
 const WorkerList = (props) => {
   const [offDataObj, setOffDataObj] = useState();
@@ -32,6 +33,7 @@ const WorkerList = (props) => {
               </ListElements>
             ))}
         </ListBody>
+        <RequestForLeave />
       </WorkerListComponent>
     </>
   );

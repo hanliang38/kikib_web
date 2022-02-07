@@ -71,9 +71,11 @@ const WorkScheduleManagement = (props) => {
             </Link>
           </BtnDiv>
           <BtnDiv>
-            <Link to="/replaceManage">
-              <Btn>휴무 신청 / 교환 현황</Btn>
-            </Link>
+            {/* <Link to="/replaceManage"> */}
+            <Btn onClick={() => alert('준비중인 기능입니다.')}>
+              휴무 신청 / 교환 현황
+            </Btn>
+            {/* </Link> */}
           </BtnDiv>
           <BtnDiv>
             {/* <Link to="/main"> */}
