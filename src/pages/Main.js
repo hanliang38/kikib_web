@@ -130,6 +130,7 @@ const Main = () => {
                 format={'A'}
                 ticking={true}
                 timezone={'Asia/Seoul'}
+                locale="en"
               />
               <br />
               <Clock
