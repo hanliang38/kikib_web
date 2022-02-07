@@ -8,22 +8,28 @@
 .user-box h1 > span {font-weight:400;}
 .user-box .btn-timetable {position:absolute; top:50%; right:4.8rem; transform:translateY(-50%); display:inline-flex; justify-content:center; align-items:center; width:20.8rem; height:7.4rem; border-radius:3.7rem; background-color:#007473; color:#fff; font-size:3.4rem; box-shadow: 0.3rem 0.3rem 2.4rem rgba(0,0,0,0.1);}
 
-.inner {background:url('../assets/img/bg_daily.jpg') no-repeat top center / contain;}
 
 /* daily-box */
+.inner {background:url('../assets/img/bg_daily.jpg') no-repeat top center / contain;}
 .daily-box {padding:3.5rem 0;}
 .daily-box .box-inner {display:flex; justify-content:space-between; align-items:center; width:65.4rem; height:12.4rem; margin:0 auto; padding:0 4.6rem; border:0.3rem solid rgba(255, 255, 255, 0.24); border-radius:6.2rem; background-color:rgba(255, 255, 255, 0.4); line-height:1.2;}
 .daily-box .item {height:8.2rem;}
 .daily-box .item + .item {position: relative;}
 .daily-box .item + .item::before {content:''; position:absolute; top:0; left:0; width:0.2rem; height:8.2rem; background-color:#000;}
 .daily-box .item {width:13.4rem; padding:0 2.4rem; text-align:center; white-space:nowrap; box-sizing:content-box;}
-.daily-box .date {width:14.4rem; font-size:3.4rem;}
-.daily-box .clock {font-size:3.4rem;}
-.daily-box .date .first,
-.daily-box .clock .first {font-weight:400; line-height:2rem;}
-.daily-box .clock .second {font-size:3.8rem; line-height:2rem;}
-.daily-box .weather {height:3.8rem; padding-top:4.4rem; background:url('../assets/img/ico_weather.png') no-repeat top center / 6.6rem 4.4rem; font-size:3.8rem;}
+.daily-box .date {display:flex; flex-direction:column; justify-content:space-between; width:14.4rem; font-size:3.4rem;}
+.daily-box .clock {display:flex; flex-direction:column; justify-content:space-between; font-size:3.4rem;}
+.daily-box .item .first {padding-top:0.2rem; font-weight:400; line-height:1;}
+.daily-box .item .second {padding-bottom:0.2rem; line-height:1;}
+.daily-box .clock .second {font-size:3.8rem;}
+.daily-box .weather {height:3.8rem; margin-top:-1rem; padding-top:4.4rem; background:url('../assets/img/ico_weather.png') no-repeat top center / 6.6rem 4.4rem; font-size:3.8rem;}
 .daily-box .weather.ico-weather01 {background-image:url('../assets/img/ico_weather.png')}
+.daily-box .item.weather::before {top:0.5rem;}
+
+/* daily-box(dark) */
+.inner.dark {background-image:url('../assets/img/bg_daily_dark.jpg');}
+.dark .daily-box {color:#fff;}
+.dark .daily-box .item + .item::before {background-color:#fff;}
 
 /* menu-list */
 .menu-list {display:flex; justify-content:space-between; flex-wrap:wrap; padding:4.2rem 4.8rem 21rem; border-top-right-radius:6rem; border-top-left-radius:0.8rem; background-color:#f2f3f7;}

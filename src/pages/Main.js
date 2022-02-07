@@ -86,7 +86,6 @@ const Main = () => {
                 ticking={true}
                 timezone={'Asia/Seoul'}
               />
-              <br />
               <Clock
                 className="second"
                 format={'dddd'}
@@ -102,7 +101,6 @@ const Main = () => {
                 timezone={'Asia/Seoul'}
                 locale="en"
               />
-              <br />
               <Clock
                 className="second"
                 format={'hh:mm'}
