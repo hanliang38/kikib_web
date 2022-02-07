@@ -91,7 +91,7 @@ const BusTimeTable = () => {
       // api 데이터 추출
       const response = await apiClient.get(`/dispatch/driver/${currentYMD}`);
       let res = response.data.object;
-      console.log('res::', res);
+      // console.log('res::', res);
 
       // 버스 회차
       const busRound = res.map((item) => {

@@ -6,6 +6,8 @@ import WorkSchedule from './pages/WorkSchedule';
 import Login from './pages/Login';
 import PersonalTimeTable from './pages/PersonalTimeTable';
 import DailyWorkerAndOff from './pages/DailyWorkerAndOff';
+import ReplaceManagement from './pages/ReplaceManagement';
+import ReplaceRequest from './pages/ReplaceRequest';
 // import withAuthHoc from './withAuthHoc';
 
 function App() {
@@ -58,6 +60,7 @@ function App() {
           </RequireAuth>
         }
       />
+
       <Route
         path="/schedule"
         element={
@@ -71,6 +74,22 @@ function App() {
         element={
           <RequireAuth>
             <DailyWorkerAndOff />
+          </RequireAuth>
+        }
+      />
+      <Route
+        path="/replaceManage"
+        element={
+          <RequireAuth>
+            <ReplaceManagement />
+          </RequireAuth>
+        }
+      />
+      <Route
+        path="/replaceReq"
+        element={
+          <RequireAuth>
+            <ReplaceRequest />
           </RequireAuth>
         }
       />

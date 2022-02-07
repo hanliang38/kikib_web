@@ -4,7 +4,7 @@ const accessToken = window.sessionStorage.getItem('token');
 // console.log(accessToken);
 
 const apiClient = axios.create({
-  baseURL: 'http://api.kiki-bus.com',
+  baseURL: 'http://dev.kiki-bus.com',
   withCredentials: true,
 });
 
