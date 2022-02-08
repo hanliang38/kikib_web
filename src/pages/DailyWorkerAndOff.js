@@ -21,6 +21,7 @@ const DailyWorkerAndOff = () => {
   const [workerCntData, setWorkerCntData] = useState();
   const [offData, setOffData] = useState();
   const [offCntData, setOffCntData] = useState();
+  const [allData, setAllData] = useState([]);
 
   const location = useLocation();
   const dateArr = location.state.split('-');
@@ -140,7 +141,7 @@ const DailyWorkerAndOff = () => {
             {currentPage ? (
               <WorkerList wdata={workerData} />
             ) : (
-              <OffList odata={offData} />
+              <OffList odata={offData} allData={allData} />
             )}
           </CurrentPage>
         )}

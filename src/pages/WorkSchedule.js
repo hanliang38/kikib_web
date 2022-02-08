@@ -37,15 +37,33 @@ const WorkSchedule = () => {
   const [leaveNum, setLeaveNum] = useState(0);
   const [allEvents, setAllEvents] = useState([]);
   const [currentYearMonth, setCurrentYearMonth] = useState(nowYearMonth);
+  const [workIdList, setWorkIdList] = useState([]);
+  const [leaveData, setLeaveData] = useState([]);
+  const [allData, setAllData] = useState([]);
 
   const fetchData = async () => {
     await apiClient
       .get(`/driver/work?yearMonth=${currentYearMonth}`)
       .then((res) => {
-        // console.log(res);
-        // setWorkData(res.data.object);
-        // console.log('workData222::', workData);
-        next(res.data.object);
+        console.log(res);
+        const dataObj = res.data.object;
+        next(dataObj);
+        // console.log(dataObj);
+
+        // 휴무, 연차 신청에 사용할 데이터 (workId)
+        const idArr = [];
+        dataObj.map((item) => idArr.push(item.id));
+        // console.log(idArr);
+        setWorkIdList(idArr);
+        setAllData(res);
+      });
+
+    // 선택 가능한 휴무일 날짜
+    await apiClient
+      .get(`/driver/leave?yearMonth=${currentYearMonth}`)
+      .then((res) => {
+        const leaveObj = res.data.object;
+        setLeaveData(leaveObj);
       });
   };
 
@@ -187,12 +205,12 @@ const WorkSchedule = () => {
               }}
               // eventContent={renderEventContent}
               events={allEvents}
-              eventClick={(event) => {
-                // event에서 url 호출 하는걸 막는 방법
-                event.jsEvent.cancelBubble = true;
-                event.jsEvent.preventDefault();
-                // event.jsEvent = alert('추후 업데이트 예정입니다.');
-              }}
+              // eventClick={(event) => {
+              //   // event에서 url 호출 하는걸 막는 방법
+              //   event.jsEvent.cancelBubble = true;
+              //   event.jsEvent.preventDefault();
+              //   // event.jsEvent = alert('추후 업데이트 예정입니다.');
+              // }}
               // 날짜 클릭 이벤트
               dateClick={(info) => {
                 info.jsEvent.preventDefault(); // don't let the browser navigate
@@ -200,6 +218,9 @@ const WorkSchedule = () => {
                 // console.log(info.dateStr);
                 info.jsEvent = navigate('/workerAndOff', {
                   state: info.dateStr,
+                  // workIdList,
+                  // leaveData,
+                  // allData,
                 });
               }}
               locale="ko"

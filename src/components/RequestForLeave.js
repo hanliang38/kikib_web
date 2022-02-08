@@ -25,7 +25,6 @@ const RequestForLeave = (props) => {
   const closeLeaveReq = (e) => {
     setLeaveRequestModal(false);
   };
-
   const openAnnualReq = (e) => {
     setAnnualRequestModal(true);
   };
@@ -39,6 +38,16 @@ const RequestForLeave = (props) => {
   const closeReplace = (e) => {
     setLeaveRequestReplaceModal(false);
   };
+
+  // ****** 휴무 교환 ********
+  // 휴무 신청 기간동안 휴무교환이 활성화 되면 안됨
+  // 지난 날에 대해 휴무 교환신청이 활성화 되면 안됨
+  // 이미 휴무일 일 때 휴무 교환이 활성화 되면 안됨
+  // 나의 근무날에만 교환 버튼이 활성화 (같은 조끼리만 교환 가능)
+
+  // ********* 휴무 신청 **********
+  //  휴무 신청기간은 이전 날짜에 대해서는 휴무 신청이나 교환이 활성화 되면 안된다.
+  // 현재(2월달) 3월달의 휴무신청기간( 2/14~2/20) 이면 => 휴무신청기간동안 3월달의 휴무 교환 신청 불가
 
   return (
     <>
@@ -73,9 +82,7 @@ const RequestForLeave = (props) => {
           open={leaveRequestReplaceModal}
           close={closeReplace}
           header="휴무 교환 신청"
-        >
-          휴무 교환 신청 팝업창
-        </LeaveReqReplaceModal>
+        ></LeaveReqReplaceModal>
       </LeavePageContainer>
     </>
   );

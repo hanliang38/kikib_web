@@ -3,7 +3,7 @@ import styled, { createGlobalStyle } from 'styled-components';
 import DefaultFont from '../assets/font/agothic14.otf';
 import RequestForLeave from './RequestForLeave';
 
-const WorkerList = (props) => {
+const WorkerList = ({ odata, workId }) => {
   const [offDataObj, setOffDataObj] = useState();
 
   useEffect(() => {
@@ -11,7 +11,7 @@ const WorkerList = (props) => {
   }, []);
 
   const fetchData = () => {
-    const offDataRows = props.odata;
+    const offDataRows = odata;
     setOffDataObj(offDataRows);
   };
 
