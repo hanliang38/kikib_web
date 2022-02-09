@@ -12,7 +12,6 @@ const RequestForLeave = ({ offList }) => {
   const [leaveRequestReplaceModal, setLeaveRequestReplaceModal] =
     useState(false);
 
-  console.log(offList);
   const openHandleInfo = (e) => {
     setInfoModal(true);
   };
@@ -82,7 +81,7 @@ const RequestForLeave = ({ offList }) => {
         <LeaveReqReplaceModal
           open={leaveRequestReplaceModal}
           close={closeReplace}
-          header="휴무 교환 신청"
+          offList={offList}
         ></LeaveReqReplaceModal>
       </LeavePageContainer>
     </>

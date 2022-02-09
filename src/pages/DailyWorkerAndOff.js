@@ -97,11 +97,16 @@ const DailyWorkerAndOff = () => {
           setOffRows(offRows);
 
           // 휴무교환으로 넘길 휴무자 data
+          const offArr = [];
           offObj.map((item) =>
             item.status === 'LEAVE' || item.status === 'LEAVE-CHECK'
-              ? setOffList({ workId: item.workId, driverName: item.driverName })
-              : setOffList(null)
+              ? offArr.push({
+                  workId: item.workId,
+                  driverName: item.driverName,
+                })
+              : null
           );
+          setOffList(offArr);
         });
     } catch (e) {
       setError(e);
