@@ -4,7 +4,7 @@ import { useLocation } from 'react-router-dom';
 import apiClient from '../../config/apiClient';
 
 const LeaveReqReplaceModal = (props) => {
-  const { open, close, header } = props;
+  const { open, close } = props;
   const location = useLocation();
   // 현재 선택한 날짜
   const dateArr = location.state.date.split('-');
@@ -13,10 +13,11 @@ const LeaveReqReplaceModal = (props) => {
   const myName = userInfo.name;
   // const
 
-  // 1. 선택 가능 자신의 휴무 날짜 (교환할 내 휴무일) 휴무 -> 일
-  // 2. 현재
-  const workData = location.state.workList;
+  // 1. 선택 가능 자신의 휴무 날짜 (교환할 내 휴무일) (휴무 -> 근무)
   const leaveData = location.state.leaveData;
+  // 2. 현재 근무날짜의 WorkId = 휴무일로 바꾸고 싶은 근무일 (근무 -> 휴무)
+  // 3. 교환하고 싶은 사람의 데이터
+  const workData = location.state.workList;
   const allData = location.state.allData;
 
   console.log(
@@ -44,13 +45,7 @@ const LeaveReqReplaceModal = (props) => {
       <div className={open ? 'openModal modal' : 'modal'}>
         {open ? (
           <section>
-            <header>
-              {header}
-              <button className="close" onClick={close}>
-                {' '}
-                &times;{' '}
-              </button>
-            </header>
+            <header>{selectDate} 휴무교환</header>
             <main>
               <div>
                 <h2>휴무 교환 신청자 (본인)</h2>
@@ -86,9 +81,9 @@ const LeaveReqReplaceModal = (props) => {
                   <br />
                 </p>
                 <p>신청하는 정보가 맞습니까?</p>
-                <button>취소</button>
-                <button>확인</button>
               </div>
+              <button>취소</button>
+              <button>확인</button>
             </main>
             <footer>
               <button className="close" onClick={close}>

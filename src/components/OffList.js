@@ -3,7 +3,7 @@ import styled, { createGlobalStyle } from 'styled-components';
 import DefaultFont from '../assets/font/agothic14.otf';
 import RequestForLeave from './RequestForLeave';
 
-const WorkerList = ({ offRows }) => {
+const WorkerList = ({ offRows, offList }) => {
   const [offDataObj, setOffDataObj] = useState();
 
   useEffect(() => {
@@ -33,7 +33,7 @@ const WorkerList = ({ offRows }) => {
               </ListElements>
             ))}
         </ListBody>
-        <RequestForLeave />
+        <RequestForLeave offList={offList} />
       </WorkerListComponent>
     </>
   );

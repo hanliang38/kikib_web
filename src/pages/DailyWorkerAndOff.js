@@ -21,6 +21,7 @@ const DailyWorkerAndOff = () => {
   const [workerCntData, setWorkerCntData] = useState();
   const [offRows, setOffRows] = useState();
   const [offCntData, setOffCntData] = useState();
+  const [offList, setOffList] = useState();
 
   const location = useLocation();
   const dateArr = location.state.date.split('-');
@@ -67,8 +68,10 @@ const DailyWorkerAndOff = () => {
         // WorkerList props 로 넘길 dataRows
         const WorkerArr = [];
         WorkerObj.map((item) =>
-          item.status === 'WORK'
+          item.status === 'WORK' || item.status === 'WORK-CHECK'
             ? WorkerArr.push(createData(item.driverName, '근무'))
+            : item.status === 'LEAVE-EARLY'
+            ? WorkerArr.push(createData(item.driverName, '중도귀가'))
             : null
         );
         setWorkerRows(WorkerArr);
@@ -79,13 +82,13 @@ const DailyWorkerAndOff = () => {
         .get(`/work/${busRouteId}/${date}/not-work`)
         .then((res) => {
           const offObj = res.data.object;
-          console.log('offObj::', offObj);
+          // console.log('offObj::', offObj);
           setOffCntData(`${offObj.length}명`);
 
           // OffList props 로 넘길 dataRows
           const offRows = [];
           offObj.map((item) =>
-            item.status === 'LEAVE'
+            item.status === 'LEAVE' || item.status === 'LEAVE-CHECK'
               ? offRows.push(createData(item.driverName, '휴무'))
               : item.status === 'ANNUAL'
               ? offRows.push(createData(item.driverName, '연차'))
@@ -94,7 +97,11 @@ const DailyWorkerAndOff = () => {
           setOffRows(offRows);
 
           // 휴무교환으로 넘길 휴무자 data
-          offObj.map((item) => {});
+          offObj.map((item) =>
+            item.status === 'LEAVE' || item.status === 'LEAVE-CHECK'
+              ? setOffList({ workId: item.workId, driverName: item.driverName })
+              : setOffList(null)
+          );
         });
     } catch (e) {
       setError(e);
@@ -128,8 +135,8 @@ const DailyWorkerAndOff = () => {
           </Table>
         </TableContainer>
         <SelectBox>
-          <Btn onClick={() => setCurrentPage(true)}>근무인원</Btn>
-          <Btn onClick={() => setCurrentPage(false)}>휴무인원</Btn>
+          <WorkBtn onClick={() => setCurrentPage(true)}>근무인원</WorkBtn>
+          <OffBtn onClick={() => setCurrentPage(false)}>휴무인원</OffBtn>
         </SelectBox>
         {error ? (
           <>정보없음</>
@@ -138,7 +145,7 @@ const DailyWorkerAndOff = () => {
             {currentPage ? (
               <WorkerList workerRows={workerRows} />
             ) : (
-              <OffList offRows={offRows} />
+              <OffList offRows={offRows} offList={offList} />
             )}
           </CurrentPage>
         )}
@@ -223,7 +230,25 @@ const SelectBox = styled.div`
   justify-content: space-between;
 `;
 
-const Btn = styled.button`
+const WorkBtn = styled.button`
+  background-color: white;
+  border: none;
+  padding: 20px 0 5px;
+  width: 45%;
+  font-size: 25px;
+  font-weight: bold;
+  &:focus {
+    color: #007473;
+    border-bottom: solid 2px;
+    border-color: #007473;
+  }
+  &:active {
+    color: #007473;
+    border-bottom: solid 2px;
+    border-color: #007473;
+  }
+`;
+const OffBtn = styled.button`
   background-color: white;
   border: none;
   padding: 20px 0 5px;

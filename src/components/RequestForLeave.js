@@ -5,13 +5,14 @@ import LeaveReqModal from './modal/LeaveReqModal';
 import AnnualReqModal from './modal/AnnualReqModal';
 import LeaveReqReplaceModal from './modal/LeaveReqReplaceModal';
 
-const RequestForLeave = (props) => {
+const RequestForLeave = ({ offList }) => {
   const [infoModal, setInfoModal] = useState(false);
   const [leaveRequestModal, setLeaveRequestModal] = useState(false);
   const [annualRequestModal, setAnnualRequestModal] = useState(false);
   const [leaveRequestReplaceModal, setLeaveRequestReplaceModal] =
     useState(false);
 
+  console.log(offList);
   const openHandleInfo = (e) => {
     setInfoModal(true);
   };

@@ -12,13 +12,7 @@ const InfoModal = (props) => {
       <div className={open ? 'openModal modal' : 'modal'}>
         {open ? (
           <section>
-            <header>
-              {header}
-              <button className="close" onClick={close}>
-                {' '}
-                &times;{' '}
-              </button>
-            </header>
+            <header>{header}</header>
             <main>
               <h2>휴무 신청</h2>
               <p>
