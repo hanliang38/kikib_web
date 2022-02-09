@@ -17,18 +17,27 @@ const LeaveReqReplaceModal = (props) => {
 
   // 1. 선택 가능 자신의 휴무 날짜 (교환할 내 휴무일) (휴무 -> 근무)
   const leaveData = location.state.leaveData;
+  const reqDriverLeaveId = leaveData
+    .filter((item) => item.date === selectMyLeave)
+    .map((item) => item.id);
+  // console.log('reqDriverLeaveId::', reqDriverLeaveId);
+
   // 2. 현재 근무날짜의 WorkId = 휴무일로 바꾸고 싶은 근무일 (근무 -> 휴무)
   const workData = location.state.workList;
   const reqDriverWorkId = workData
     .filter((item) => item.date === location.state.date)
     .map((item) => item.id);
-  console.log(reqDriverWorkId);
+  // console.log('reqDriverWorkId::', reqDriverWorkId);
 
   // 3. 교환하고 싶은 사람의 데이터
   const angel = offList;
-  // console.log('angel::', angel);
+  console.log('angel::', angel);
+  const resDriverLeaveId = angel
+    .filter((item) => item.driverName === selectAngel)
+    .map((item) => item.workId);
+  // console.log('resDriverLeaveId::', resDriverLeaveId);
 
-  console.log('workData', workData, 'leaveData::', leaveData);
+  // console.log('workData', workData, 'leaveData::', leaveData);
 
   const handleSelectAngel = (e) => {
     setSelectAngel(e.target.value);
@@ -38,14 +47,18 @@ const LeaveReqReplaceModal = (props) => {
   };
 
   // 요청
-  const fetchData = async () => {
+  const onSubmitFetchData = async (e) => {
+    e.preventDefault();
+
     await apiClient
       .post(`/replace/request`, {
-        reqDriverLeaveId: 0,
+        reqDriverLeaveId: reqDriverLeaveId[0],
         reqDriverWorkId: reqDriverWorkId[0],
-        resDriverLeaveId: 0,
+        resDriverLeaveId: resDriverLeaveId[0],
       })
-      .then((res) => {});
+      .then((res) => {
+        //handle success
+      });
   };
 
   return (
@@ -111,7 +124,7 @@ const LeaveReqReplaceModal = (props) => {
               <button className="close" onClick={close}>
                 취소
               </button>
-              <button onClick={fetchData}>확인</button>
+              <button onClick={onSubmitFetchData}>확인</button>
             </main>
           </section>
         ) : null}
