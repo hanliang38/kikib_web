@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { useState } from 'react';
 import '../../css/modal.css';
 import { useLocation } from 'react-router-dom';
 import apiClient from '../../config/apiClient';
@@ -7,12 +7,26 @@ const LeaveReqReplaceModal = (props) => {
   const { open, close, header } = props;
   const location = useLocation();
   // 현재 선택한 날짜
-  const dateArr = location.state.split('-');
+  const dateArr = location.state.date.split('-');
   const selectDate = `${dateArr[1]}월 ${dateArr[2]}일`;
   const userInfo = JSON.parse(window.sessionStorage.getItem('userInfo'));
   const myName = userInfo.name;
+  // const
 
-  // 선택 가능 자신의 휴무 날짜 (교환할 내 휴무일)
+  // 1. 선택 가능 자신의 휴무 날짜 (교환할 내 휴무일) 휴무 -> 일
+  // 2. 현재
+  const workData = location.state.workList;
+  const leaveData = location.state.leaveData;
+  const allData = location.state.allData;
+
+  console.log(
+    'workData',
+    workData,
+    'leaveData::',
+    leaveData,
+    'allData::',
+    allData
+  );
 
   // 요청
   const fetchData = async () => {
@@ -44,7 +58,7 @@ const LeaveReqReplaceModal = (props) => {
                 <form>
                   {/* requestDriverLeaveId : 기존 휴무일 */}
                   <select name="replace date">
-                    <option value="list-${}1">{'교환할 내 휴무일'}</option>
+                    <option value="none">{'교환할 내 휴무일'}</option>
                     <option value="list-${}2">{'00월 00일'}</option>
                     <option value="list-${}3">{'00월 00일'}</option>
                     <option value="list-${}4">{'00월 00일'}</option>
@@ -58,7 +72,7 @@ const LeaveReqReplaceModal = (props) => {
                 <form>
                   {/* resDriverLeaveId : 요청할 사람의 날짜 */}
                   <select name="replace name">
-                    <option value="list-${}2">{'승무원 선택'}</option>
+                    <option value="none">{'승무원 선택'}</option>
                     <option value="list-${}1">{'고길동'}</option>
                     <option value="list-${}3">{'전우치'}</option>
                     <option value="list-${}4">{'삼식이'}</option>
@@ -72,6 +86,8 @@ const LeaveReqReplaceModal = (props) => {
                   <br />
                 </p>
                 <p>신청하는 정보가 맞습니까?</p>
+                <button>취소</button>
+                <button>확인</button>
               </div>
             </main>
             <footer>

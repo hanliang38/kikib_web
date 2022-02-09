@@ -17,15 +17,15 @@ const DailyWorkerAndOff = () => {
   const [currentPage, setCurrentPage] = useState(true);
   const [error, setError] = useState(null);
   const [activeBusCntData, setActiveBusCntData] = useState();
-  const [workerData, setWorkerData] = useState();
+  const [workerRows, setWorkerRows] = useState();
   const [workerCntData, setWorkerCntData] = useState();
-  const [offData, setOffData] = useState();
+  const [offRows, setOffRows] = useState();
   const [offCntData, setOffCntData] = useState();
-  const [allData, setAllData] = useState([]);
 
   const location = useLocation();
-  const dateArr = location.state.split('-');
+  const dateArr = location.state.date.split('-');
   const title = `${dateArr[1]}월 ${dateArr[2]}일`;
+  const date = location.state.date;
 
   // api 데이터 최초 1회 렌더링 (useEffect(1))
   useEffect(() => {
@@ -48,56 +48,53 @@ const DailyWorkerAndOff = () => {
     try {
       // 가동대수 구하기
       setError(null);
-      await apiClient
-        .get(`/route/${busRouteId}/${location.state}/unit`)
-        .then((res) => {
-          let busRouteCnt;
-          if (res.data.object === null) {
-            busRouteCnt = '입력필요';
-          } else {
-            busRouteCnt = `${res.data.object}대`;
-          }
-          // 가동대수 state
-          setActiveBusCntData(busRouteCnt);
-        });
+      await apiClient.get(`/route/${busRouteId}/${date}/unit`).then((res) => {
+        let busRouteCnt;
+        if (res.data.object === null) {
+          busRouteCnt = '입력필요';
+        } else {
+          busRouteCnt = `${res.data.object}대`;
+        }
+        // 가동대수 state
+        setActiveBusCntData(busRouteCnt);
+      });
 
       // 근무자 API 구하기
-      await apiClient
-        .get(`/work/${busRouteId}/${location.state}/work`)
-        .then((res) => {
-          const WorkerObj = res.data.object;
-          // console.log(WorkerObj);
-          setWorkerCntData(`${WorkerObj.length}명`);
+      await apiClient.get(`/work/${busRouteId}/${date}/work`).then((res) => {
+        const WorkerObj = res.data.object;
+        setWorkerCntData(`${WorkerObj.length}명`);
 
-          // WorkerList props 로 넘길 data
-          const WorkerRows = [];
-          WorkerObj.map((item) =>
-            item.status === 'WORK'
-              ? WorkerRows.push(createData(item.driverName, '근무'))
-              : null
-          );
-          // console.log(WorkerRows);
-          setWorkerData(WorkerRows);
-        });
+        // WorkerList props 로 넘길 dataRows
+        const WorkerArr = [];
+        WorkerObj.map((item) =>
+          item.status === 'WORK'
+            ? WorkerArr.push(createData(item.driverName, '근무'))
+            : null
+        );
+        setWorkerRows(WorkerArr);
+      });
 
       // 휴무자 API 구하기
       await apiClient
-        .get(`/work/${busRouteId}/${location.state}/not-work`)
+        .get(`/work/${busRouteId}/${date}/not-work`)
         .then((res) => {
-          const OffObj = res.data.object;
-          setOffCntData(`${OffObj.length}명`);
-          // console.log(OffObj);
+          const offObj = res.data.object;
+          console.log('offObj::', offObj);
+          setOffCntData(`${offObj.length}명`);
 
-          // OffList props 로 넘길 data
-          const OffRows = [];
-          OffObj.map((item) =>
+          // OffList props 로 넘길 dataRows
+          const offRows = [];
+          offObj.map((item) =>
             item.status === 'LEAVE'
-              ? OffRows.push(createData(item.driverName, '휴무'))
+              ? offRows.push(createData(item.driverName, '휴무'))
               : item.status === 'ANNUAL'
-              ? OffRows.push(createData(item.driverName, '연차'))
+              ? offRows.push(createData(item.driverName, '연차'))
               : null
           );
-          setOffData(OffRows);
+          setOffRows(offRows);
+
+          // 휴무교환으로 넘길 휴무자 data
+          offObj.map((item) => {});
         });
     } catch (e) {
       setError(e);
@@ -139,9 +136,9 @@ const DailyWorkerAndOff = () => {
         ) : (
           <CurrentPage>
             {currentPage ? (
-              <WorkerList wdata={workerData} />
+              <WorkerList workerRows={workerRows} />
             ) : (
-              <OffList odata={offData} allData={allData} />
+              <OffList offRows={offRows} />
             )}
           </CurrentPage>
         )}
@@ -167,7 +164,7 @@ body {
   display: flex;
   justify-content: center;
   align-items: center;
-  margin: 20px
+  margin: 10px
   width: 100vw;
   height: 100vh;
 }
@@ -180,49 +177,48 @@ body {
 `;
 
 const DailyWorkerAndOffPage = styled.div`
-  margin-top: 100px;
-  margin-bottom: 100px;
+  margin-top: 50px;
+  margin-bottom: 50px;
   text-align: center;
   height: 100vh;
 `;
 
 const PageTitle = styled.h1`
-  font-size: 80px;
+  font-size: 30px;
   font-style: bold;
-  padding-bottom: 30px;
+  padding-bottom: 10px;
 `;
 
 const TableContainer = styled.div`
   margin-top: 30px;
-  margin-bottom: 30px;
   display: flex;
   justify-content: center;
-  font-size: 50px;
+  font-size: 20px;
 `;
 
 const Table = styled.div`
   display: table-cell;
   text-align: center;
   vertical-align: middle;
-  margin: 0 10px 0 10px;
+  margin: 0 5px 0 5px;
 `;
 
 const TableTitle = styled.div`
   margin: 0;
-  padding: 5px 50px 5px 50px;
+  padding: 5px 5px 5px 5px;
   background-color: #007473;
   color: white;
 `;
 
 const TableContent = styled.div`
   margin: 0;
-  padding: 40px;
+  padding: 20px 33px;
   background-color: #efefef;
   color: black;
 `;
 
 const SelectBox = styled.div`
-  font-size: 50px;
+  font-size: 20px;
   text-align: center;
   justify-content: space-between;
 `;
@@ -230,18 +226,18 @@ const SelectBox = styled.div`
 const Btn = styled.button`
   background-color: white;
   border: none;
-  padding: 20px 0;
+  padding: 20px 0 5px;
   width: 45%;
-  font-size: 50px;
+  font-size: 25px;
   font-weight: bold;
   &:focus {
     color: #007473;
-    border-bottom: solid 5px;
+    border-bottom: solid 2px;
     border-color: #007473;
   }
   &:active {
     color: #007473;
-    border-bottom: solid 5px;
+    border-bottom: solid 2px;
     border-color: #007473;
   }
 `;

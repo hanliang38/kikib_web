@@ -10,7 +10,7 @@ const WorkerList = (props) => {
   }, []);
 
   const fetchData = () => {
-    const workDataRows = props.wdata;
+    const workDataRows = props.workerRows;
     setWorkerDataObj(workDataRows);
   };
 
@@ -45,21 +45,20 @@ const GlobalStyle = createGlobalStyle`
 const WorkerListComponent = styled.div`
   margin: 0 20px 30px;
 `;
-
 const ListHead = styled.div`
   position: relative;
   display: flex;
   justify-content: start-flex;
   top: 0;
   margin: 0 auto;
-  border-bottom: solid 5px black;
+  border-bottom: solid 2px black;
   width: 95%;
 `;
 
 const ListTitle = styled.div`
   width: 30%;
-  font-size: 50px;
-  padding: 15px 0 15px;
+  font-size: 20px;
+  padding: 10px 0 15px;
 `;
 
 const ListBody = styled.div`
@@ -70,7 +69,7 @@ const ListElements = styled.div`
   display: flex;
   justify-content: start-flex;
   top: 0;
-  margin: 15px auto;
+  margin: 10px auto;
   width: 95%;
   border-radius: 3rem;
   background-color: #efefef;
@@ -78,8 +77,8 @@ const ListElements = styled.div`
 
 const ListElement = styled.p`
   width: 30%;
-  font-size: 40px;
-  padding: 30px 0;
+  font-size: 20px;
+  padding: 15px 0;
 `;
 
 export default WorkerList;

@@ -30,14 +30,15 @@ const WorkSchedule = () => {
   const navigate = useNavigate();
 
   // const title = '근무일정표';
-  let userInfo = JSON.parse(sessionStorage.getItem('userInfo'));
+  const userInfo = JSON.parse(sessionStorage.getItem('userInfo'));
 
   // 근무일 수
   const [dayNum, setDayNum] = useState(0);
   const [leaveNum, setLeaveNum] = useState(0);
+  const [annualNum, setAnnualNum] = useState(0);
   const [allEvents, setAllEvents] = useState([]);
   const [currentYearMonth, setCurrentYearMonth] = useState(nowYearMonth);
-  const [workIdList, setWorkIdList] = useState([]);
+  const [workList, setWorkList] = useState([]);
   const [leaveData, setLeaveData] = useState([]);
   const [allData, setAllData] = useState([]);
 
@@ -45,17 +46,25 @@ const WorkSchedule = () => {
     await apiClient
       .get(`/driver/work?yearMonth=${currentYearMonth}`)
       .then((res) => {
-        console.log(res);
+        // console.log(res);
         const dataObj = res.data.object;
         next(dataObj);
         // console.log(dataObj);
 
         // 휴무, 연차 신청에 사용할 데이터 (workId)
+        // console.log(dataObj);
         const idArr = [];
-        dataObj.map((item) => idArr.push(item.id));
+        dataObj
+          .filter(
+            (item) => item.status === 'WORK' || item.status === 'WORK-CHECK'
+          )
+          .map((work) => {
+            // console.log(idArr);
+            return idArr.push({ id: work.id, date: work.date });
+          });
         // console.log(idArr);
-        setWorkIdList(idArr);
-        setAllData(res);
+        setWorkList(idArr);
+        setAllData(dataObj);
       });
 
     // 선택 가능한 휴무일 날짜
@@ -68,8 +77,8 @@ const WorkSchedule = () => {
   };
 
   useLayoutEffect(() => {
-    fetchData();
-  }, []);
+    fetchData(currentYearMonth);
+  }, [currentYearMonth]);
 
   const next = (data) => {
     // if (!workData) return;
@@ -144,10 +153,9 @@ const WorkSchedule = () => {
     setDayNum([...workDays, ...workCheckDays].length);
 
     // 휴무일 수 (leave + leave-check + annual + annual-check)
-    setLeaveNum(
-      [...leaveDays, ...leaveCheckDays, ...annualDays, ...annualCheckDays]
-        .length
-    );
+    setLeaveNum([...leaveDays, ...leaveCheckDays].length);
+    // 연차일 수 (annual + annual-check)
+    setAnnualNum([...annualDays, ...annualCheckDays].length);
 
     // 모든 날짜 이벤트
     setAllEvents([
@@ -188,76 +196,78 @@ const WorkSchedule = () => {
       {/* <Navbar /> */}
       {/* {error && <div>에러가 발생했습니다.</div>} */}
       {/* {loading && <div>{loadingImg}</div>} */}
-      {
-        <SchedulePage>
-          <Header />
-          <PageTitle>근무일정표</PageTitle>
-          <StyledWrapper>
-            <FullCalendar
-              height="1300px"
-              datesSet={handleMonthChange}
-              plugins={[dayGridPlugin, timeGridPlugin, interactionPlugin]}
-              initialView="dayGridMonth"
-              headerToolbar={{
-                left: 'prev',
-                center: 'title',
-                right: 'next',
-              }}
-              // eventContent={renderEventContent}
-              events={allEvents}
-              // eventClick={(event) => {
-              //   // event에서 url 호출 하는걸 막는 방법
-              //   event.jsEvent.cancelBubble = true;
-              //   event.jsEvent.preventDefault();
-              //   // event.jsEvent = alert('추후 업데이트 예정입니다.');
-              // }}
-              // 날짜 클릭 이벤트
-              dateClick={(info) => {
-                info.jsEvent.preventDefault(); // don't let the browser navigate
-                // info.jsEvent = alert('추후 업데이트 예정입니다.');
-                // console.log(info.dateStr);
-                info.jsEvent = navigate('/workerAndOff', {
-                  state: info.dateStr,
-                  // workIdList,
-                  // leaveData,
-                  // allData,
-                });
-              }}
-              locale="ko"
-            />
-          </StyledWrapper>
-          <LeaveWorkTable>
-            <table width="100%">
-              <tbody>
-                <tr>
-                  <th>근무일</th>
-                  <th>휴무일</th>
-                </tr>
-                <tr>
-                  <th>{dayNum}일</th>
-                  <th>{leaveNum}일</th>
-                </tr>
-              </tbody>
-            </table>
-          </LeaveWorkTable>
-        </SchedulePage>
-      }
+      <SchedulePage>
+        <Header />
+        <PageTitle>근무일정표</PageTitle>
+        <StyledWrapper>
+          <FullCalendar
+            height="80vh"
+            datesSet={handleMonthChange}
+            plugins={[dayGridPlugin, timeGridPlugin, interactionPlugin]}
+            initialView="dayGridMonth"
+            headerToolbar={{
+              left: 'prev',
+              center: 'title',
+              right: 'next',
+            }}
+            // eventContent={renderEventContent}
+            events={allEvents}
+            // eventClick={(event) => {
+            //   // event에서 url 호출 하는걸 막는 방법
+            //   event.jsEvent.cancelBubble = true;
+            //   event.jsEvent.preventDefault();
+            //   // event.jsEvent = alert('추후 업데이트 예정입니다.');
+            // }}
+            // 날짜 클릭 이벤트
+            dateClick={(info) => {
+              info.jsEvent.preventDefault(); // don't let the browser navigate
+              // info.jsEvent = alert('추후 업데이트 예정입니다.');
+              info.jsEvent = navigate('/workerAndOff', {
+                state: {
+                  date: info.dateStr,
+                  workList: workList,
+                  leaveData: leaveData,
+                  allData: allData,
+                },
+              });
+            }}
+            locale="ko"
+          />
+          {/* {console.log(allData)} */}
+        </StyledWrapper>
+        <LeaveWorkTable>
+          <table width="100%">
+            <tbody>
+              <tr>
+                <th>근무일</th>
+                <th>휴무일</th>
+                <th>연차</th>
+              </tr>
+              <tr>
+                <th>{dayNum}일</th>
+                <th>{leaveNum}일</th>
+                <th>{annualNum}일</th>
+              </tr>
+            </tbody>
+          </table>
+        </LeaveWorkTable>
+      </SchedulePage>
     </div>
   );
 };
 
 export const StyledWrapper = calendarStyled.div`
 .fc-toolbar-title, .fc-col-header-cell-cushion, .fc-daygrid-day-number {
-  font-size: 50px;
+  font-size: 20px;
 } 
 .fc-event-title {
-  font-size: 40px; 
+  font-size: 20px; 
 }
 .fc-event-title-container{
   text-align: center;
 }
 .fc-prev-button, .fc-next-button{
-  font-size: 30px;
+  font-size: 15px;
 }
 `;
 
@@ -291,16 +301,15 @@ body {
 `;
 
 const SchedulePage = styled.div`
-  margin-top: 100px;
-  margin-bottom: 100px;
+  margin-top: 50px;
   text-align: center;
   height: 100vh;
 `;
 
 const PageTitle = styled.h1`
-  font-size: 80px;
+  font-size: 40px;
   font-style: bold;
-  padding-bottom: 30px;
+  padding-bottom: 10px;
 `;
 
 const LeaveWorkTable = styled.div`
@@ -308,7 +317,7 @@ const LeaveWorkTable = styled.div`
   text-align: center;
   margin-top: 20px;
   margin-right: auto;
-  font-size: 50px;
+  font-size: 30px;
   &table {
     border: 2px white;
     border-style: solid;

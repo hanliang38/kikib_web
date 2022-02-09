@@ -19,7 +19,7 @@ function Header() {
       <nav>
         <GlobalStyle />
         <NavbarContainer>
-          <BiArrowBack fontSize="100px" onClick={() => navigate(-1)} />
+          <BiArrowBack fontSize="40px" onClick={() => navigate(-1)} />
           {/* <GiHamburgerMenu fontSize="100px" /> */}
         </NavbarContainer>
       </nav>
