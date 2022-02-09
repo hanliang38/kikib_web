@@ -113,11 +113,11 @@ const LeaveReqReplaceModal = (props) => {
                   <br />
                   {selectDate}
                 </span>
-                <p>
-                  {selectAngel !== '승무원' && selectMyLeave !== '00월00일'
-                    ? `휴무 교환 정보가 맞습니까?`
-                    : `정보를 입력해주세요`}
-                </p>
+                {selectAngel !== '승무원' && selectMyLeave !== '00월00일' ? (
+                  <p>휴무 교환 정보가 맞습니까?</p>
+                ) : (
+                  <p>정보를 입력해주세요</p>
+                )}
               </div>
               <button className="close" onClick={close}>
                 취소
