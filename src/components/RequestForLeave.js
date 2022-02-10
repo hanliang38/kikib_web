@@ -82,7 +82,7 @@ const RequestForLeave = ({ offList }) => {
           open={leaveRequestReplaceModal}
           close={closeReplace}
           offList={offList}
-        ></LeaveReqReplaceModal>
+        />
       </LeavePageContainer>
     </>
   );

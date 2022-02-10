@@ -1,7 +1,8 @@
-import React, { useState /*useState*/ } from 'react';
+import React, { useState } from 'react';
 import '../../css/modal.css';
 import { useLocation } from 'react-router-dom';
 import apiClient from '../../config/apiClient';
+import LeaveReplaceCheckModal from './LeaveReplaceCheckModal';
 
 const LeaveReqReplaceModal = (props) => {
   const { open, close, offList } = props;
@@ -13,7 +14,9 @@ const LeaveReqReplaceModal = (props) => {
   const myName = userInfo.name;
   // state값
   const [selectAngel, setSelectAngel] = useState('승무원');
-  const [selectMyLeave, setSelectMyLeave] = useState('00월00일');
+  const [selectMyLeave, setSelectMyLeave] = useState('00월 00일');
+  const [leaveDate, setLeaveDate] = useState('00월 00일');
+  const [pageNum, setPageNum] = useState(0);
 
   // 1. 선택 가능 자신의 휴무 날짜 (교환할 내 휴무일) (휴무 -> 근무)
   const leaveData = location.state.leaveData;
@@ -38,6 +41,8 @@ const LeaveReqReplaceModal = (props) => {
   };
   const handleSelectMyLeave = (e) => {
     setSelectMyLeave(e.target.value);
+    const leaveDateArr = e.target.value.split('-');
+    setLeaveDate(`${leaveDateArr[1]}월 ${leaveDateArr[2]}일`);
   };
 
   // 요청
@@ -51,6 +56,7 @@ const LeaveReqReplaceModal = (props) => {
       })
       .then((res) => {
         //handle success
+        res.status === 200 ? setPageNum(1) : setPageNum(0);
       });
   };
 
@@ -59,77 +65,99 @@ const LeaveReqReplaceModal = (props) => {
     color: 'white',
   };
 
+  const replaceBlock = {
+    display: 'inline-block',
+    margin: '10px',
+  };
+
+  const disableSubmit = {
+    color: '#a2a9ad',
+    background: '#efefef',
+    border: 'solid 3px #a2a9ad',
+  };
+
   return (
     <>
       <div className={open ? 'openModal modal' : 'modal'}>
         {open ? (
           <section>
-            <div>
-              휴무 교환 신청일
-              <br />
-              {/* reqDriverWorkId : 쉬고 싶은 날짜 */}
-              {selectDate}
-            </div>
-            <main>
-              <div>
-                <h2>휴무 교환 대상</h2>
-                <form>
-                  {/* resDriverLeaveId : 요청할 사람 */}
-                  <select name="replace name" onChange={handleSelectAngel}>
-                    <option value="승무원">승무원 선택 ⌵</option>
-                    {angel.map((myAngel, i) => (
-                      <option key={`list-${i}`} value={myAngel.driverName}>
-                        {myAngel.driverName}
-                      </option>
-                    ))}
-                  </select>
-                </form>
-                <h2>교환할 내 휴무일</h2>
-                <form>
-                  {/* requestDriverLeaveId : 기존 휴무일 */}
-                  <select name="replace date" onChange={handleSelectMyLeave}>
-                    <option value="00월00일">휴무일 선택 ⌵</option>
-                    {leaveData.map((myLeave, i) => (
-                      <option key={`list-${i}`} value={myLeave.date}>
-                        {myLeave.date}
-                      </option>
-                    ))}
-                  </select>
-                </form>
-              </div>
-              <div>⌵</div>
-              <br />
-              <div>
-                <span>
-                  {myName}
-                  <br />
-                  {selectMyLeave}
-                </span>
+            {pageNum === 0 ? (
+              <main>
                 <div>
-                  →<br />←
-                </div>
-                <span>
-                  {selectAngel}
+                  휴무 교환 신청일
                   <br />
+                  {/* reqDriverWorkId : 쉬고 싶은 날짜 */}
                   {selectDate}
-                </span>
-                {selectAngel !== '승무원' && selectMyLeave !== '00월00일' ? (
-                  <p>휴무 교환 정보가 맞습니까?</p>
-                ) : (
-                  <p>정보를 입력해주세요</p>
-                )}
-              </div>
-              <button className="close" onClick={close}>
-                취소
-              </button>
-              {selectAngel !== '승무원' && selectMyLeave !== '00월00일' ? (
-                <button onClick={onSubmitFetchData} style={ableSubmit}>
-                  확인
+                </div>
+                <br />
+                <div>
+                  <h2>휴무 교환 대상</h2>
+                  <form>
+                    {/* resDriverLeaveId : 요청할 사람 */}
+                    <select name="replace name" onChange={handleSelectAngel}>
+                      <option value="승무원" selected="selected">
+                        승무원 선택 ⌵
+                      </option>
+                      {angel.map((myAngel, i) => (
+                        <option key={`list-${i}`} value={myAngel.driverName}>
+                          {myAngel.driverName}
+                        </option>
+                      ))}
+                    </select>
+                  </form>
+                  <h2>교환할 내 휴무일</h2>
+                  <form>
+                    {/* requestDriverLeaveId : 기존 휴무일 */}
+                    <select name="replace date" onChange={handleSelectMyLeave}>
+                      <option value="0000-00-00" selected="selected">
+                        휴무일 선택 ⌵
+                      </option>
+                      {leaveData.map((myLeave, i) => (
+                        <option key={`list-${i}`} value={myLeave.date}>
+                          {myLeave.date}
+                        </option>
+                      ))}
+                    </select>
+                  </form>
+                </div>
+                <div>⌵</div>
+                <div>
+                  <span style={replaceBlock}>
+                    {myName}
+                    <br />
+                    {leaveDate}
+                  </span>
+                  <div style={replaceBlock}>
+                    →<br />←
+                  </div>
+                  <span style={replaceBlock}>
+                    {selectAngel}
+                    <br />
+                    {selectDate}
+                  </span>
+                </div>
+                <div>
+                  {selectAngel !== '승무원' && leaveDate !== '00월 00일' ? (
+                    <p>휴무 교환 정보가 맞습니까?</p>
+                  ) : (
+                    <p>정보를 입력해주세요</p>
+                  )}
+                </div>
+
+                <button className="close" onClick={close}>
+                  취소
                 </button>
-              ) : (
-                <button>확인</button>
-              )}
-            </main>
+                {selectAngel !== '승무원' && leaveDate !== '00월 00일' ? (
+                  <button onClick={onSubmitFetchData} style={ableSubmit}>
+                    확인
+                  </button>
+                ) : (
+                  <button style={disableSubmit}>확인</button>
+                )}
+              </main>
+            ) : (
+              <LeaveReplaceCheckModal close={close} />
+            )}
           </section>
         ) : null}
       </div>
