@@ -95,7 +95,9 @@ const LeaveReqReplaceModal = (props) => {
                   <form>
                     {/* resDriverLeaveId : 요청할 사람 */}
                     <select name="replace name" onChange={handleSelectAngel}>
-                      <option defaultValue="승무원">승무원 선택 ⌵</option>
+                      <option value="승무원" defaultValue>
+                        승무원 선택 ⌵
+                      </option>
                       {angel.map((myAngel, i) => (
                         <option key={`list-${i}`} value={myAngel.driverName}>
                           {myAngel.driverName}
@@ -107,7 +109,9 @@ const LeaveReqReplaceModal = (props) => {
                   <form>
                     {/* requestDriverLeaveId : 기존 휴무일 */}
                     <select name="replace date" onChange={handleSelectMyLeave}>
-                      <option defaultValue="0000-00-00">휴무일 선택 ⌵</option>
+                      <option defaultValue value="0000-00-00">
+                        휴무일 선택 ⌵
+                      </option>
                       {leaveData.map((myLeave, i) => (
                         <option key={`list-${i}`} value={myLeave.date}>
                           {myLeave.date}
