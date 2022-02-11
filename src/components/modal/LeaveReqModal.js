@@ -8,6 +8,11 @@ const LeaveReqModal = (props) => {
   // 현재 선택한 날짜
   const dateArr = location.state.date.split('-');
   const selectDate = `${dateArr[1]}월 ${dateArr[2]}일`;
+  // 휴무신청기간
+  const applyTermArr = location.state.applyTerm.split('~');
+  const startTermArr = applyTermArr[0].split('-');
+  const endTermArr = applyTermArr[1].split('-');
+  const applyTarget = location.state.applyTarget.split('-');
 
   return (
     <>
@@ -16,9 +21,13 @@ const LeaveReqModal = (props) => {
           <section>
             <main>
               <h1>
-                휴무 신청 기간 <br /> {`0000년 00월`}
+                휴무 신청 기간
+                <br /> {applyTarget[0]}년 {applyTarget[1]}월
               </h1>
-              <h2>00월 00일 - 00월 00일</h2>
+              <h2>
+                {startTermArr[1]}월 {startTermArr[2]}일 - {endTermArr[1]}월
+                {endTermArr[2]}일
+              </h2>
               <br />
               <div>
                 <h2>휴무 신청일</h2>
