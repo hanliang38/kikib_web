@@ -37,8 +37,8 @@ const LeaveReqModal = (props) => {
     speed: 500,
     slidesToShow: 3,
     slidesToScroll: 3,
-    nextArrow: <PrevArrow />,
-    prevArrow: <NextArrow />,
+    prevArrow: <PrevArrow />,
+    nextArrow: <NextArrow />,
   };
 
   return (
@@ -73,9 +73,7 @@ const LeaveReqModal = (props) => {
                   <div>
                     <Slick {...settings}>
                       {fakeData.map((item, i) => (
-                        <div key={i}>
-                          <h3>{item}</h3>
-                        </div>
+                        <div key={i}>{item}</div>
                       ))}
                     </Slick>
                   </div>
@@ -98,11 +96,9 @@ const LeaveReqModal = (props) => {
 const Global = createGlobalStyle`
   .slick-slide {
     display: inline-block;
-  }
-  .slick-track{
-    width: 80%;
-  }
-  `;
+    margin: 0
+    font-size: 5vw;
+  }`;
 
 const SlickWrapper = styled.div`
   height: calc(100% - 44px);

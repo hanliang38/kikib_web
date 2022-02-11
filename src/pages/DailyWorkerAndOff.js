@@ -30,7 +30,9 @@ const DailyWorkerAndOff = () => {
 
   // api 데이터 최초 1회 렌더링 (useEffect(1))
   useEffect(() => {
-    fetchData();
+    busNumData();
+    workerData();
+    leaveData();
   }, []);
 
   // 로그인 여부
@@ -45,10 +47,10 @@ const DailyWorkerAndOff = () => {
   const busRouteId = window.sessionStorage.getItem('routeId');
 
   // API 가져오기
-  const fetchData = async () => {
+  const busNumData = async () => {
+    // 가동대수 구하기
+    setError(null);
     try {
-      // 가동대수 구하기
-      setError(null);
       await apiClient.get(`/route/${busRouteId}/${date}/unit`).then((res) => {
         let busRouteCnt;
         if (res.data.object === null) {
@@ -59,58 +61,73 @@ const DailyWorkerAndOff = () => {
         // 가동대수 state
         setActiveBusCntData(busRouteCnt);
       });
-
-      // 근무자 API 구하기
-      await apiClient.get(`/work/${busRouteId}/${date}/work`).then((res) => {
-        const WorkerObj = res.data.object;
-        setWorkerCntData(`${WorkerObj.length}명`);
-
-        // WorkerList props 로 넘길 dataRows
-        const WorkerArr = [];
-        WorkerObj.map((item) =>
-          item.status === 'WORK' || item.status === 'WORK-CHECK'
-            ? WorkerArr.push(createData(item.driverName, '근무'))
-            : item.status === 'LEAVE-EARLY'
-            ? WorkerArr.push(createData(item.driverName, '중도귀가'))
-            : null
-        );
-        setWorkerRows(WorkerArr);
-      });
-
-      // 휴무자 API 구하기
-      await apiClient
-        .get(`/work/${busRouteId}/${date}/not-work`)
-        .then((res) => {
-          const offObj = res.data.object;
-          // console.log('offObj::', offObj);
-          setOffCntData(`${offObj.length}명`);
-
-          // OffList props 로 넘길 dataRows
-          const offRows = [];
-          offObj.map((item) =>
-            item.status === 'LEAVE' || item.status === 'LEAVE-CHECK'
-              ? offRows.push(createData(item.driverName, '휴무'))
-              : item.status === 'ANNUAL'
-              ? offRows.push(createData(item.driverName, '연차'))
-              : null
-          );
-          setOffRows(offRows);
-
-          // 휴무교환으로 넘길 휴무자 data
-          const offArr = [];
-          offObj.map((item) =>
-            item.status === 'LEAVE' || item.status === 'LEAVE-CHECK'
-              ? offArr.push({
-                  workId: item.workId,
-                  driverName: item.driverName,
-                })
-              : null
-          );
-          setOffList(offArr);
-        });
-    } catch (e) {
-      setError(e);
+    } catch {
+      setError('가동대수 입력필요');
     }
+  };
+
+  const workerData = async () => {
+    // 근무자 API 구하기
+    await apiClient.get(`/work/${busRouteId}/${date}/work`).then((res) => {
+      const WorkerObj = res.data.object;
+      setWorkerCntData(`${WorkerObj.length}명`);
+
+      // WorkerList props 로 넘길 dataRows
+      const WorkerArr = [];
+      WorkerObj.map((item) =>
+        item.status === 'WORK' || item.status === 'WORK-CHECK'
+          ? WorkerArr.push(createData(item.driverName, '근무'))
+          : item.status === 'LEAVE-EARLY'
+          ? WorkerArr.push(createData(item.driverName, '중도귀가'))
+          : null
+      );
+      setWorkerRows(WorkerArr);
+    });
+  };
+  const leaveData = async () => {
+    // 휴무자 API 구하기
+    await apiClient.get(`/work/${busRouteId}/${date}/not-work`).then((res) => {
+      const offObj = res.data.object;
+      // console.log('offObj::', offObj);
+      setOffCntData(`${offObj.length}명`);
+
+      // OffList props 로 넘길 dataRows
+      const offRows = [];
+      offObj.map((item) =>
+        item.status === 'LEAVE' || item.status === 'LEAVE-CHECK'
+          ? offRows.push(createData(item.driverName, '휴무'))
+          : item.status === 'ANNUAL'
+          ? offRows.push(createData(item.driverName, '연차'))
+          : null
+      );
+      setOffRows(offRows);
+
+      // 휴무교환으로 넘길 휴무자 data
+      const offArr = [];
+      offObj.map((item) =>
+        item.status === 'LEAVE' || item.status === 'LEAVE-CHECK'
+          ? offArr.push({
+              workId: item.workId,
+              driverName: item.driverName,
+            })
+          : null
+      );
+      setOffList(offArr);
+    });
+
+    // // 휴무신청일 API 구하기
+    // await apiClient
+    //   .get(`/work/${busRouteId}/term?yearMonth=${`현재날짜`}`)
+    //   .then((res) => {
+    //     let busRouteCnt;
+    //     if (res.data.object === null) {
+    //       busRouteCnt = '입력필요';
+    //     } else {
+    //       busRouteCnt = `${res.data.object}대`;
+    //     }
+    //     // 가동대수 state
+    //     setActiveBusCntData(busRouteCnt);
+    //   });
   };
 
   return (
@@ -123,29 +140,23 @@ const DailyWorkerAndOff = () => {
           <Table>
             <TableTitle>가동대수</TableTitle>
             <TableContent>
-              {error ? '정보가 없습니다' : activeBusCntData}
+              {error ? '정보입력필요' : activeBusCntData}
             </TableContent>
           </Table>
           <Table>
             <TableTitle>근무인원</TableTitle>
-            <TableContent>
-              {error ? '정보가 없습니다' : workerCntData}
-            </TableContent>
+            <TableContent>{workerCntData}</TableContent>
           </Table>
           <Table>
             <TableTitle>휴무인원</TableTitle>
-            <TableContent>
-              {error ? '정보가 없습니다' : offCntData}
-            </TableContent>
+            <TableContent>{offCntData}</TableContent>
           </Table>
         </TableContainer>
         <SelectBox>
           <WorkBtn onClick={() => setCurrentPage(true)}>근무인원</WorkBtn>
           <OffBtn onClick={() => setCurrentPage(false)}>휴무인원</OffBtn>
         </SelectBox>
-        {error ? (
-          <>정보없음</>
-        ) : (
+        {
           <CurrentPage>
             {currentPage ? (
               <WorkerList workerRows={workerRows} />
@@ -153,7 +164,7 @@ const DailyWorkerAndOff = () => {
               <OffList offRows={offRows} offList={offList} />
             )}
           </CurrentPage>
-        )}
+        }
       </DailyWorkerAndOffPage>
     </>
   );
@@ -224,7 +235,7 @@ const TableTitle = styled.div`
 
 const TableContent = styled.div`
   margin: 0;
-  padding: 20px 33px;
+  padding: 20px 5px;
   background-color: #efefef;
   color: black;
 `;

@@ -45,8 +45,8 @@ const WorkSchedule = () => {
   const [currentYearMonth, setCurrentYearMonth] = useState(nowYearMonth);
   const [workList, setWorkList] = useState([]);
   const [leaveData, setLeaveData] = useState([]);
-  const [allData, setAllData] = useState([]);
   const [applyTerm, setApplyTerm] = useState();
+  const [nextMonthWork, setNextMonthWork] = useState();
 
   const fetchData = async () => {
     await apiClient
@@ -70,7 +70,6 @@ const WorkSchedule = () => {
           });
         // console.log(idArr);
         setWorkList(idArr);
-        setAllData(dataObj);
       });
 
     // 선택 가능한 휴무일 날짜
@@ -86,6 +85,13 @@ const WorkSchedule = () => {
       .get(`/work/${busRouteId}/term?yearMonth=${nextYearMonth}`)
       .then((res) => {
         setApplyTerm(res.data.object);
+      });
+
+    // 다음달 휴무신청 날짜들
+    await apiClient
+      .get(`/driver/work?yearMonth=${nextYearMonth}`)
+      .then((res) => {
+        setNextMonthWork(res.data.object);
       });
   };
 
@@ -254,9 +260,9 @@ const WorkSchedule = () => {
                   date: info.dateStr,
                   workList: workList,
                   leaveData: leaveData,
-                  allData: allData,
                   applyTerm: applyTerm,
                   applyTarget: nextYearMonth,
+                  nextMonthWork: nextMonthWork,
                 },
               });
             }}
