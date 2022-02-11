@@ -1,6 +1,21 @@
-import React from 'react';
+import React, { useState } from 'react';
 import '../../css/modal.css';
 import { useLocation } from 'react-router-dom';
+import Slick from 'react-slick';
+import 'slick-carousel/slick/slick.css';
+import 'slick-carousel/slick/slick-theme.css';
+import styled, { createGlobalStyle } from 'styled-components';
+import { GrPrevious as Prev, GrNext as Next } from 'react-icons/gr';
+
+// 이전 버튼
+const PrevArrow = ({ currentSlide, slideCount, ...props }) => (
+  <Prev {...props} type="button" className="slick-prev" />
+);
+
+// 다음 버튼
+const NextArrow = ({ currentSlide, slideCount, ...props }) => (
+  <Next {...props} type="button" className="slick-next" />
+);
 
 const LeaveReqModal = (props) => {
   const { open, close } = props;
@@ -14,8 +29,21 @@ const LeaveReqModal = (props) => {
   const endTermArr = applyTermArr[1].split('-');
   const applyTarget = location.state.applyTarget.split('-');
 
+  const fakeData = [1, 2, 3, 4, 5, 6, 7, 8, 9];
+
+  const settings = {
+    dots: true,
+    infinite: true,
+    speed: 500,
+    slidesToShow: 3,
+    slidesToScroll: 3,
+    nextArrow: <PrevArrow />,
+    prevArrow: <NextArrow />,
+  };
+
   return (
     <>
+      <Global />
       <div className={open ? 'openModal modal' : 'modal'}>
         {open ? (
           <section>
@@ -39,7 +67,20 @@ const LeaveReqModal = (props) => {
                 <p>(중복 선택 가능)</p>
               </div>
               <br />
-              <div>{`캐러셀 공간`}</div>
+              <div>
+                {' '}
+                <SlickWrapper>
+                  <div>
+                    <Slick {...settings}>
+                      {fakeData.map((item, i) => (
+                        <div key={i}>
+                          <h3>{item}</h3>
+                        </div>
+                      ))}
+                    </Slick>
+                  </div>
+                </SlickWrapper>
+              </div>
               <br />
               <div>휴무일을 선택해주세요.</div>
               <button className="close" onClick={close}>
@@ -53,5 +94,21 @@ const LeaveReqModal = (props) => {
     </>
   );
 };
+
+const Global = createGlobalStyle`
+  .slick-slide {
+    display: inline-block;
+  }
+  .slick-track{
+    width: 80%;
+  }
+  `;
+
+const SlickWrapper = styled.div`
+  height: calc(100% - 44px);
+  width: 80%;
+  margin-left: auto;
+  margin-right: auto;
+`;
 
 export default LeaveReqModal;

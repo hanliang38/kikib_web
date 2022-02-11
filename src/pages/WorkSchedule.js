@@ -85,7 +85,6 @@ const WorkSchedule = () => {
     await apiClient
       .get(`/work/${busRouteId}/term?yearMonth=${nextYearMonth}`)
       .then((res) => {
-        console.log(res.data.object);
         setApplyTerm(res.data.object);
       });
   };
