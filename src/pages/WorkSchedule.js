@@ -22,8 +22,12 @@ axios.defaults.withCredentials = true;
 const today = new Date();
 const nowYear = today.getFullYear();
 const nowMonth = today.getMonth() + 1;
+const nextMonth =
+  today.getMonth() + 2 < 10 ? `0${today.getMonth() + 2}` : today.getMonth() + 2;
 const currentMonth = nowMonth < 10 ? `0${nowMonth}` : nowMonth;
 const nowYearMonth = `${nowYear}-${currentMonth}`;
+const nextYear = nowMonth === 12 ? nowYear + 1 : nowYear;
+const nextYearMonth = `${nextYear}-${nextMonth}`;
 
 const WorkSchedule = () => {
   const location = useLocation();
@@ -31,6 +35,7 @@ const WorkSchedule = () => {
 
   // const title = '근무일정표';
   const userInfo = JSON.parse(sessionStorage.getItem('userInfo'));
+  const busRouteId = sessionStorage.getItem('routeId');
 
   // 근무일 수
   const [dayNum, setDayNum] = useState(0);
@@ -41,6 +46,7 @@ const WorkSchedule = () => {
   const [workList, setWorkList] = useState([]);
   const [leaveData, setLeaveData] = useState([]);
   const [allData, setAllData] = useState([]);
+  const [applyTerm, setApplyTerm] = useState();
 
   const fetchData = async () => {
     await apiClient
@@ -74,6 +80,13 @@ const WorkSchedule = () => {
         const leaveObj = res.data.object;
         setLeaveData(leaveObj);
       });
+
+    // 휴무신청일 API 구하기
+    await apiClient
+      .get(`/work/${busRouteId}/term?yearMonth=${nextYearMonth}`)
+      .then((res) => {
+        setApplyTerm(res.data.object);
+      });
   };
 
   useLayoutEffect(() => {
@@ -105,6 +118,19 @@ const WorkSchedule = () => {
           title: '근무',
           color: '#007473',
           Image: 'Mdwork',
+        };
+      });
+
+    // 중도귀가
+    const LeaveEarlyDays = data
+      .filter((item) => item.status === 'LEAVE_EARLY')
+      .map((workCheckDay) => {
+        return {
+          date: workCheckDay.date,
+          title: '근무*',
+          color: '#007473',
+          Image: 'Mdwork',
+          fontSize: '10px',
         };
       });
 
@@ -161,6 +187,7 @@ const WorkSchedule = () => {
     setAllEvents([
       ...workDays,
       ...workCheckDays,
+      ...LeaveEarlyDays,
       ...leaveDays,
       ...leaveCheckDays,
       ...annualDays,
@@ -228,6 +255,7 @@ const WorkSchedule = () => {
                   workList: workList,
                   leaveData: leaveData,
                   allData: allData,
+                  applyTerm: applyTerm,
                 },
               });
             }}
@@ -261,7 +289,7 @@ export const StyledWrapper = calendarStyled.div`
   font-size: 20px;
 } 
 .fc-event-title {
-  font-size: 20px; 
+  font-size: 5vw; 
 }
 .fc-event-title-container{
   text-align: center;

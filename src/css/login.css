@@ -10,7 +10,7 @@
   height: 100%;
   min-height: 100vh;
   margin: 0 auto;
-  background: url("../assets/img/bg_login.jpg") no-repeat center/cover;
+  background: url('../assets/img/bg_login.jpg') no-repeat center/cover;
   /* overflow: hidden; */
 }
 .container.login .pagetype {
@@ -72,7 +72,7 @@
   font-size: 2.4rem;
 }
 .container.login .input-box input + i::after {
-  content: "";
+  content: '';
   position: absolute;
   bottom: 0;
   left: 0;
@@ -96,10 +96,10 @@
   transform: translateY(-50%);
   width: 4.8rem;
   height: 4.8rem;
-  background: url("../assets/img/ico_password.png") no-repeat center/100%;
+  background: url('../assets/img/ico_password.png') no-repeat center/100%;
 }
 .container.login .input-box.password .btn-password.on {
-  background-image: url("../assets/img/ico_password_on.png");
+  background-image: url('../assets/img/ico_password_on.png');
 }
 .container.login .input-box.password .btn-password.on::before {
   left: 50%;
@@ -109,13 +109,13 @@
 }
 .container.login .chkbox-box {
   display: flex;
-  justify-content: end;
+  justify-content: flex-end;
   margin-top: 4rem;
   color: #767676;
   font-size: 3rem;
   text-align: right;
 }
-.container.login .chkbox-box input[type=checkbox] {
+.container.login .chkbox-box input[type='checkbox'] {
   position: absolute;
   width: 1px;
   height: 1px;
@@ -125,7 +125,7 @@
   clip: rect(0, 0, 0, 0);
   border: 0;
 }
-.container.login .chkbox-box input[type=checkbox] + i {
+.container.login .chkbox-box input[type='checkbox'] + i {
   display: inline-block;
   width: 3.2rem;
   height: 3.2rem;
@@ -135,10 +135,10 @@
   vertical-align: text-top;
   box-sizing: border-box;
 }
-.container.login .chkbox-box input[type=checkbox]:checked + i {
+.container.login .chkbox-box input[type='checkbox']:checked + i {
   background-image: url('../assets/img/ico_check_on.png');
 }
-.container.login .chkbox-box input[type=checkbox]:checked + i + span {
+.container.login .chkbox-box input[type='checkbox']:checked + i + span {
   color: #bcbcbc;
 }
 .container.login .btn-login {
