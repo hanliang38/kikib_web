@@ -1,13 +1,14 @@
 import React, { useEffect, useState } from 'react';
 import 'moment/locale/ko';
-import DefaultFont from '../assets/font/agothic14.otf';
-import { styled as materialStyled } from '@mui/material/styles';
-import Table from '@mui/material/Table';
-import TableBody from '@mui/material/TableBody';
-import TableCell, { tableCellClasses } from '@mui/material/TableCell';
-import TableContainer from '@mui/material/TableContainer';
-import TableHead from '@mui/material/TableHead';
-import TableRow from '@mui/material/TableRow';
+import icoUpdate from '../assets/img/ico_update.png';
+// import DefaultFont from '../assets/font/agothic14.otf';
+// import { styled as materialStyled } from '@mui/material/styles';
+// import Table from '@mui/material/Table';
+// import TableBody from '@mui/material/TableBody';
+// import TableCell, { tableCellClasses } from '@mui/material/TableCell';
+// import TableContainer from '@mui/material/TableContainer';
+// import TableHead from '@mui/material/TableHead';
+// import TableRow from '@mui/material/TableRow';
 import Paper from '@mui/material/Paper';
 import axios from 'axios';
 import apiClient from '../config/apiClient';
@@ -236,7 +237,81 @@ const BusTimeTable = () => {
 
   return (
     <>
-      <TableContainer component={Paper}>
+    <div className="timetable-box" component={Paper}>
+        <div className="table-head">
+          <span>회차</span>
+          <span>출발</span>
+          <span>도착</span>
+          <span>상태</span>
+        </div>
+
+        {dataRow ? (
+          <div className="table-body">
+            {rows.map((row, i) =>
+            row.status === '운행중' ? (
+              <div className="status status-end" key={`list1-${i}`}>
+                <span>
+                  {row.num}
+                </span>
+                <span>
+                  {row.start}
+                </span>
+                <span>
+                  {row.arrive}
+                </span>
+                <span>
+                  {row.status}
+                </span>
+              </div>
+              ) : row.status === '운행대기' ? (
+              <div className="status status-ing" key={`list1-${i}`}>
+                <span>
+                  1회차
+                </span>
+                <span>
+                  {row.start}
+                </span>
+                <span>
+                  {row.arrive}
+                </span>
+                <span>
+                  {row.status}
+                </span>
+              </div>
+              ) : (
+              <div className="status status-wait" key={`list1-${i}`}>
+                <span>
+                  1회차
+                </span>
+                <span>
+                  {row.start}
+                </span>
+                <span>
+                  {row.arrive}
+                </span>
+                <span>
+                  {row.status}
+                </span>
+              </div>
+              )
+              
+              // <div className="status status-meal">
+              //   <span>조식 권장 시간</span>
+              // </div>
+            )}
+          </div>
+        ) : (
+          <p className="bus-none">배차일보가 없습니다.</p>
+        )}
+      </div>
+      {error && <div className="bus-none">배차일보가 없습니다.</div>}
+
+      {/* 회전효과 : 클릭 시 .on 클래스 추가, 1초 뒤 on 클래스 제거 필요 */}
+      <button className="btn-update">
+          <img src={icoUpdate} alt="새로고침" />
+      </button>
+
+      {/* <TableContainer component={Paper}>
         <Table sx={{ minWidth: 700 }} aria-label="customized table">
           <TableHead>
             <TableRow>
@@ -306,86 +381,86 @@ const BusTimeTable = () => {
               )}
             </TableBody>
           ) : (
-            <p>배차일보가 없습니다.</p>
+            <p className="bus-none">배차일보가 없습니다.</p>
           )}
         </Table>
-      </TableContainer>
-      {error && <div>배차일보가 없습니다.</div>}
+      </TableContainer> */}
+      {/* {error && <div className="bus-none">배차일보가 없습니다.</div>} */}
     </>
   );
 };
 
-// 운행대기
-const StyledTableCelled = materialStyled(TableCell)(({ theme }) => ({
-  [`&.${tableCellClasses.head}`]: {
-    color: theme.palette.common.black,
-    height: 80,
-    fontSize: 60,
-    fontStyle: { DefaultFont },
-    borderBottomWidth: 3,
-    borderBottomColor: 'black',
-  },
-  [`&.${tableCellClasses.body}`]: {
-    fontSize: 50,
-    color: '#7B868C',
-  },
-}));
+// // 운행대기
+// const StyledTableCelled = materialStyled(TableCell)(({ theme }) => ({
+//   [`&.${tableCellClasses.head}`]: {
+//     color: theme.palette.common.black,
+//     height: 80,
+//     fontSize: 60,
+//     fontStyle: { DefaultFont },
+//     borderBottomWidth: 3,
+//     borderBottomColor: 'black',
+//   },
+//   [`&.${tableCellClasses.body}`]: {
+//     fontSize: 50,
+//     color: '#7B868C',
+//   },
+// }));
 
-// 운행중
-const StyledTableCellIng = materialStyled(TableCell)(({ theme }) => ({
-  [`&.${tableCellClasses.head}`]: {
-    color: theme.palette.common.black,
-    height: 80,
-    fontSize: 60,
-    fontStyle: { DefaultFont },
-    borderBottomWidth: 3,
-    borderBottomColor: 'black',
-  },
-  [`&.${tableCellClasses.body}`]: {
-    fontSize: 50,
-    color: theme.palette.common.white,
-  },
-}));
+// // 운행중
+// const StyledTableCellIng = materialStyled(TableCell)(({ theme }) => ({
+//   [`&.${tableCellClasses.head}`]: {
+//     color: theme.palette.common.black,
+//     height: 80,
+//     fontSize: 60,
+//     fontStyle: { DefaultFont },
+//     borderBottomWidth: 3,
+//     borderBottomColor: 'black',
+//   },
+//   [`&.${tableCellClasses.body}`]: {
+//     fontSize: 50,
+//     color: theme.palette.common.white,
+//   },
+// }));
 
-const StyledTableCell = materialStyled(TableCell)(({ theme }) => ({
-  [`&.${tableCellClasses.head}`]: {
-    color: theme.palette.common.black,
-    height: 80,
-    fontSize: 60,
-    fontStyle: { DefaultFont },
-    borderBottomWidth: 3,
-    borderBottomColor: 'black',
-  },
-  [`&.${tableCellClasses.body}`]: {
-    fontSize: 50,
-  },
-}));
+// const StyledTableCell = materialStyled(TableCell)(({ theme }) => ({
+//   [`&.${tableCellClasses.head}`]: {
+//     color: theme.palette.common.black,
+//     height: 80,
+//     fontSize: 60,
+//     fontStyle: { DefaultFont },
+//     borderBottomWidth: 3,
+//     borderBottomColor: 'black',
+//   },
+//   [`&.${tableCellClasses.body}`]: {
+//     fontSize: 50,
+//   },
+// }));
 
-const StyledTableRow = materialStyled(TableRow)(({ theme }) => ({
-  backgroundColor: '#EFEFEF',
-  borderBottom: 'solid',
-  borderBlockEndWidth: 10,
-  borderBlockColor: 'white',
+// const StyledTableRow = materialStyled(TableRow)(({ theme }) => ({
+//   backgroundColor: '#EFEFEF',
+//   borderBottom: 'solid',
+//   borderBlockEndWidth: 10,
+//   borderBlockColor: 'white',
 
-  // hide last border
-  '&:last-child td, &:last-child th': {
-    borderBottom: 0,
-  },
+//   // hide last border
+//   '&:last-child td, &:last-child th': {
+//     borderBottom: 0,
+//   },
 
-  // '&:.MuiTableRow-root css-11toj2m-MuiTableRow-root':{}
-}));
+//   // '&:.MuiTableRow-root css-11toj2m-MuiTableRow-root':{}
+// }));
 
-// 운행중 row
-const StyledTableRowIng = materialStyled(TableRow)(({ theme }) => ({
-  backgroundColor: '#007473',
-  borderBottom: 'solid',
-  borderBlockEndWidth: 10,
-  borderBlockColor: 'white',
+// // 운행중 row
+// const StyledTableRowIng = materialStyled(TableRow)(({ theme }) => ({
+//   backgroundColor: '#007473',
+//   borderBottom: 'solid',
+//   borderBlockEndWidth: 10,
+//   borderBlockColor: 'white',
 
-  // hide last border
-  '&:last-child td, &:last-child th': {
-    borderBottom: 0,
-  },
-}));
+//   // hide last border
+//   '&:last-child td, &:last-child th': {
+//     borderBottom: 0,
+//   },
+// }));
 
 export default BusTimeTable;
