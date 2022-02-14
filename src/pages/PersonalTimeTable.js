@@ -108,20 +108,19 @@ const PersonalTimeTable = () => {
           <div className="tab-list">
             <a
               href="#!"
-              className="btn-tab on"
+              className={currentPage ? 'btn-tab on' : 'btn-tab'}
               onClick={() => setCurrentPage(true)}
             >
               배차일보
             </a>
             <a
               href="#!"
-              className="btn-tab"
+              className={currentPage ? 'btn-tab' : 'btn-tab on'}
               onClick={() => setCurrentPage(false)}
             >
               노선도
             </a>
           </div>
-
           <div className="current-content">
             {currentPage ? (
               <BusTimeTable timeTableData={timeTableData} />
@@ -156,144 +155,8 @@ const PersonalTimeTable = () => {
           </ul>
         </nav>
       </div>
-
-      {/* <GlobalStyle />
-      {error && <div>에러가 발생했습니다.</div>}
-      <PersonalTimeTablePage>
-        <Header />
-        <PageTitle>배차일보</PageTitle>
-        {busNumber ? (
-          <RouteBusInfo>
-            <BusRoute>{routeName}번 노선</BusRoute>
-            <BusNumTime>
-              <BusNum>{busNumber}차량</BusNum>
-              <BusRunTime>{workingHours} 근무</BusRunTime>
-            </BusNumTime>
-          </RouteBusInfo>
-        ) : (
-          <></>
-        )}
-        <SelectBox>
-          <TimeTableBtn onClick={() => setCurrentPage(true)}>
-            배차일보
-          </TimeTableBtn>
-          <RouteBtn onClick={() => setCurrentPage(false)}>노선도</RouteBtn>
-        </SelectBox>
-        <CurrentPage>
-          {currentPage ? (
-            <BusTimeTable />
-          ) : (
-            <RouteTimeTable busNumber={routeName} />
-          )}
-        </CurrentPage>
-      </PersonalTimeTablePage> */}
     </>
   );
 };
-
-// const GlobalStyle = createGlobalStyle`
-// @font-face {
-//   font-family: 'agothic14';
-//   src: url(${DefaultFont});
-// }
-
-// *{
-//   margin: 0;
-//   padding: 0;
-//   box-sizing: content-box;
-//   }
-
-// body {
-//   font-family: agothic14;
-//   display: flex;
-//   justify-content: center;
-//   align-items: center;
-//   margin: 20px
-//   width: 100vw;
-//   height: 100vh;
-// }
-
-// #root {
-//   margin: 10px;
-//   width: 100vw;
-//   height: 100vh;
-
-//   @media ${device.desktop} {
-//     height: 100vh;
-//     width: 100%;
-//     background-size: cover;
-//     background-size: 100% 100%;
-//     background-repeat: no-repeat;
-//     background-position: center;
-//   }
-//   @media ${device.mobileL} {
-//     height: 100vh;
-//     width: 100%;
-//     background-size: cover;
-//   background-repeat: no-repeat;
-//   }
-// }
-// `;
-
-// const PersonalTimeTablePage = styled.div`
-//   margin-top: 100px;
-//   margin-bottom: 100px;
-//   text-align: center;
-//   height: 100vh;
-// `;
-// const PageTitle = styled.h1`
-//   font-size: 80px;
-//   font-style: bold;
-//   padding-bottom: 30px;
-// `;
-
-// const RouteBusInfo = styled.div`
-//   display: flex;
-//   text-align: center;
-//   font-size: 40px;
-//   padding: 30px;
-//   justify-content: space-between;
-// `;
-// const BusRoute = styled.div`
-//   display: inline-block;
-//   font-size: 45px;
-//   font-style: bold;
-//   margin-left: 30px;
-// `;
-// const BusNumTime = styled.div`
-//   display: flex;
-//   justify-content: space-between;
-//   font-size: 40px;
-//   margin-right: 30px;
-//   vertical-align: bottom;
-// `;
-// const BusNum = styled.span`
-//   font-size: 40px;
-//   margin-right: 30px;
-// `;
-// const BusRunTime = styled.span`
-//   font-size: 40px;
-// `;
-// const SelectBox = styled.div`
-//   text-align: center;
-//   font-size: 40px;
-//   justify-content: space-between;
-// `;
-// const TimeTableBtn = styled.button`
-//   font-size: 60px;
-//   font-weight: bold;
-//   padding: 18px;
-//   width: 45%;
-// `;
-// const RouteBtn = styled.button`
-//   font-size: 60px;
-//   font-weight: bold;
-//   padding: 18px;
-//   width: 45%;
-// `;
-// const CurrentPage = styled.div`
-//   margin-top: 20px;
-//   height: 72vh;
-// `;
 
 export default PersonalTimeTable;
