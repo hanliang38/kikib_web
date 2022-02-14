@@ -20,11 +20,10 @@ const Main = () => {
 
   // 있는 경우
   const userName = userInfo.name;
-  const driverId = userInfo.userId;
 
   const fetchData = async () => {
     try {
-      await apiClient.get(`/route/driver?driverId=${driverId}`).then((res) => {
+      await apiClient.get(`/route/driver`).then((res) => {
         // session에 routeId 저장
         if (res.data.object !== null) {
           const routeId = res.data.object.id;

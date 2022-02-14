@@ -24,11 +24,13 @@ const PersonalTimeTable = () => {
   const [routeName, setRouteName] = useState('');
   const [busNumber, setBusNumber] = useState();
   const [timeTableData, setTimeTableData] = useState();
+  const [businessPlace, setBusinessPlace] = useState();
   // const [workingHours, setWorkingHours] = useState('');
 
   // api 데이터 최초 1회 렌더링 (useEffect(1))
   useEffect(() => {
     fetchData();
+    DriverinfoFetchData();
   }, []);
 
   // 로그인 여부
@@ -45,8 +47,19 @@ const PersonalTimeTable = () => {
   const fetchData = async () => {
     try {
       await apiClient.get(`/dispatch/driver/${currentYMD}`).then((res) => {
-        setTimeTableData(res.data.object);
         next(res.data.object);
+      });
+    } catch (e) {}
+  };
+
+  const DriverinfoFetchData = async () => {
+    try {
+      await apiClient.get(`/route/driver`).then((res) => {
+        // 노선 번호
+        setRouteName(res.data.object.name);
+        // 영업소 이름
+        setBusinessPlace(res.data.object.branchName);
+        // console.log(res);
       });
     } catch (e) {}
   };
@@ -55,20 +68,11 @@ const PersonalTimeTable = () => {
     if (data.length === 0) {
       return;
     }
-    // 노선번호
-    setRouteName(data[0].routeName);
     // 차량번호
     setBusNumber(data[0].busNumber);
     // 근무시간
-    // const firstStartTime = data[0].startTime;
-    // console.log(firstStartTime);
-    // const lastEndTime = data[data.length - 1].endTime;
-    // console.log(lastEndTime);
-    // setWorkingHours(`${firstStartTime}~${lastEndTime}`);
     setTimeTableData(data);
   };
-
-  // console.log(data);
 
   return (
     <>
@@ -96,7 +100,7 @@ const PersonalTimeTable = () => {
               <img src={logoBus} alt="" />
             </div>
             <h1>
-              <span>충훈부</span> {routeName}번 노선{' '}
+              <span>{businessPlace}</span> {routeName}번 노선{' '}
               <span className="bus-num">{busNumber}차량</span>
             </h1>
           </div>

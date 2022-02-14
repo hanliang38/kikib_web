@@ -85,6 +85,7 @@ const WorkSchedule = () => {
       .get(`/work/${busRouteId}/term?yearMonth=${nextYearMonth}`)
       .then((res) => {
         setApplyTerm(res.data.object);
+        console.log(res);
       });
 
     // 다음달 휴무신청 날짜들

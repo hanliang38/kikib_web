@@ -153,13 +153,20 @@ const DailyWorkerAndOff = () => {
           </Table>
         </TableContainer>
         <SelectBox>
-          <WorkBtn onClick={() => setCurrentPage(true)}>근무인원</WorkBtn>
+          <WorkBtn
+            onClick={() => {
+              setCurrentPage(true);
+              <WorkerList workerRows={workerRows} />;
+            }}
+          >
+            근무인원
+          </WorkBtn>
           <OffBtn onClick={() => setCurrentPage(false)}>휴무인원</OffBtn>
         </SelectBox>
         {
           <CurrentPage>
             {currentPage ? (
-              <WorkerList workerRows={workerRows} />
+              <WorkerList />
             ) : (
               <OffList offRows={offRows} offList={offList} />
             )}

@@ -1,16 +1,12 @@
-import React, { useState } from 'react';
+import React from 'react';
 import styled from 'styled-components';
 
 function RouteTimeTable({ busNumber }) {
-  const [error, setError] = useState(null);
   const data = require('../assets/GyeonggiBusData/businfo.json');
+
   const routeData = data[busNumber];
   // console.log(routeData);
   const routeStationData = routeData.stnList;
-
-  if (busNumber === null) {
-    setError('노선 정보가 없습니다.');
-  }
 
   return (
     <>
@@ -25,15 +21,11 @@ function RouteTimeTable({ busNumber }) {
             <HeadContent>{routeData.info.endStationName}</HeadContent>
           </TableCell>
         </TableHead>
-        {error ? (
-          <TableBoby>버스 노선정보가 없습니다.</TableBoby>
-        ) : (
-          <TableBoby>
-            {routeStationData.map((row, i) => (
-              <TableRow key={`stationList-${i}`}>{row.stationName}</TableRow>
-            ))}
-          </TableBoby>
-        )}
+        <TableBoby>
+          {routeStationData.map((row, i) => (
+            <TableRow key={`stationList-${i}`}>{row.stationName}</TableRow>
+          ))}
+        </TableBoby>
       </TableContainer>
     </>
   );
