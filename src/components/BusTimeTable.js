@@ -12,8 +12,7 @@ import icoUpdate from '../assets/img/ico_update.png';
 import Paper from '@mui/material/Paper';
 import axios from 'axios';
 import apiClient from '../config/apiClient';
-import { cleanup } from '@testing-library/react';
-// import useInterval from './useInterval';
+// import { cleanup } from '@testing-library/react';
 
 axios.withCredentials = true;
 axios.defaults.withCredentials = true;
@@ -61,14 +60,7 @@ const BusTimeTable = () => {
   useEffect(() => {
     fetchData(currentYMD);
     // console.log(statusBus);
-    cleanup();
   }, []);
-
-  // useEffect(() => {
-  //   useInterval(() => {
-  //     busStatusValue;
-  //   }, delay);
-  // }, [busStatusValue, delay]);
 
   // 승무원 운행시간 데이터
   function createData(num, start, arrive, status) {
@@ -81,10 +73,6 @@ const BusTimeTable = () => {
     return rows.push(createData(item[0], item[1], item[2], item[3]));
   });
 
-  // useInterval(() => {
-  //   set;
-  // });
-
   const fetchData = async () => {
     try {
       setError(null);
@@ -92,7 +80,7 @@ const BusTimeTable = () => {
       // api 데이터 추출
       const response = await apiClient.get(`/dispatch/driver/${currentYMD}`);
       let res = response.data.object;
-      // console.log('res::', res);
+      // console.log(res);
 
       // 버스 회차
       const busRound = res.map((item) => {
@@ -237,7 +225,7 @@ const BusTimeTable = () => {
 
   return (
     <>
-    <div className="timetable-box" component={Paper}>
+      <div className="timetable-box" component={Paper}>
         <div className="table-head">
           <span>회차</span>
           <span>출발</span>
@@ -248,56 +236,32 @@ const BusTimeTable = () => {
         {dataRow ? (
           <div className="table-body">
             {rows.map((row, i) =>
-            row.status === '운행중' ? (
-              <div className="status status-end" key={`list1-${i}`}>
-                <span>
-                  {row.num}
-                </span>
-                <span>
-                  {row.start}
-                </span>
-                <span>
-                  {row.arrive}
-                </span>
-                <span>
-                  {row.status}
-                </span>
-              </div>
+              row.arrive === '권장시간' ? (
+                <div className="status status-meal" key={`list1-${i}`}>
+                  <span>{`${row.start} ${row.arrive}`}</span>
+                </div>
+              ) : row.status === '운행중' ? (
+                <div className="status status-ing" key={`list1-${i}`}>
+                  <span>{row.num}</span>
+                  <span>{row.start}</span>
+                  <span>{row.arrive}</span>
+                  <span>{row.status}</span>
+                </div>
               ) : row.status === '운행대기' ? (
-              <div className="status status-ing" key={`list1-${i}`}>
-                <span>
-                  1회차
-                </span>
-                <span>
-                  {row.start}
-                </span>
-                <span>
-                  {row.arrive}
-                </span>
-                <span>
-                  {row.status}
-                </span>
-              </div>
+                <div className="status status-end" key={`list1-${i}`}>
+                  <span>{row.num}</span>
+                  <span>{row.start}</span>
+                  <span>{row.arrive}</span>
+                  <span>{row.status}</span>
+                </div>
               ) : (
-              <div className="status status-wait" key={`list1-${i}`}>
-                <span>
-                  1회차
-                </span>
-                <span>
-                  {row.start}
-                </span>
-                <span>
-                  {row.arrive}
-                </span>
-                <span>
-                  {row.status}
-                </span>
-              </div>
+                <div className="status status-wait" key={`list1-${i}`}>
+                  <span>{row.num}</span>
+                  <span>{row.start}</span>
+                  <span>{row.arrive}</span>
+                  <span>{row.status}</span>
+                </div>
               )
-              
-              // <div className="status status-meal">
-              //   <span>조식 권장 시간</span>
-              // </div>
             )}
           </div>
         ) : (
@@ -308,159 +272,10 @@ const BusTimeTable = () => {
 
       {/* 회전효과 : 클릭 시 .on 클래스 추가, 1초 뒤 on 클래스 제거 필요 */}
       <button className="btn-update">
-          <img src={icoUpdate} alt="새로고침" />
+        <img src={icoUpdate} alt="새로고침" />
       </button>
-
-      {/* <TableContainer component={Paper}>
-        <Table sx={{ minWidth: 700 }} aria-label="customized table">
-          <TableHead>
-            <TableRow>
-              <StyledTableCell align="center">회차</StyledTableCell>
-              <StyledTableCell align="center">출발</StyledTableCell>
-              <StyledTableCell align="center">도착</StyledTableCell>
-              <StyledTableCell align="center">상태</StyledTableCell>
-            </TableRow>
-          </TableHead>
-          {dataRow ? (
-            <TableBody>
-              {rows.map((row, i) =>
-                row.status === '운행중' ? (
-                  <StyledTableRowIng key={`list1-${i}`}>
-                    <StyledTableCellIng
-                      align="center"
-                      component="th"
-                      scope="row"
-                    >
-                      {row.num}
-                    </StyledTableCellIng>
-                    <StyledTableCellIng align="center">
-                      {row.start}
-                    </StyledTableCellIng>
-                    <StyledTableCellIng align="center">
-                      {row.arrive}
-                    </StyledTableCellIng>
-                    <StyledTableCellIng align="center">
-                      {row.status}
-                    </StyledTableCellIng>
-                  </StyledTableRowIng>
-                ) : row.status === '운행대기' ? (
-                  <StyledTableRow key={`list1-${i}`}>
-                    <StyledTableCell align="center" component="th" scope="row">
-                      {row.num}
-                    </StyledTableCell>
-                    <StyledTableCell align="center">
-                      {row.start}
-                    </StyledTableCell>
-                    <StyledTableCell align="center">
-                      {row.arrive}
-                    </StyledTableCell>
-                    <StyledTableCell align="center">
-                      {row.status}
-                    </StyledTableCell>
-                  </StyledTableRow>
-                ) : (
-                  <StyledTableRow key={`list1-${i}`}>
-                    <StyledTableCelled
-                      align="center"
-                      component="th"
-                      scope="row"
-                    >
-                      {row.num}
-                    </StyledTableCelled>
-                    <StyledTableCelled align="center">
-                      {row.start}
-                    </StyledTableCelled>
-                    <StyledTableCelled align="center">
-                      {row.arrive}
-                    </StyledTableCelled>
-                    <StyledTableCelled align="center">
-                      {row.status}
-                    </StyledTableCelled>
-                  </StyledTableRow>
-                )
-              )}
-            </TableBody>
-          ) : (
-            <p className="bus-none">배차일보가 없습니다.</p>
-          )}
-        </Table>
-      </TableContainer> */}
-      {/* {error && <div className="bus-none">배차일보가 없습니다.</div>} */}
     </>
   );
 };
-
-// // 운행대기
-// const StyledTableCelled = materialStyled(TableCell)(({ theme }) => ({
-//   [`&.${tableCellClasses.head}`]: {
-//     color: theme.palette.common.black,
-//     height: 80,
-//     fontSize: 60,
-//     fontStyle: { DefaultFont },
-//     borderBottomWidth: 3,
-//     borderBottomColor: 'black',
-//   },
-//   [`&.${tableCellClasses.body}`]: {
-//     fontSize: 50,
-//     color: '#7B868C',
-//   },
-// }));
-
-// // 운행중
-// const StyledTableCellIng = materialStyled(TableCell)(({ theme }) => ({
-//   [`&.${tableCellClasses.head}`]: {
-//     color: theme.palette.common.black,
-//     height: 80,
-//     fontSize: 60,
-//     fontStyle: { DefaultFont },
-//     borderBottomWidth: 3,
-//     borderBottomColor: 'black',
-//   },
-//   [`&.${tableCellClasses.body}`]: {
-//     fontSize: 50,
-//     color: theme.palette.common.white,
-//   },
-// }));
-
-// const StyledTableCell = materialStyled(TableCell)(({ theme }) => ({
-//   [`&.${tableCellClasses.head}`]: {
-//     color: theme.palette.common.black,
-//     height: 80,
-//     fontSize: 60,
-//     fontStyle: { DefaultFont },
-//     borderBottomWidth: 3,
-//     borderBottomColor: 'black',
-//   },
-//   [`&.${tableCellClasses.body}`]: {
-//     fontSize: 50,
-//   },
-// }));
-
-// const StyledTableRow = materialStyled(TableRow)(({ theme }) => ({
-//   backgroundColor: '#EFEFEF',
-//   borderBottom: 'solid',
-//   borderBlockEndWidth: 10,
-//   borderBlockColor: 'white',
-
-//   // hide last border
-//   '&:last-child td, &:last-child th': {
-//     borderBottom: 0,
-//   },
-
-//   // '&:.MuiTableRow-root css-11toj2m-MuiTableRow-root':{}
-// }));
-
-// // 운행중 row
-// const StyledTableRowIng = materialStyled(TableRow)(({ theme }) => ({
-//   backgroundColor: '#007473',
-//   borderBottom: 'solid',
-//   borderBlockEndWidth: 10,
-//   borderBlockColor: 'white',
-
-//   // hide last border
-//   '&:last-child td, &:last-child th': {
-//     borderBottom: 0,
-//   },
-// }));
 
 export default BusTimeTable;

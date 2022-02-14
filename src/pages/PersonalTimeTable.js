@@ -3,12 +3,8 @@ import logoHeader from '../assets/img/logo_header.png';
 import icoSearch from '../assets/img/ico_search.png';
 import icoMsg from '../assets/img/ico_msg.png';
 import logoBus from '../assets/img/logo_bus.png';
-// import styled, { createGlobalStyle } from 'styled-components';
 import 'moment/locale/ko';
 import { useLocation, Navigate } from 'react-router';
-// import DefaultFont from '../assets/font/agothic14.otf';
-// import { device } from '../components/Devices';
-// import Header from '../components/Header';
 import BusTimeTable from '../components/BusTimeTable';
 import RouteTimeTable from '../components/RouteTimeTable';
 import apiClient from '../config/apiClient';
@@ -25,7 +21,6 @@ const currentYMD = `${year}-${nowMonth}-${nowDate}`;
 
 const PersonalTimeTable = () => {
   const [currentPage, setCurrentPage] = useState(true);
-  const [error, setError] = useState(null);
   const [routeName, setRouteName] = useState('');
   const [busNumber, setBusNumber] = useState();
   // const [workingHours, setWorkingHours] = useState('');
@@ -41,7 +36,6 @@ const PersonalTimeTable = () => {
 
   // 세션에 저장된 값이 없는 경우
   if (!userInfo) {
-    // return navigate('/login');
     return <Navigate to="/" state={{ from: location }} replace />;
   }
 
@@ -49,16 +43,13 @@ const PersonalTimeTable = () => {
   // data
   const fetchData = async () => {
     try {
-      setError(null);
-      // setCurrentYearMonth(nowYearMonth);
-      await apiClient
-        .get(`/dispatch/driver/${currentYMD}`)
-        .then((res) => next(res.data.object));
+      await apiClient.get(`/dispatch/driver/${currentYMD}`).then((res) => {
+        console.log(res);
+        next(res.data.object);
+      });
       // console.log(response);
       // console.log(res);
-    } catch (e) {
-      setError(e);
-    }
+    } catch (e) {}
   };
 
   const next = (data) => {
@@ -81,83 +72,90 @@ const PersonalTimeTable = () => {
 
   return (
     <>
-    <div className="container timetable">
-      {error && <div>에러가 발생했습니다.</div>}
+      <div className="container timetable">
+        <header>
+          <div className="logo">
+            <a href="/main">
+              <img src={logoHeader} alt="kikiB" />
+            </a>
+          </div>
+          <p className="page-title">배차일보</p>
+          <div className="btn-box">
+            <a href="#!" className="btn-search">
+              <img src={icoSearch} alt="검색" />
+            </a>
+            <a href="#!" className="btn-msg">
+              <img src={icoMsg} alt="메시지" />
+            </a>
+          </div>
+        </header>
 
-      <header>
-        <div className="logo">
-          <a href="/main">
-            <img src={logoHeader} alt="kikiB" />
-          </a>
-        </div>
-        <p className="page-title">배차일보</p>
-        <div className="btn-box">
-          <a href="#!" className="btn-search">
-            <img src={icoSearch} alt="검색" />
-          </a>
-          <a href="#!" className="btn-msg">
-            <img src={icoMsg} alt="메시지" />
-          </a>
-        </div>
-      </header>
-
-      {busNumber ? (
-      <div className="user-box">
-        <div className="logo">
-          <img src={logoBus} alt="" />
-        </div>
-        <h1>
-          <span>충훈부</span> {routeName}번 노선 <span>{busNumber}차량</span>
-        </h1>
-      </div>
-      ) : (
+        {busNumber ? (
+          <div className="user-box">
+            <div className="logo">
+              <img src={logoBus} alt="" />
+            </div>
+            <h1>
+              <span>충훈부</span> {routeName}번 노선{' '}
+              <span>{busNumber}차량</span>
+            </h1>
+          </div>
+        ) : (
           <></>
-      )}
+        )}
 
-      <div className="inner">
-        <div className="tab-list">
-          <a href="#!" className="btn-tab on" onClick={() => setCurrentPage(true)}>
-            배차일보
-          </a>
-          <a href="#!" className="btn-tab" onClick={() => setCurrentPage(false)}>
-            노선도
-          </a>
+        <div className="inner">
+          <div className="tab-list">
+            <a
+              href="#!"
+              className="btn-tab on"
+              onClick={() => setCurrentPage(true)}
+            >
+              배차일보
+            </a>
+            <a
+              href="#!"
+              className="btn-tab"
+              onClick={() => setCurrentPage(false)}
+            >
+              노선도
+            </a>
+          </div>
+
+          <div className="current-content">
+            {currentPage ? (
+              <BusTimeTable />
+            ) : (
+              <RouteTimeTable busNumber={routeName} />
+            )}
+          </div>
         </div>
 
-        <div className="current-content">
-          {currentPage ? (
-            <BusTimeTable />
-          ) : (
-            <RouteTimeTable busNumber={routeName} />
-          )}
-        </div>
+        <nav className="nav">
+          <ul className="nav-list">
+            <li>
+              <a href="#!">
+                <span className="blind">홈</span>
+              </a>
+            </li>
+            <li>
+              <a href="/management">
+                <span className="blind">근무관리</span>
+              </a>
+            </li>
+            <li className="on">
+              <a href="#!">
+                <span className="blind">배차일보</span>
+              </a>
+            </li>
+            <li>
+              <a href="#!">
+                <span className="blind">사용자설정</span>
+              </a>
+            </li>
+          </ul>
+        </nav>
       </div>
-
-      <nav className="nav">
-        <ul className="nav-list">
-          <li>
-            <a href="#!">
-              <span className="blind">홈</span>
-            </a>
-          </li>
-          <li>
-            <a href="/management">
-              <span className="blind">근무관리</span>
-            </a>
-          </li>
-          <li className="on">
-            <a href="#!">
-              <span className="blind">배차일보</span>
-            </a>
-          </li>
-          <li>
-            <a href="#!">
-              <span className="blind">사용자설정</span>
-            </a>
-          </li>
-        </ul>
-      </nav>
-    </div>
 
       {/* <GlobalStyle />
       {error && <div>에러가 발생했습니다.</div>}

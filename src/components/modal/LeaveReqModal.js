@@ -107,4 +107,5 @@ const SlickWrapper = styled.div`
   margin-right: auto;
 `;
 
+const dateBox = styled.button``;
 export default LeaveReqModal;
