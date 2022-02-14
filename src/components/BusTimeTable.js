@@ -107,9 +107,9 @@ const BusTimeTable = ({ timeTableData }) => {
         // 현재 상태
         const busStatus = () => {
           if (busUnixEndTime[i] < currentUnixTime) {
-            return '운행<br/>완료';
+            return '운행완료';
           } else if (currentUnixTime < busUnixStartTime[i]) {
-            return '운행<br/>대기';
+            return '운행대기';
           } else {
             return '운행중';
           }
@@ -257,14 +257,23 @@ const BusTimeTable = ({ timeTableData }) => {
                   <span>{row.num}</span>
                   <span>{row.start}</span>
                   <span>{row.arrive}</span>
-                  <span>{row.status}</span>
+                  <span>
+                    {row.status.slice(0, 2)}
+                    <br />
+                    {row.status.slice(2)}
+                  </span>
                 </div>
               ) : (
                 <div className={'status status-end'} key={`list1-${i}`}>
                   <span>{row.num}</span>
                   <span>{row.start}</span>
                   <span>{row.arrive}</span>
-                  <span>{row.status}</span>
+                  <span>
+                    {' '}
+                    {row.status.slice(0, 2)}
+                    <br />
+                    {row.status.slice(2)}
+                  </span>
                 </div>
               )
             )}
