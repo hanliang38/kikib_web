@@ -97,7 +97,7 @@ const PersonalTimeTable = () => {
             </div>
             <h1>
               <span>충훈부</span> {routeName}번 노선{' '}
-              <span>{busNumber}차량</span>
+              <span className="bus-num">{busNumber}차량</span>
             </h1>
           </div>
         ) : (
