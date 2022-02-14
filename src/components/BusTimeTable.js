@@ -107,9 +107,9 @@ const BusTimeTable = ({ timeTableData }) => {
         // 현재 상태
         const busStatus = () => {
           if (busUnixEndTime[i] < currentUnixTime) {
-            return '운행완료';
+            return '운행<br/>완료';
           } else if (currentUnixTime < busUnixStartTime[i]) {
-            return '운행대기';
+            return '운행<br/>대기';
           } else {
             return '운행중';
           }
