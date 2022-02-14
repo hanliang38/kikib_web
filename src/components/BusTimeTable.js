@@ -11,20 +11,14 @@ import icoUpdate from '../assets/img/ico_update.png';
 // import TableRow from '@mui/material/TableRow';
 import Paper from '@mui/material/Paper';
 import axios from 'axios';
-import apiClient from '../config/apiClient';
+import { useNavigate } from 'react-router';
 // import { cleanup } from '@testing-library/react';
 
 axios.withCredentials = true;
 axios.defaults.withCredentials = true;
 
 const today = new Date();
-const year = today.getFullYear();
-const month = today.getMonth() + 1;
-const nowMonth = month < 10 ? `0${month}` : month;
-const date = today.getDate();
-const nowDate = date < 10 ? `0${date}` : date;
 
-const currentYMD = `${year}-${nowMonth}-${nowDate}`;
 const currentUnixTime = today.getTime();
 // console.log(currentUnixTime);
 // setInterval(BusTimeTable(), 60 * 1000);
@@ -51,14 +45,17 @@ const division = (arr, size) => {
   return temparray;
 };
 
-const BusTimeTable = () => {
+const BusTimeTable = ({ timeTableData }) => {
   // Data
   const [error, setError] = useState(null);
   const [dataRow, setDataRow] = useState([]);
+  const [refresh, setRefresh] = useState(false);
+
+  const navigate = useNavigate();
 
   // 전체 데이터를 보여주는 effect
   useEffect(() => {
-    fetchData(currentYMD);
+    fetchData();
     // console.log(statusBus);
   }, []);
 
@@ -76,11 +73,7 @@ const BusTimeTable = () => {
   const fetchData = async () => {
     try {
       setError(null);
-
-      // api 데이터 추출
-      const response = await apiClient.get(`/dispatch/driver/${currentYMD}`);
-      let res = response.data.object;
-      // console.log(res);
+      let res = timeTableData;
 
       // 버스 회차
       const busRound = res.map((item) => {
@@ -223,6 +216,18 @@ const BusTimeTable = () => {
     }
   };
 
+  const handleClickRefresh = () => {
+    setRefresh(!refresh);
+    setTimeout(() => {
+      setRefresh(!refresh);
+      navigate('/personalTimeTable', { replace: true });
+    }, 1000);
+  };
+
+  // useEffect(() => {
+  //   handleClickRefresh();
+  // }, []);
+
   return (
     <>
       <div className="timetable-box" component={Paper}>
@@ -248,14 +253,14 @@ const BusTimeTable = () => {
                   <span>{row.status}</span>
                 </div>
               ) : row.status === '운행대기' ? (
-                <div className="status status-end" key={`list1-${i}`}>
+                <div className="status status-wait" key={`list1-${i}`}>
                   <span>{row.num}</span>
                   <span>{row.start}</span>
                   <span>{row.arrive}</span>
                   <span>{row.status}</span>
                 </div>
               ) : (
-                <div className="status status-wait" key={`list1-${i}`}>
+                <div className={'status status-end'} key={`list1-${i}`}>
                   <span>{row.num}</span>
                   <span>{row.start}</span>
                   <span>{row.arrive}</span>
@@ -271,7 +276,10 @@ const BusTimeTable = () => {
       {error && <div className="bus-none">배차일보가 없습니다.</div>}
 
       {/* 회전효과 : 클릭 시 .on 클래스 추가, 1초 뒤 on 클래스 제거 필요 */}
-      <button className="btn-update">
+      <button
+        className={refresh ? 'btn-update' : 'btn-update on'}
+        onClick={handleClickRefresh}
+      >
         <img src={icoUpdate} alt="새로고침" />
       </button>
     </>

@@ -23,6 +23,7 @@ const PersonalTimeTable = () => {
   const [currentPage, setCurrentPage] = useState(true);
   const [routeName, setRouteName] = useState('');
   const [busNumber, setBusNumber] = useState();
+  const [timeTableData, setTimeTableData] = useState();
   // const [workingHours, setWorkingHours] = useState('');
 
   // api 데이터 최초 1회 렌더링 (useEffect(1))
@@ -44,11 +45,9 @@ const PersonalTimeTable = () => {
   const fetchData = async () => {
     try {
       await apiClient.get(`/dispatch/driver/${currentYMD}`).then((res) => {
-        console.log(res);
+        setTimeTableData(res.data.object);
         next(res.data.object);
       });
-      // console.log(response);
-      // console.log(res);
     } catch (e) {}
   };
 
@@ -66,6 +65,7 @@ const PersonalTimeTable = () => {
     // const lastEndTime = data[data.length - 1].endTime;
     // console.log(lastEndTime);
     // setWorkingHours(`${firstStartTime}~${lastEndTime}`);
+    setTimeTableData(data);
   };
 
   // console.log(data);
@@ -124,7 +124,7 @@ const PersonalTimeTable = () => {
 
           <div className="current-content">
             {currentPage ? (
-              <BusTimeTable />
+              <BusTimeTable timeTableData={timeTableData} />
             ) : (
               <RouteTimeTable busNumber={routeName} />
             )}
