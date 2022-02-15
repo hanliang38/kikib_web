@@ -4,8 +4,9 @@ import { useLocation } from 'react-router-dom';
 import Slick from 'react-slick';
 import 'slick-carousel/slick/slick.css';
 import 'slick-carousel/slick/slick-theme.css';
-import styled, { createGlobalStyle } from 'styled-components';
+import styled from 'styled-components';
 import { GrPrevious as Prev, GrNext as Next } from 'react-icons/gr';
+import apiClient from '../../config/apiClient';
 
 // 이전 버튼
 const PrevArrow = ({ currentSlide, slideCount, ...props }) => (
@@ -17,7 +18,22 @@ const NextArrow = ({ currentSlide, slideCount, ...props }) => (
   <Next {...props} type="button" className="slick-next" />
 );
 
+//아이템 값이 처음 나오는 배열 아이템 삭제
+function removeItem(arr, value) {
+  var index = arr.indexOf(value);
+  if (index > -1) {
+    arr.splice(index, 1);
+  }
+  return arr;
+}
+
 const LeaveReqModal = (props) => {
+  const [curWorkId, setCurWorkId] = useState();
+  const [checked, setChecked] = useState(false);
+  const [selected, setSelected] = useState();
+  const [selectArr, setSelectArr] = useState([]);
+  // const [pageNum, setPageNum] = useState(0);
+
   const { open, close } = props;
   const location = useLocation();
   // 현재 선택한 날짜
@@ -29,7 +45,47 @@ const LeaveReqModal = (props) => {
   const endTermArr = applyTermArr[1].split('-');
   const applyTarget = location.state.applyTarget.split('-');
 
-  const fakeData = [1, 2, 3, 4, 5, 6, 7, 8, 9];
+  // 선택가능한 휴무일
+  const LeaveDate = location.state.leaveData;
+  const chooseLeaveDateArr = [];
+  LeaveDate.map((item) => chooseLeaveDateArr.push(item.date.split('-')[2]));
+
+  const values = () => {
+    // workId 구하기
+    const workData = location.state.workList;
+    workData
+      .filter((date) => date.date === location.state.date)
+      .map((item) => setCurWorkId(item.id));
+  };
+
+  const handleCheckBtn = () => {
+    // 휴무일 추가 값 구하기 (체크된 날짜의 leaveId)
+    const selectList = [];
+    //
+    checked === true
+      ? selectList.push(selected)
+      : removeItem(selectList, selected);
+    setSelectArr(selectList);
+  };
+  console.log(checked);
+  console.log(selected);
+  console.log(selectArr);
+
+  // 확인 버튼 클릭시 post
+  const onSubmitFetchData = async () => {
+    values();
+
+    await apiClient
+      .post(`/driver/leave/request`, {
+        id: 0,
+        originLeaves: selectArr,
+        workId: curWorkId,
+      })
+      .then((res) => {
+        //handle success
+        // res.status === 200 ? setPageNum(1) : setPageNum(0);
+      });
+  };
 
   const settings = {
     dots: true,
@@ -43,7 +99,6 @@ const LeaveReqModal = (props) => {
 
   return (
     <>
-      <Global />
       <div className={open ? 'openModal modal' : 'modal'}>
         {open ? (
           <section>
@@ -72,19 +127,40 @@ const LeaveReqModal = (props) => {
                 <SlickWrapper>
                   <div>
                     <Slick {...settings}>
-                      {fakeData.map((item, i) => (
-                        <div key={i}>{item}</div>
+                      {chooseLeaveDateArr.map((item, i) => (
+                        <DateBox key={i}>
+                          <label htmlFor={item}>{item}일</label>
+                          <input
+                            type="checkbox"
+                            id={item}
+                            value={item}
+                            onChange={(e) => {
+                              setChecked(e.target.checked);
+                              setSelected(e.target.value);
+                              handleCheckBtn(e);
+                            }}
+                          ></input>
+                        </DateBox>
                       ))}
                     </Slick>
                   </div>
                 </SlickWrapper>
               </div>
               <br />
-              <div>휴무일을 선택해주세요.</div>
+              <div>
+                {selectArr.length > 0 ? (
+                  <>
+                    {dateArr[1]}월 {selectArr}일로 <br />
+                    {selectDate} 휴무 신청을 진행합니까?
+                  </>
+                ) : (
+                  `휴무일을 선택해주세요.`
+                )}
+              </div>
               <button className="close" onClick={close}>
                 취소
               </button>
-              <button>확인</button>
+              <button onClick={() => onSubmitFetchData}>확인</button>
             </main>
           </section>
         ) : null}
@@ -93,13 +169,6 @@ const LeaveReqModal = (props) => {
   );
 };
 
-const Global = createGlobalStyle`
-  .slick-slide {
-    display: inline-block;
-    margin: 0
-    font-size: 5vw;
-  }`;
-
 const SlickWrapper = styled.div`
   height: calc(100% - 44px);
   width: 80%;
@@ -107,5 +176,15 @@ const SlickWrapper = styled.div`
   margin-right: auto;
 `;
 
-const dateBox = styled.button``;
+const DateBox = styled.div`
+  font-size: 25px;
+  border: 2px solid #a2a9ad;
+  border-radius: 2rem;
+  background-color: #efefef;
+
+  input:checked {
+    background-color: #007473;
+    border: 2px solid #192733;
+  }
+`;
 export default LeaveReqModal;

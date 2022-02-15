@@ -156,7 +156,6 @@ const DailyWorkerAndOff = () => {
           <WorkBtn
             onClick={() => {
               setCurrentPage(true);
-              <WorkerList workerRows={workerRows} />;
             }}
           >
             근무인원
@@ -166,7 +165,7 @@ const DailyWorkerAndOff = () => {
         {
           <CurrentPage>
             {currentPage ? (
-              <WorkerList />
+              <WorkerList workerRows={workerRows} />
             ) : (
               <OffList offRows={offRows} offList={offList} />
             )}

@@ -1,18 +1,9 @@
 import React, { useEffect, useState } from 'react';
 import 'moment/locale/ko';
 import icoUpdate from '../assets/img/ico_update.png';
-// import DefaultFont from '../assets/font/agothic14.otf';
-// import { styled as materialStyled } from '@mui/material/styles';
-// import Table from '@mui/material/Table';
-// import TableBody from '@mui/material/TableBody';
-// import TableCell, { tableCellClasses } from '@mui/material/TableCell';
-// import TableContainer from '@mui/material/TableContainer';
-// import TableHead from '@mui/material/TableHead';
-// import TableRow from '@mui/material/TableRow';
 import Paper from '@mui/material/Paper';
 import axios from 'axios';
 import { useNavigate } from 'react-router';
-// import { cleanup } from '@testing-library/react';
 
 axios.withCredentials = true;
 axios.defaults.withCredentials = true;
