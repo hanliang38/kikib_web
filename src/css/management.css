@@ -75,3 +75,61 @@
 .container.management .menu-list > li.type-row.chk-timetable .date {color:#767676;}
 
 .container.management .btn-cs {position:absolute; bottom:16.2rem; right:3.6rem; width:12rem; border-radius:50%; box-shadow:0.4rem 0.4rem 1.2rem rgba(0,0,0,0.3);}
+
+/* 근무일정표 */
+.container.management .calendar-wrap {background-repeat:no-repeat; background-position:top center; background-size:contain;}
+.container.management .calendar-wrap.month-1 {background-image:url('../assets/img/bg_calendar_jan.jpg');}
+.container.management .calendar-wrap.month-2 {background-image:url('../assets/img/bg_calendar_feb.jpg');}
+.container.management .calendar-wrap.month-3 {background-image:url('../assets/img/bg_calendar_jan.jpg');}
+.container.management .calendar-wrap.month-4 {background-image:url('../assets/img/bg_calendar_jan.jpg');}
+.container.management .calendar-wrap.month-5 {background-image:url('../assets/img/bg_calendar_jan.jpg');}
+.container.management .calendar-wrap.month-6 {background-image:url('../assets/img/bg_calendar_jan.jpg');}
+.container.management .calendar-wrap.month-7 {background-image:url('../assets/img/bg_calendar_jan.jpg');}
+.container.management .calendar-wrap.month-8 {background-image:url('../assets/img/bg_calendar_jan.jpg');}
+.container.management .calendar-wrap.month-9 {background-image:url('../assets/img/bg_calendar_jan.jpg');}
+.container.management .calendar-wrap.month-10 {background-image:url('../assets/img/bg_calendar_jan.jpg');}
+.container.management .calendar-wrap.month-11 {background-image:url('../assets/img/bg_calendar_jan.jpg');}
+.container.management .calendar-wrap.month-12 {background-image:url('../assets/img/bg_calendar_dec.jpg');}
+
+.container.management .calendar-wrap .fc-header-toolbar {height:13.6rem; margin-bottom:2.5rem; padding:0 6rem;}
+.container.management .calendar-wrap .fc-header-toolbar .fc-toolbar-title {color:#fff; font-size:5.2rem;}
+.container.management .calendar-wrap .fc-header-toolbar .fc-button-primary {width:6.2rem; height:6.2rem; padding:0; border:0; background-color:transparent;}
+.container.management .calendar-wrap .fc-header-toolbar .fc-icon {width:100%; height:100%;}
+.container.management .calendar-wrap .fc-header-toolbar .fc-icon-chevron-left:before,
+.container.management .calendar-wrap .fc-header-toolbar .fc-icon-chevron-right:before {content:''; display:inline-block; width:100%; height:100%; background-repeat:no-repeat; background-position:center; background-size:100%;}
+.container.management .calendar-wrap .fc-header-toolbar .fc-icon-chevron-left:before {background-image:url('../assets/img/ico_calendar_prev.png');}
+.container.management .calendar-wrap .fc-header-toolbar .fc-icon-chevron-right:before {background-image:url('../assets/img/ico_calendar_next.png');}
+
+.container.management .calendar-wrap .fc-scroller-liquid-absolute,
+.container.management .calendar-wrap .fc-view-harness-active > .fc-view {position:static;}
+.container.management .calendar-wrap .fc-view-harness-active {height:auto !important;}
+
+.container.management .calendar-wrap .fc-theme-standard .fc-scrollgrid,
+.container.management .calendar-wrap .fc-theme-standard td, 
+.container.management .calendar-wrap .fc-theme-standard th {border:0;}
+
+.container.management .calendar-wrap table thead .fc-scroller-harness {padding-bottom:3.5rem;}
+.container.management .calendar-wrap table tbody .fc-scroller-harness {border-radius:1.2rem 1.2rem 0.8rem 0.8rem; background:url('../assets/img/bg_calendar_week.png') repeat-y top 1rem center; background-size:73rem 16rem; box-shadow:0 -0.4rem 1.2rem rgb(0,0,0,0.16);}
+.container.management .calendar-wrap .fc-daygrid-body {width:70rem !important; margin:1rem auto 0;}
+.container.management .calendar-wrap .fc-daygrid-body table {width:100% !important;}
+
+.container.management .calendar-wrap .fc-col-header-cell-cushion {font-size:3.4rem;}
+.container.management .calendar-wrap .fc-day-sat .fc-col-header-cell-cushion {color:#0025a0;}
+.container.management .calendar-wrap .fc-day-sun .fc-col-header-cell-cushion,
+.container.management .calendar-wrap .fc-day-sat .fc-daygrid-day-number,
+.container.management .calendar-wrap .fc-day-sun .fc-daygrid-day-number {color:#e12c03;}
+.container.management .calendar-wrap .fc-daygrid-day.fc-day-today {background-color:transparent; color:#007473;}
+.container.management .calendar-wrap .fc-daygrid-day.fc-day-today .fc-daygrid-day-bg {position:absolute; bottom:5rem; left:50%; transform:translateX(-50%); width:4.4rem; height:0.6rem; border-radius:0.6rem; background-color:#007473;}
+.container.management .calendar-wrap .fc-daygrid-day-number {font-size:3.8rem;}
+.container.management .calendar-wrap .fc-day-other .fc-daygrid-day-number {color:#bcbcbc; font-size:3rem; font-weight:400;}
+
+.container.management .calendar-wrap .fc .fc-daygrid-day-frame {height:16rem; padding:1.3rem 0 1.8rem;}
+.container.management .calendar-wrap .fc-daygrid-day-top {height:100%; justify-content:center; align-items:center;}
+.container.management .calendar-wrap .fc-daygrid-day-events {position:absolute; bottom:1.4rem; left:50%; transform:translateX(-50%); font-size:2.6rem;}
+
+.container.management .calendar-wrap .work-days {padding:2.2rem 0;}
+.container.management .calendar-wrap .days-list {display:flex; justify-content:space-between; width:66.6rem; height:13.4rem; margin:0 auto; padding:2.5rem 3.3rem; border-radius:6.2rem; background-color:#000; color:#fff;}
+.container.management .calendar-wrap .days-list > li {position:relative; width:20rem; text-align:center;}
+.container.management .calendar-wrap .days-list > li + li::before {content:''; position:absolute; top:0; left:0; width:0.2rem; height:8.4rem; background-color:#fff;}
+.container.management .calendar-wrap .days-list > li > span {display:inline-block; padding-bottom:1rem; font-size:3.6rem; font-weight:400;}
+.container.management .calendar-wrap .days-list > li > strong {font-size:3.8rem;}

@@ -241,6 +241,14 @@ header .logo {
   width: 10rem;
 }
 
+header .btn-back {
+  position: absolute;
+  top: 50%;
+  transform: translateY(-50%);
+  left: 6.4rem;
+  width: 5rem;
+}
+
 header .page-title {
   font-size: 3.4rem;
   text-align: center;
