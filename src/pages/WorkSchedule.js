@@ -1,4 +1,4 @@
-import React, { useLayoutEffect, useState } from 'react';
+import React, { useEffect, useState } from 'react';
 // import Navbar from './Navigationbar';
 // import Footer from './Footer';
 import FullCalendar from '@fullcalendar/react'; // must go before plugins
@@ -96,12 +96,11 @@ const WorkSchedule = () => {
       });
   };
 
-  useLayoutEffect(() => {
+  useEffect(() => {
     fetchData(currentYearMonth);
   }, [currentYearMonth]);
 
   const next = (data) => {
-    // if (!workData) return;
     // obj 분할 (array) status ==> work, work-check, leave, leave-check
     // 근무일
     // console.log('workData::', data);
@@ -244,17 +243,10 @@ const WorkSchedule = () => {
               center: 'title',
               right: 'next',
             }}
-            // eventContent={renderEventContent}
             events={allEvents}
-            // eventClick={(event) => {
-            //   // event에서 url 호출 하는걸 막는 방법
-            //   event.jsEvent.cancelBubble = true;
-            //   event.jsEvent.preventDefault();
-            //   // event.jsEvent = alert('추후 업데이트 예정입니다.');
-            // }}
             // 날짜 클릭 이벤트
             dateClick={(info) => {
-              info.jsEvent.preventDefault(); // don't let the browser navigate
+              info.jsEvent.preventDefault();
               // info.jsEvent = alert('추후 업데이트 예정입니다.');
               info.jsEvent = navigate('/workerAndOff', {
                 state: {
@@ -269,7 +261,7 @@ const WorkSchedule = () => {
             }}
             locale="ko"
           />
-          {console.log(applyTerm)}
+          {/* {console.log(applyTerm)} */}
         </StyledWrapper>
         <LeaveWorkTable>
           <table width="100%">

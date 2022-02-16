@@ -6,8 +6,10 @@ import WorkSchedule from './pages/WorkSchedule';
 import Login from './pages/Login';
 import PersonalTimeTable from './pages/PersonalTimeTable';
 import DailyWorkerAndOff from './pages/DailyWorkerAndOff';
-import ReplaceManagement from './pages/ReplaceManagement';
-import ReplaceRequest from './pages/ReplaceRequest';
+import ReplaceManagement from './pages/ReplaceProcessManagement';
+import ReplaceReq from './pages/ReplaceRequestProcessStatus';
+import LeaveReq from './pages/LeaveRequestProcessStatus';
+import AnnualReq from './pages/AnnualRequestProcessStatus';
 // import withAuthHoc from './withAuthHoc';
 
 function App() {
@@ -86,10 +88,26 @@ function App() {
         }
       />
       <Route
-        path="/replaceReq"
+        path="/leaveStatus"
         element={
           <RequireAuth>
-            <ReplaceRequest />
+            <LeaveReq />
+          </RequireAuth>
+        }
+      />
+      <Route
+        path="/replaceStatus"
+        element={
+          <RequireAuth>
+            <ReplaceReq />
+          </RequireAuth>
+        }
+      />
+      <Route
+        path="/annualStatus"
+        element={
+          <RequireAuth>
+            <AnnualReq />
           </RequireAuth>
         }
       />

@@ -1,5 +1,4 @@
 import React from 'react';
-
 // import Footer from './Footer';
 import { Link } from 'react-router-dom';
 import { useNavigate as navigate } from 'react-router';
@@ -8,6 +7,7 @@ import DefaultFont from '../assets/font/agothic14.otf';
 import Header from '../components/Header';
 
 const ReplaceManagement = (props) => {
+  // 로그인이 되어 있지 않으면 로그인 페이지로
   if (sessionStorage.getItem('userInfo') === null) {
     return navigate('/login');
   }
@@ -29,23 +29,19 @@ const ReplaceManagement = (props) => {
         </UserInfo>
         <BtnsDiv>
           <BtnDiv>
-            <Link to="/replaceReq">
+            <Link to="/leaveStatus">
               <Btn>휴무 신청내역</Btn>
             </Link>
           </BtnDiv>
           <BtnDiv>
-            {/* <Link to="/main"> */}
-            <Btn onClick={() => alert('준비중인 기능입니다.')}>
-              휴무 교환내역
-            </Btn>
-            {/* </Link> */}
+            <Link to="/replaceStatus">
+              <Btn>휴무 교환내역</Btn>
+            </Link>
           </BtnDiv>
           <BtnDiv>
-            {/* <Link to="/main"> */}
-            <Btn onClick={() => alert('준비중인 기능입니다.')}>
-              연차 신청내역
-            </Btn>
-            {/* </Link> */}
+            <Link to="/annualStatus">
+              <Btn>연차 신청내역</Btn>
+            </Link>
           </BtnDiv>
           <BtnDiv>
             {/* <Link to="/main"> */}
