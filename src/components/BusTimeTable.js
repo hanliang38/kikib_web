@@ -48,7 +48,7 @@ const BusTimeTable = ({ timeTableData }) => {
   useEffect(() => {
     fetchData();
     // console.log(statusBus);
-  }, []);
+  }, [timeTableData]);
 
   // 승무원 운행시간 데이터
   function createData(num, start, arrive, status) {

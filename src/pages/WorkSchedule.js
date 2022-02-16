@@ -45,7 +45,7 @@ const WorkSchedule = () => {
   const [currentYearMonth, setCurrentYearMonth] = useState(nowYearMonth);
   const [workList, setWorkList] = useState([]);
   const [leaveData, setLeaveData] = useState([]);
-  const [applyTerm, setApplyTerm] = useState();
+  const [applyTerm, setApplyTerm] = useState('');
   const [nextMonthWork, setNextMonthWork] = useState();
 
   const fetchData = async () => {
@@ -269,7 +269,7 @@ const WorkSchedule = () => {
             }}
             locale="ko"
           />
-          {/* {console.log(allData)} */}
+          {console.log(applyTerm)}
         </StyledWrapper>
         <LeaveWorkTable>
           <table width="100%">

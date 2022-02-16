@@ -30,19 +30,28 @@ const ReplaceManagement = (props) => {
         <BtnsDiv>
           <BtnDiv>
             <Link to="/replaceReq">
-              <Btn>내 신청 내역</Btn>
+              <Btn>휴무 신청내역</Btn>
             </Link>
           </BtnDiv>
           <BtnDiv>
             {/* <Link to="/main"> */}
             <Btn onClick={() => alert('준비중인 기능입니다.')}>
-              내 요청 내역
+              휴무 교환내역
             </Btn>
             {/* </Link> */}
           </BtnDiv>
           <BtnDiv>
             {/* <Link to="/main"> */}
-            <Btn onClick={() => alert('준비중인 기능입니다.')}>처리 내역</Btn>
+            <Btn onClick={() => alert('준비중인 기능입니다.')}>
+              연차 신청내역
+            </Btn>
+            {/* </Link> */}
+          </BtnDiv>
+          <BtnDiv>
+            {/* <Link to="/main"> */}
+            <Btn onClick={() => alert('준비중인 기능입니다.')}>
+              교환 요청 목록
+            </Btn>
             {/* </Link> */}
           </BtnDiv>
         </BtnsDiv>

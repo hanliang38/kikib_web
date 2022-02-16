@@ -56,15 +56,15 @@ body {
 }
 `;
 const ManagePage = styled.div`
-  margin-top: 100px;
-  margin-bottom: 100px;
+  margin-top: 50px;
+  margin-bottom: 50px;
   text-align: center;
   height: 100vh;
 `;
 const TitleName = styled.div`
   text-align: center;
-  margin-bottom: 50px;
-  font-size: 40px;
+  margin-bottom: 30px;
+  font-size: 30px;
 `;
 
 export default ReplaceRequest;

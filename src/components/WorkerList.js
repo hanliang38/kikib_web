@@ -2,15 +2,15 @@ import React, { useEffect, useState } from 'react';
 import styled, { createGlobalStyle } from 'styled-components';
 import DefaultFont from '../assets/font/agothic14.otf';
 
-const WorkerList = (props) => {
+const WorkerList = ({ workerRows }) => {
   const [workerDataObj, setWorkerDataObj] = useState();
 
   useEffect(() => {
     fetchData();
-  }, []);
+  }, [workerRows]);
 
   const fetchData = () => {
-    const workDataRows = props.workerRows;
+    const workDataRows = workerRows;
     setWorkerDataObj(workDataRows);
   };
 

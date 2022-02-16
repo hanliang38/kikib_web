@@ -58,13 +58,16 @@ const LeaveReqModal = (props) => {
       .map((item) => setCurWorkId(item.id));
   };
 
+  // 버튼클릭에 따라 이벤트 작동
   const handleCheckBtn = () => {
     // 휴무일 추가 값 구하기 (체크된 날짜의 leaveId)
     const selectList = [];
-    //
+    // 체크박스가 체크되어 있으면 push, false가 되면 해당값을 배열에서 지운다.
     checked === true
       ? selectList.push(selected)
       : removeItem(selectList, selected);
+
+    // selectArr에 추가
     setSelectArr(selectList);
   };
   console.log(checked);
@@ -137,7 +140,7 @@ const LeaveReqModal = (props) => {
                             onChange={(e) => {
                               setChecked(e.target.checked);
                               setSelected(e.target.value);
-                              handleCheckBtn(e);
+                              handleCheckBtn();
                             }}
                           ></input>
                         </DateBox>
