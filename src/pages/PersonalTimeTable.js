@@ -19,6 +19,10 @@ const date = today.getDate();
 const nowDate = date < 10 ? `0${date}` : date;
 const currentYMD = `${year}-${nowMonth}-${nowDate}`;
 
+// 높이 고정값 체크
+let vh = window.innerHeight * 0.01;
+document.documentElement.style.setProperty('--vh', `${vh}px`);
+
 const PersonalTimeTable = () => {
   const [currentPage, setCurrentPage] = useState(true);
   const [routeName, setRouteName] = useState('');

@@ -1,6 +1,22 @@
-/********************
+/*************************
     personalTimeTable
-********************/
+*************************/
+/* iOS only */ 
+@supports (-webkit-touch-callout: none) {
+    
+}
+
+.container.timetable {min-height:-webkit-fill-available; height:100vh; height:calc(var(--vh, 1vh) * 100); padding-bottom:17.5rem; background-color:#f2f3f7; overflow-y:hidden;}
+.container.timetable .bus-none {padding-top:15rem; font-size:3.8rem; font-weight:700; text-align:center;}
+.container.timetable .btn-update {position:absolute; bottom:16.2rem; right:3.6rem; width:12rem;}
+.container.timetable .btn-update.on {animation:rotate_image 1s linear; transform-origin:50% 50%;}
+
+@keyframes rotate_image{
+	100% {
+    	transform:rotate(360deg);
+    }
+}
+
 /* user-box */
 .container.timetable .user-box {position:relative; display:flex; align-items:center; height:13rem; padding:0 0 0 12.6rem;}
 .container.timetable .user-box .logo {position:absolute; top:50%; left:4.8rem; transform:translateY(-50%); width:7rem;}
@@ -10,7 +26,7 @@
 .container.timetable .user-box .btn-timetable {position:absolute; top:50%; right:4.8rem; transform:translateY(-50%); display:inline-flex; justify-content:center; align-items:center; width:20.8rem; height:7.4rem; border-radius:3.7rem; background-color:#007473; color:#fff; font-size:3.4rem; box-shadow: 0.3rem 0.3rem 2.4rem rgba(0,0,0,0.1);}
 
 /* tab-list */
-.container.timetable .inner {background:url('../assets/img/bg_daily.jpg') no-repeat top center / contain;}
+.container.timetable .inner {height:calc(100% - 10rem); background:url('../assets/img/bg_daily.jpg') no-repeat top center / contain;}
 .container.timetable .tab-list {display:flex; justify-content:space-between; align-items:center; padding:3.5rem 4.8rem;}
 .container.timetable .tab-list .btn-tab {display:inline-flex; justify-content:center; align-items:center; width:31.4rem; height:9rem; border:0.3rem solid #767676; border-radius:6.2rem; background-color:#767676; color:rgba(188, 188, 188, 0.5); font-size:4.2rem; box-shadow:inset 1.4rem 1.4rem 3rem rgba(0, 0, 0, 0.34);}
 .container.timetable .tab-list .btn-tab.on {border-color:#f2f3f7; background-color:#007473; color:#fff; box-shadow:none;}
@@ -19,7 +35,9 @@
 .container.timetable .inner.dark {background-image:url('../assets/img/bg_daily_dark.jpg');}
 
 /* current-content */
-.container.timetable .current-content {min-height:calc(100vh - 26rem); padding:1rem 3.6rem 21rem; border-top-right-radius:6rem; border-top-left-radius:0.8rem; background-color:#f2f3f7;}
+.container.timetable .current-content {height:calc(100% - 14.5rem); padding:1rem 3.6rem 0; border-top-right-radius:6rem; border-top-left-radius:0.8rem; background-color:#f2f3f7; overflow:hidden;}
+
+/* 배차일보 */
 .container.timetable .timetable-box .table-head {position:relative; display:flex; align-items:center; margin-bottom:2.2rem; padding:0 1.9rem;}
 .container.timetable .timetable-box .table-head::after {content:''; position:absolute; bottom:0; left:50%; transform:translateX(-50%); width:65.4rem; height:0.4rem; background-color:#007473;}
 .container.timetable .timetable-box .table-head > span {display:inline-flex; align-items:center; justify-content:center; width:25%; height:8.6rem; font-size:3.8rem; font-weight:700;}
@@ -40,13 +58,16 @@
 .container.timetable .timetable-box .status-meal {width:64rem; height:10.4rem; border-radius:2.8rem; background:linear-gradient(-45deg, #e8eBf2, #f2f3f7); color:#bcbcbc; box-shadow:inset 2rem 2rem 3rem #e0e3eC;}
 .container.timetable .timetable-box .status-meal > span {width:100%;}
 
-.container.timetable .current-content .bus-none {padding-top:15rem; font-size:3.8rem; font-weight:700; text-align:center;}
-.container.timetable .current-content .btn-update {position:absolute; bottom:16.2rem; right:3.6rem; width:12rem;}
-.container.timetable .current-content .btn-update.on {animation:rotate_image 1s linear; transform-origin:50% 50%;}
+/* 노선도 */
+.container.timetable .routetable-box {height:100%; overflow:hidden;}
+.container.timetable .routetable-box .table-head {position:relative; display:flex; align-items:center; margin-bottom:2.2rem; padding:2rem 1.2rem 1.5rem;}
+.container.timetable .routetable-box .table-head::after {content:''; position:absolute; bottom:0; left:50%; transform:translateX(-50%); width:65.4rem; height:0.4rem; background-color:#007473;}
+.container.timetable .routetable-box .table-head > div {width:50%; text-align:center;}
+.container.timetable .routetable-box .table-head .point {display:inline-block; padding-bottom:1.5rem; font-size:4.2rem; font-weight:700;}
+.container.timetable .routetable-box .table-head .station {font-size:2.8rem; font-weight:400;}
 
-@keyframes rotate_image{
-	100% {
-    	transform:rotate(360deg);
-    }
-}
-
+.container.timetable .routetable-box .table-body {height:calc(100% - 15rem); overflow-y:scroll;}
+.container.timetable .routetable-box .table-body li {position:relative; padding:2.5rem 0 2.5rem 22rem; border-top:1px solid #bcbcbc; font-size:2.8rem; font-weight:400;}
+.container.timetable .routetable-box .table-body li:last-child {border-bottom:1px solid #bcbcbc;}
+.container.timetable .routetable-box .table-body li::before {content:''; z-index:2; position:absolute; top:50%; transform:translateY(-50%); left:15rem; width:4.2rem; height:4.4rem; background:url('../assets/img/ico_station.png') no-repeat center / contain;}
+.container.timetable .routetable-box .table-body li + li::after {content:''; z-index:1; position:absolute; top:-50%; left:16.5rem; width:1.2rem; height:8.4rem; background-color:#bcbcbc;}
