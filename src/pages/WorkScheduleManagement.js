@@ -2,7 +2,7 @@ import React, { useState, useLayoutEffect } from 'react';
 import logoHeader from '../assets/img/logo_header.png';
 import icoSearch from '../assets/img/ico_search.png';
 import icoMsg from '../assets/img/ico_msg.png';
-import icoKiki from '../assets/img/ico_kiki.png';
+import icoCs from '../assets/img/ico_cs.png';
 
 // import Footer from './Footer';
 // import { Link } from 'react-router-dom';
@@ -92,7 +92,7 @@ const WorkScheduleManagement = (props) => {
             <li className="type-cell">
               <a
                 href="/schedule"
-                className="btn-common"
+                className="btn-common btn-holiday"
                 component={busRouteData}
               >
                 <span className="menu-title">근무<br />일정표</span>
@@ -101,6 +101,8 @@ const WorkScheduleManagement = (props) => {
                   <i className="ico-alarm"></i>
                   <i className="ico-calendar"></i>
                 </div>
+
+                <span className="notify-txt">2월 휴무신청</span>
               </a>
             </li>
             <li className="type-cell">
@@ -140,8 +142,8 @@ const WorkScheduleManagement = (props) => {
           </ul>
         </div>
 
-        <button className="btn-kiki">
-          <img src={icoKiki} alt="kiki 고객센터" />
+        <button className="btn-cs">
+          <img src={icoCs} alt="고객센터" />
         </button>
 
         <nav className="nav">
