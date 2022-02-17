@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React, { useEffect, useState } from 'react';
 import apiClient from '../config/apiClient';
 // import { Link } from 'react-router-dom';
 import { useNavigate as navigate } from 'react-router';
@@ -16,7 +16,14 @@ import '../css/common.css';
 
 const AnnualRequestProcessStatus = (props) => {
   const [currentPage, setCurrentPage] = useState(true);
-  const [currentYearMonth, setCurrentYearMonth] = useState();
+  const [yearMonth, setYearMonth] = useState();
+  const [reqData, setReqData] = useState();
+  const [resultData, setResultData] = useState();
+  // const [annual]
+
+  useEffect(() => {
+    handleMonthChange(yearMonth);
+  }, [yearMonth]);
 
   // 로그인이 되어 있지 않으면 로그인 페이지로
   if (sessionStorage.getItem('userInfo') === null) {
@@ -32,8 +39,26 @@ const AnnualRequestProcessStatus = (props) => {
         const month = currentDate.getMonth() + 1;
         const dateString = `${year}-${month < 10 ? '0' + month : month}`;
         // console.log('dateString', dateString);
+        setYearMonth(dateString);
 
-        setCurrentYearMonth(dateString);
+        // api 불러오기
+        await apiClient.get(`/replace/${dateString}`).then((res) => {
+          // console.log(res);
+          // 신청내역 데이터
+          const req = res.data.object.request;
+          const annualReq = req.filter(
+            (item) => item.reqDriverStatus === 'ANNUAL'
+          );
+          setReqData(annualReq);
+
+          // 처리결과 데이터
+          const result = res.data.object.result;
+          const annualResult = result.filter(
+            (item) => item.reqDriverStatus === 'ANNUAL'
+          );
+          // console.log('annualResult', annualResult);
+          setResultData(annualResult);
+        });
       }
     } catch (e) {
       console.error();
@@ -41,10 +66,6 @@ const AnnualRequestProcessStatus = (props) => {
   };
 
   // api 불러오기
-  const fetchData = async () => {
-    handleMonthChange();
-    await apiClient.get(`/replace/${currentYearMonth}`);
-  };
 
   return (
     <>
@@ -69,6 +90,7 @@ const AnnualRequestProcessStatus = (props) => {
           <StyledWrapper>
             <FullCalendar
               height="10vh"
+              datesSet={handleMonthChange}
               plugins={[dayGridPlugin, timeGridPlugin, interactionPlugin]}
               initialView="dayGridMonth"
               headerToolbar={{
@@ -98,7 +120,11 @@ const AnnualRequestProcessStatus = (props) => {
                 처리결과
               </a>
             </div>
-            {currentPage ? <AnnualRequestList /> : <AnnualResponseList />}
+            {currentPage ? (
+              <AnnualRequestList reqData={reqData} />
+            ) : (
+              <AnnualResponseList resultData={resultData} />
+            )}
           </div>
         </div>
       </div>
