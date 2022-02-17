@@ -1,6 +1,5 @@
 import React, { useEffect, useState } from 'react';
 import apiClient from '../config/apiClient';
-// import { Link } from 'react-router-dom';
 import { useNavigate as navigate } from 'react-router';
 import logoHeader from '../assets/img/logo_header.png';
 import icoSearch from '../assets/img/ico_search.png';
@@ -14,58 +13,86 @@ import AnnualRequestList from '../components/AnnualRequestList';
 import AnnualResponseList from '../components/AnnualResponseList';
 import '../css/common.css';
 
+const today = new Date();
+const nowYear = today.getFullYear();
+const nowMonth = today.getMonth() + 1;
+const currentMonth = nowMonth < 10 ? `0${nowMonth}` : nowMonth;
+const nowYearMonth = `${nowYear}-${currentMonth}`;
+
 const AnnualRequestProcessStatus = (props) => {
   const [currentPage, setCurrentPage] = useState(true);
-  const [yearMonth, setYearMonth] = useState();
+  const [yearMonth, setYearMonth] = useState(nowYearMonth);
   const [reqData, setReqData] = useState();
   const [resultData, setResultData] = useState();
   // const [annual]
 
   useEffect(() => {
-    handleMonthChange(yearMonth);
+    fetchData(yearMonth);
   }, [yearMonth]);
 
   // 로그인이 되어 있지 않으면 로그인 페이지로
   if (sessionStorage.getItem('userInfo') === null) {
     return navigate('/login');
   }
-
   const handleMonthChange = async (e) => {
-    try {
-      const currentDate = e.view.getCurrentData().currentDate;
+    const currentDate = e.view.getCurrentData().currentDate;
 
-      if (currentDate instanceof Date) {
-        const year = currentDate.getFullYear();
-        const month = currentDate.getMonth() + 1;
-        const dateString = `${year}-${month < 10 ? '0' + month : month}`;
-        // console.log('dateString', dateString);
-        setYearMonth(dateString);
-
-        // api 불러오기
-        await apiClient.get(`/replace/${dateString}`).then((res) => {
-          // console.log(res);
-          // 신청내역 데이터
-          const req = res.data.object.request;
-          const annualReq = req.filter(
-            (item) => item.reqDriverStatus === 'ANNUAL'
-          );
-          setReqData(annualReq);
-
-          // 처리결과 데이터
-          const result = res.data.object.result;
-          const annualResult = result.filter(
-            (item) => item.reqDriverStatus === 'ANNUAL'
-          );
-          // console.log('annualResult', annualResult);
-          setResultData(annualResult);
-        });
-      }
-    } catch (e) {
-      console.error();
+    if (currentDate instanceof Date) {
+      const year = currentDate.getFullYear();
+      const month = currentDate.getMonth() + 1;
+      const dateString = `${year}-${month < 10 ? '0' + month : month}`;
+      // console.log('dateString', dateString);
+      setYearMonth(dateString);
     }
   };
 
   // api 불러오기
+  const fetchData = async () => {
+    // api 불러오기
+    await apiClient.get(`/replace/${yearMonth}`).then((res) => {
+      // console.log(res);
+      // 신청내역 데이터
+      const req = res.data.object.request;
+      const annualReq = req.filter((item) => item.reqDriverStatus === 'ANNUAL');
+      reqNext(annualReq);
+      // console.log(annualReq);
+
+      // 처리결과 데이터
+      const result = res.data.object.result;
+      const annualResult = result.filter(
+        (item) => item.reqDriverStatus === 'ANNUAL'
+      );
+      // console.log('annualResult', annualResult);
+      resultNext(annualResult);
+    });
+  };
+
+  // req next
+  const reqNext = (data) => {
+    const reqList = data.map((item) => {
+      return {
+        date: item.createdAt.split(/[^0-9^]/g),
+        replaceId: item.replaceId,
+        reqDriverName: item.reqDriverName,
+        reqDriverWorkDate: item.reqDriverWorkDate.split('-'),
+      };
+    });
+    setReqData(reqList);
+  };
+
+  // result next
+  const resultNext = (data) => {
+    const resultList = data.map((item) => {
+      return {
+        managerStatus: item.managerStatus,
+        replaceId: item.reqDriverId,
+        reqDriverName: item.reqDriverName,
+        reqDriverWorkDate: item.reqDriverWorkDate.split('-'),
+        updatedAt: item.updatedAt.split(/[^0-9^]/g),
+      };
+    });
+    setResultData(resultList);
+  };
 
   return (
     <>

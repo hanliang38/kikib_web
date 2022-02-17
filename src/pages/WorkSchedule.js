@@ -6,14 +6,10 @@ import FullCalendar from '@fullcalendar/react'; // must go before plugins
 import dayGridPlugin from '@fullcalendar/daygrid'; // a plugin!
 import timeGridPlugin from '@fullcalendar/timegrid';
 import interactionPlugin from '@fullcalendar/interaction';
-import axios from 'axios';
 import { useLocation, Navigate, useNavigate } from 'react-router-dom';
 import apiClient from '../config/apiClient';
 import '../css/common.css';
 import '../css/management.css';
-
-axios.withCredentials = true;
-axios.defaults.withCredentials = true;
 
 const today = new Date();
 const nowYear = today.getFullYear();
@@ -39,7 +35,7 @@ const WorkSchedule = () => {
   const [annualNum, setAnnualNum] = useState(0);
   const [allEvents, setAllEvents] = useState([]);
   const [currentYearMonth, setCurrentYearMonth] = useState(nowYearMonth);
-  const [getCurrentMonth, setCurrentMonth] = useState(nowYearMonth);
+  const [currnetMonth, setCurrentMonth] = useState(nowYearMonth);
   const [workList, setWorkList] = useState([]);
   const [leaveData, setLeaveData] = useState([]);
   const [applyTerm, setApplyTerm] = useState('');
@@ -48,6 +44,11 @@ const WorkSchedule = () => {
   useEffect(() => {
     fetchData(currentYearMonth);
   }, [currentYearMonth]);
+
+  if (!userInfo) {
+    // 없을 때
+    return <Navigate to="/login" state={{ from: location }} replace />;
+  }
 
   const fetchData = async () => {
     await apiClient
@@ -82,6 +83,7 @@ const WorkSchedule = () => {
         setNextMonthWork(res.data.object);
       });
   };
+
   const next = (data) => {
     // 휴무, 연차 신청에 사용할 데이터 (workId)
     const idArr = data
@@ -96,13 +98,24 @@ const WorkSchedule = () => {
     // 근무일
     // console.log('workData::', data);
     const workDays = data
-      .filter((item) => item.status === 'WORK' || item.status === 'WORK-CHECK')
+      .filter((item) => item.status === 'WORK')
       .map((workDay) => {
         return {
           date: workDay.date,
           title: '근무',
           color: '#007473',
-          Image: 'MdWork',
+        };
+      });
+
+    // 근무확인
+    const workCheckDays = data
+      .filter((item) => item.status === 'WORK-CHECK')
+      .map((workCheckDay) => {
+        return {
+          date: workCheckDay.date,
+          title: '근무',
+          color: '#007473',
+          Image: 'Mdwork',
         };
       });
 
@@ -114,7 +127,6 @@ const WorkSchedule = () => {
           date: workCheckDay.date,
           title: '근무*',
           color: '#007473',
-          Image: 'Mdwork',
           fontSize: '10px',
         };
       });
@@ -132,6 +144,18 @@ const WorkSchedule = () => {
         };
       });
 
+    // 휴무확인
+    const leaveCheckDays = data
+      .filter((item) => item.status === 'LEAVE-CHECK')
+      .map((leaveCheckDay) => {
+        return {
+          date: leaveCheckDay.date,
+          title: '휴무',
+          color: '#cc1a0d',
+        };
+      });
+
+    // 연차
     const annualDays = data
       .filter(
         (item) => item.status === 'ANNUAL' || item.status === 'ANNUAL-CHECK'
@@ -144,25 +168,39 @@ const WorkSchedule = () => {
         };
       });
 
+    //연차확인
+    const annualCheckDays = data
+      .filter((item) => item.status === 'ANNUAL-CHECK')
+      .map((annualCheckDay) => {
+        return {
+          date: annualCheckDay.date,
+          title: '연차',
+          color: 'red',
+        };
+      });
+
     setWorkList(idArr);
 
     // 근무일 수 (work + work-check)
-    setDayNum([...workDays].length);
+    setDayNum([...workDays, ...workCheckDays].length);
 
     // 휴무일 수 (leave + leave-check + annual + annual-check)
-    setLeaveNum([...leaveDays].length);
+    setLeaveNum([...leaveDays, ...leaveCheckDays].length);
 
     // 연차일 수 (annual + annual-check)
-    setAnnualNum([...annualDays].length);
+    setAnnualNum([...annualDays, ...annualCheckDays].length);
 
     // 모든 날짜 이벤트
-    setAllEvents([...workDays, ...LeaveEarlyDays, ...leaveDays, ...annualDays]);
+    setAllEvents([
+      ...workDays,
+      ...workCheckDays,
+      ...LeaveEarlyDays,
+      ...leaveDays,
+      ...leaveCheckDays,
+      ...annualDays,
+      ...annualCheckDays,
+    ]);
   };
-
-  if (!userInfo) {
-    // 없을 때
-    return <Navigate to="/login" state={{ from: location }} replace />;
-  }
 
   const handleMonthChange = async (e) => {
     try {
@@ -171,11 +209,12 @@ const WorkSchedule = () => {
       if (currentDate instanceof Date) {
         const year = currentDate.getFullYear();
         const month = currentDate.getMonth() + 1;
-        const dateString = `${year}-${month < 10 ? '0' + month : month}`;
+        const curMonth = month < 10 ? '0' + month : month;
+        const dateString = `${year}-${curMonth}`;
         // console.log('dateString', dateString);
 
         setCurrentYearMonth(dateString);
-        setCurrentMonth(month);
+        setCurrentMonth(curMonth);
       }
     } catch {}
   };
@@ -200,36 +239,35 @@ const WorkSchedule = () => {
           </div>
         </header>
 
-        <div className={'calendar-wrap month-' + getCurrentMonth}>
-          <FullCalendar
-            datesSet={handleMonthChange}
-            plugins={[dayGridPlugin, timeGridPlugin, interactionPlugin]}
-            initialView="dayGridMonth"
-            headerToolbar={{
-              left: 'prev',
-              center: 'title',
-              right: 'next',
-            }}
-            events={allEvents}
-            // 날짜 클릭 이벤트
-            dateClick={(info) => {
-              info.jsEvent.preventDefault();
-              // info.jsEvent = alert('추후 업데이트 예정입니다.');
-              info.jsEvent = navigate('/workerAndOff', {
-                state: {
-                  date: info.dateStr,
-                  workList: workList,
-                  leaveData: leaveData,
-                  applyTerm: applyTerm,
-                  applyTarget: nextYearMonth,
-                  nextMonthWork: nextMonthWork,
-                },
-              });
-            }}
-            locale="ko"
-          />
-          {/* {console.log(applyTerm)} */}
-
+        <FullCalendar
+          datesSet={handleMonthChange}
+          plugins={[dayGridPlugin, timeGridPlugin, interactionPlugin]}
+          initialView="dayGridMonth"
+          headerToolbar={{
+            left: 'prev',
+            center: 'title',
+            right: 'next',
+          }}
+          events={allEvents}
+          // 날짜 클릭 이벤트
+          dateClick={(info) => {
+            info.jsEvent.preventDefault();
+            // info.jsEvent = alert('추후 업데이트 예정입니다.');
+            info.jsEvent = navigate('/workerAndOff', {
+              state: {
+                date: info.dateStr,
+                workList: workList,
+                leaveData: leaveData,
+                applyTerm: applyTerm,
+                applyTarget: nextYearMonth,
+                nextMonthWork: nextMonthWork,
+              },
+            });
+          }}
+          locale="ko"
+        />
+        {/* {console.log(applyTerm)} */}
+        <div className={`calendar-wrap month-${currnetMonth}`}>
           <div className="work-days">
             <ul className="days-list">
               <li>

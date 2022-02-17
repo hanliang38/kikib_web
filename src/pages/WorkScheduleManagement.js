@@ -15,20 +15,20 @@ import '../css/common.css';
 import '../css/management.css';
 
 const WorkScheduleManagement = (props) => {
-  const [busRouteData, setBusRouteData] = useState();
   const [error, setError] = useState(null);
+  const [busRouteData, setBusRouteData] = useState();
   const [businessPlace, setBusinessPlace] = useState();
 
   // 유저정보 불러오기
   const userInfo = JSON.parse(window.sessionStorage.getItem('userInfo'));
 
   // 있는 경우
-  const driverId = userInfo.userId;
+  const userName = userInfo.name;
 
   const fetchData = async () => {
     try {
       setError(null);
-      await apiClient.get(`/route/driver?driverId=${driverId}`).then((res) => {
+      await apiClient.get(`/route/driver`).then((res) => {
         const routeData = res.data.object.name;
         const busBusinessPlace = res.data.object.branchName;
         setBusRouteData(routeData);
@@ -40,8 +40,8 @@ const WorkScheduleManagement = (props) => {
   };
 
   useEffect(() => {
-    fetchData();
-  }, []);
+    fetchData(busRouteData);
+  }, [busRouteData]);
 
   if (sessionStorage.getItem('userInfo') === null) {
     return navigate('/login');
@@ -71,7 +71,7 @@ const WorkScheduleManagement = (props) => {
           <div className="user-box">
             <div className="company">
               <p className="txt01">
-                {businessPlace}
+                {error ? `?` : businessPlace}
                 <br />
                 영업소
               </p>
@@ -80,7 +80,7 @@ const WorkScheduleManagement = (props) => {
             <div className="bus">
               <p className="txt01">{error ? `?` : busRouteData}번 노선</p>
               <p className="txt02">
-                A조 <strong>홍길동</strong>님<br />
+                A조 <strong>{userName}</strong>님<br />
                 1194차량
               </p>
             </div>

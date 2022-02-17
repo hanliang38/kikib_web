@@ -78,15 +78,15 @@
 
 /* 근무일정표 */
 .container.management .calendar-wrap {background-repeat:no-repeat; background-position:top center; background-size:contain;}
-.container.management .calendar-wrap.month-1 {background-image:url('../assets/img/bg_calendar_jan.jpg');}
-.container.management .calendar-wrap.month-2 {background-image:url('../assets/img/bg_calendar_feb.jpg');}
-.container.management .calendar-wrap.month-3 {background-image:url('../assets/img/bg_calendar_jan.jpg');}
-.container.management .calendar-wrap.month-4 {background-image:url('../assets/img/bg_calendar_jan.jpg');}
-.container.management .calendar-wrap.month-5 {background-image:url('../assets/img/bg_calendar_jan.jpg');}
-.container.management .calendar-wrap.month-6 {background-image:url('../assets/img/bg_calendar_jan.jpg');}
-.container.management .calendar-wrap.month-7 {background-image:url('../assets/img/bg_calendar_jan.jpg');}
-.container.management .calendar-wrap.month-8 {background-image:url('../assets/img/bg_calendar_jan.jpg');}
-.container.management .calendar-wrap.month-9 {background-image:url('../assets/img/bg_calendar_jan.jpg');}
+.container.management .calendar-wrap.month-01 {background-image:url('../assets/img/bg_calendar_jan.jpg');}
+.container.management .calendar-wrap.month-02 {background-image:url('../assets/img/bg_calendar_feb.jpg');}
+.container.management .calendar-wrap.month-03 {background-image:url('../assets/img/bg_calendar_jan.jpg');}
+.container.management .calendar-wrap.month-04 {background-image:url('../assets/img/bg_calendar_jan.jpg');}
+.container.management .calendar-wrap.month-05 {background-image:url('../assets/img/bg_calendar_jan.jpg');}
+.container.management .calendar-wrap.month-06 {background-image:url('../assets/img/bg_calendar_jan.jpg');}
+.container.management .calendar-wrap.month-07 {background-image:url('../assets/img/bg_calendar_jan.jpg');}
+.container.management .calendar-wrap.month-08 {background-image:url('../assets/img/bg_calendar_jan.jpg');}
+.container.management .calendar-wrap.month-09 {background-image:url('../assets/img/bg_calendar_jan.jpg');}
 .container.management .calendar-wrap.month-10 {background-image:url('../assets/img/bg_calendar_jan.jpg');}
 .container.management .calendar-wrap.month-11 {background-image:url('../assets/img/bg_calendar_jan.jpg');}
 .container.management .calendar-wrap.month-12 {background-image:url('../assets/img/bg_calendar_dec.jpg');}

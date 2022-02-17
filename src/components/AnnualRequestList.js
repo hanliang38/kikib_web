@@ -1,48 +1,62 @@
-import React, { useEffect } from 'react';
+import React, { useState } from 'react';
 import styled from 'styled-components';
 import { MdOutlineDeleteForever } from 'react-icons/md';
 import { GrNext } from 'react-icons/gr';
+import apiClient from '../config/apiClient';
+import CancelCheck from './modal/CancelCheck';
 
 const AnnualRequestList = ({ reqData }) => {
   console.log(reqData);
+  const [cancelId, setCancelId] = useState();
+  const [cancelCheckModal, setCancelCheckModal] = useState(false);
 
-  const handleData = () => {
-    const reqDatas = [];
-    reqData.map((item) => {
-      const createDateArr = item.createdAt.split(/[^0-9^]/g);
-      const workDateArr = item.reqDriverWorkDate.split('-');
-      reqData.push({
-        createdAt: createDateArr,
-        replaceId: item.replaceId,
-        reqDriverName: item.reqDriverName,
-        reqDriverWorkDate: workDateArr,
-      });
-      console.log(reqDatas);
-    });
+  const openCheck = (e) => {
+    setCancelCheckModal(true);
   };
-
-  // useEffect(())
+  const closeCheck = (e) => {
+    setCancelCheckModal(false);
+  };
 
   return (
     <>
-      <div>
-        <LogBox>2021.12.18 00:00</LogBox>
-        <ListBox>
-          <TextBox>홍길동</TextBox>
-          <TextBox>승인대기</TextBox>
-          <TextBox>
-            <GrNext color="#A2A9AD" />
-          </TextBox>
-          <TextBox>
-            연차신청
-            <br />
-            01월24일
-          </TextBox>
-          <TextBox>
-            <MdOutlineDeleteForever size="30" color="#A2A9AD" />
-          </TextBox>
-        </ListBox>
-      </div>
+      {reqData ? (
+        <div>
+          {reqData.map((item, i) => (
+            <div key={`annualReqList-${i}`}>
+              <LogBox>{`${item.date[0]}.${item.date[1]}.${item.date[2]} ${item.date[3]}:${item.date[4]}`}</LogBox>
+              <ListBox>
+                <TextBox>{item.reqDriverName}</TextBox>
+                <TextBox>승인대기</TextBox>
+                <TextBox>
+                  <GrNext color="#A2A9AD" />
+                </TextBox>
+                <TextBox>
+                  연차신청
+                  <br />
+                  {item.reqDriverWorkDate[1]}월{item.reqDriverWorkDate[2]}일
+                </TextBox>
+                <TextBox>
+                  <button
+                    onClick={() => {
+                      setCancelId(item.replaceId);
+                      openCheck();
+                    }}
+                  >
+                    <MdOutlineDeleteForever size="30" color="#A2A9AD" />
+                    <CancelCheck
+                      open={cancelCheckModal}
+                      close={closeCheck}
+                      replaceId={cancelId}
+                    />
+                  </button>
+                </TextBox>
+              </ListBox>
+            </div>
+          ))}
+        </div>
+      ) : (
+        <>데이터가 없습니다.</>
+      )}
     </>
   );
 };

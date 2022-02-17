@@ -29,8 +29,6 @@ function removeItem(arr, value) {
 
 const LeaveReqModal = (props) => {
   const [curWorkId, setCurWorkId] = useState();
-  const [checked, setChecked] = useState(false);
-  const [selected, setSelected] = useState();
   const [selectArr, setSelectArr] = useState([]);
   // const [pageNum, setPageNum] = useState(0);
 
@@ -59,9 +57,12 @@ const LeaveReqModal = (props) => {
   };
 
   // 버튼클릭에 따라 이벤트 작동
-  const handleCheckBtn = () => {
+  const handleCheckBtn = (e) => {
     // 휴무일 추가 값 구하기 (체크된 날짜의 leaveId)
-    const selectList = [];
+    const selectList = selectArr;
+
+    const checked = e.target.checked;
+    const selected = e.target.value;
     // 체크박스가 체크되어 있으면 push, false가 되면 해당값을 배열에서 지운다.
     checked === true
       ? selectList.push(selected)
@@ -69,10 +70,10 @@ const LeaveReqModal = (props) => {
 
     // selectArr에 추가
     setSelectArr(selectList);
+    console.log(checked);
+    console.log(selected);
+    console.log(selectArr);
   };
-  console.log(checked);
-  console.log(selected);
-  console.log(selectArr);
 
   // 확인 버튼 클릭시 post
   const onSubmitFetchData = async () => {
@@ -138,8 +139,6 @@ const LeaveReqModal = (props) => {
                             id={item}
                             value={item}
                             onChange={(e) => {
-                              setChecked(e.target.checked);
-                              setSelected(e.target.value);
                               handleCheckBtn();
                             }}
                           ></input>
