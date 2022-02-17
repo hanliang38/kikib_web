@@ -1,4 +1,4 @@
-import React, { useState, useLayoutEffect } from 'react';
+import React, { useState, useEffect } from 'react';
 import logoHeader from '../assets/img/logo_header.png';
 import icoSearch from '../assets/img/ico_search.png';
 import icoMsg from '../assets/img/ico_msg.png';
@@ -29,15 +29,17 @@ const WorkScheduleManagement = (props) => {
     try {
       setError(null);
       await apiClient.get(`/route/driver?driverId=${driverId}`).then((res) => {
-        setBusRouteData(res.data.object.name);
-        setBusinessPlace(res.data.object.branchName);
+        const routeData = res.data.object.name;
+        const busBusinessPlace = res.data.object.branchName;
+        setBusRouteData(routeData);
+        setBusinessPlace(busBusinessPlace);
       });
     } catch (e) {
       setError(e);
     }
   };
 
-  useLayoutEffect(() => {
+  useEffect(() => {
     fetchData();
   }, []);
 
@@ -68,12 +70,19 @@ const WorkScheduleManagement = (props) => {
         <div className="inner">
           <div className="user-box">
             <div className="company">
-            <p className="txt01">{businessPlace}<br/>영업소</p>
+              <p className="txt01">
+                {businessPlace}
+                <br />
+                영업소
+              </p>
             </div>
 
             <div className="bus">
               <p className="txt01">{error ? `?` : busRouteData}번 노선</p>
-              <p className="txt02">A조 <strong>홍길동</strong>님<br />1194차량</p>
+              <p className="txt02">
+                A조 <strong>홍길동</strong>님<br />
+                1194차량
+              </p>
             </div>
 
             {/* .on 추가 : 근무일 */}
@@ -95,7 +104,11 @@ const WorkScheduleManagement = (props) => {
                 className="btn-common btn-holiday"
                 component={busRouteData}
               >
-                <span className="menu-title">근무<br />일정표</span>
+                <span className="menu-title">
+                  근무
+                  <br />
+                  일정표
+                </span>
 
                 <div className="icon-box">
                   <i className="ico-alarm"></i>
@@ -111,7 +124,11 @@ const WorkScheduleManagement = (props) => {
                 className="btn-common"
                 // onClick={() => alert('준비중인 기능입니다.')}
               >
-                <span className="menu-title">신청<br />현황</span>
+                <span className="menu-title">
+                  신청
+                  <br />
+                  현황
+                </span>
 
                 <div className="icon-box">
                   <i className="ico-alarm"></i>
@@ -120,7 +137,11 @@ const WorkScheduleManagement = (props) => {
               </a>
             </li>
             <li className="type-row chk-day">
-              <a href="/main" className="btn-common" onClick={() => alert('준비중인 기능입니다.')}>
+              <a
+                href="/main"
+                className="btn-common"
+                onClick={() => alert('준비중인 기능입니다.')}
+              >
                 <span className="menu-title">근무일정 확인</span>
                 <span className="date">01.31 ~ 02.06</span>
 
@@ -130,7 +151,11 @@ const WorkScheduleManagement = (props) => {
               </a>
             </li>
             <li className="type-row chk-timetable">
-              <a href="/main" className="btn-common" onClick={() => alert('준비중인 기능입니다.')}>
+              <a
+                href="/main"
+                className="btn-common"
+                onClick={() => alert('준비중인 기능입니다.')}
+              >
                 <span className="menu-title">배차일보 조회</span>
                 <span className="date">~ 01.30</span>
 

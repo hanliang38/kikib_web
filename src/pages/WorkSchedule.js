@@ -2,22 +2,12 @@ import React, { useEffect, useState } from 'react';
 import icoBack from '../assets/img/ico_back.png';
 import icoSearch from '../assets/img/ico_search.png';
 import icoMsg from '../assets/img/ico_msg.png';
-
-// import Navbar from './Navigationbar';
-// import Footer from './Footer';
 import FullCalendar from '@fullcalendar/react'; // must go before plugins
 import dayGridPlugin from '@fullcalendar/daygrid'; // a plugin!
 import timeGridPlugin from '@fullcalendar/timegrid';
 import interactionPlugin from '@fullcalendar/interaction';
 import axios from 'axios';
 import { useLocation, Navigate, useNavigate } from 'react-router-dom';
-// import styled, { createGlobalStyle } from 'styled-components';
-// import { MdWork } from 'react-icons/md';
-// import { device } from './Devices';
-// import DefaultFont from '../assets/font/agothic14.otf';
-// import calendarStyled from '@emotion/styled';
-// import Header from '../components/Header';
-// import { configs } from '../config/config';
 import apiClient from '../config/apiClient';
 import '../css/common.css';
 import '../css/management.css';
@@ -55,6 +45,10 @@ const WorkSchedule = () => {
   const [applyTerm, setApplyTerm] = useState('');
   const [nextMonthWork, setNextMonthWork] = useState();
 
+  useEffect(() => {
+    fetchData(currentYearMonth);
+  }, [currentYearMonth]);
+
   const fetchData = async () => {
     await apiClient
       .get(`/driver/work?yearMonth=${currentYearMonth}`)
@@ -63,20 +57,6 @@ const WorkSchedule = () => {
         const dataObj = res.data.object;
         next(dataObj);
         // console.log(dataObj);
-
-        // 휴무, 연차 신청에 사용할 데이터 (workId)
-        // console.log(dataObj);
-        const idArr = [];
-        dataObj
-          .filter(
-            (item) => item.status === 'WORK' || item.status === 'WORK-CHECK'
-          )
-          .map((work) => {
-            // console.log(idArr);
-            return idArr.push({ id: work.id, date: work.date });
-          });
-        // console.log(idArr);
-        setWorkList(idArr);
       });
 
     // 선택 가능한 휴무일 날짜
@@ -101,36 +81,31 @@ const WorkSchedule = () => {
       .then((res) => {
         setNextMonthWork(res.data.object);
       });
+    debugger;
   };
-
-  useEffect(() => {
-    fetchData(currentYearMonth);
-  }, [currentYearMonth]);
-
+  debugger;
   const next = (data) => {
+    debugger;
+    // 휴무, 연차 신청에 사용할 데이터 (workId)
+    const idArr = data
+      .filter((item) => item.status === 'WORK' || item.status === 'WORK-CHECK')
+      .map((work) => {
+        // console.log(idArr);
+        return { id: work.id, date: work.date };
+      });
+    // console.log(idArr);
+
     // obj 분할 (array) status ==> work, work-check, leave, leave-check
     // 근무일
     // console.log('workData::', data);
     const workDays = data
-      .filter((item) => item.status === 'WORK')
+      .filter((item) => item.status === 'WORK' || item.status === 'WORK-CHECK')
       .map((workDay) => {
         return {
           date: workDay.date,
           title: '근무',
-          color: 'transparent',
-          Image: 'MdWork',
-        };
-      });
-
-    // 근무확인
-    const workCheckDays = data
-      .filter((item) => item.status === 'WORK-CHECK')
-      .map((workCheckDay) => {
-        return {
-          date: workCheckDay.date,
-          title: '근무',
           color: '#007473',
-          Image: 'Mdwork',
+          Image: 'MdWork',
         };
       });
 
@@ -149,7 +124,9 @@ const WorkSchedule = () => {
 
     // 휴무일
     const leaveDays = data
-      .filter((item) => item.status === 'LEAVE')
+      .filter(
+        (item) => item.status === 'LEAVE' || item.status === 'LEAVE-CHECK'
+      )
       .map((leaveDay) => {
         return {
           date: leaveDay.date,
@@ -158,19 +135,10 @@ const WorkSchedule = () => {
         };
       });
 
-    // 휴무확인
-    const leaveCheckDays = data
-      .filter((item) => item.status === 'LEAVE-CHECK')
-      .map((leaveCheckDay) => {
-        return {
-          date: leaveCheckDay.date,
-          title: '휴무',
-          color: '#cc1a0d',
-        };
-      });
-
     const annualDays = data
-      .filter((item) => item.status === 'ANNUAL')
+      .filter(
+        (item) => item.status === 'ANNUAL' || item.status === 'ANNUAL-CHECK'
+      )
       .map((annualDay) => {
         return {
           date: annualDay.date,
@@ -179,35 +147,19 @@ const WorkSchedule = () => {
         };
       });
 
-    const annualCheckDays = data
-      .filter((item) => item.status === 'ANNUAL-CHECK')
-      .map((annualCheckDay) => {
-        return {
-          date: annualCheckDay.date,
-          title: '연차',
-          color: 'red',
-        };
-      });
+    setWorkList(idArr);
 
     // 근무일 수 (work + work-check)
-    setDayNum([...workDays, ...workCheckDays].length);
+    setDayNum([...workDays].length);
 
     // 휴무일 수 (leave + leave-check + annual + annual-check)
-    setLeaveNum([...leaveDays, ...leaveCheckDays].length);
+    setLeaveNum([...leaveDays].length);
 
     // 연차일 수 (annual + annual-check)
-    setAnnualNum([...annualDays, ...annualCheckDays].length);
+    setAnnualNum([...annualDays].length);
 
     // 모든 날짜 이벤트
-    setAllEvents([
-      ...workDays,
-      ...workCheckDays,
-      ...LeaveEarlyDays,
-      ...leaveDays,
-      ...leaveCheckDays,
-      ...annualDays,
-      ...annualCheckDays,
-    ]);
+    setAllEvents([...workDays, ...LeaveEarlyDays, ...leaveDays, ...annualDays]);
   };
 
   if (!userInfo) {
@@ -228,9 +180,7 @@ const WorkSchedule = () => {
         setCurrentYearMonth(dateString);
         setCurrentMonth(month);
       }
-    } catch (e) {
-      console.error();
-    }
+    } catch {}
   };
 
   return (
@@ -238,7 +188,7 @@ const WorkSchedule = () => {
       <div className="container management">
         <header>
           <div className="btn-back">
-            <button  onClick={() => navigate(-1)}>
+            <button onClick={() => navigate(-1)}>
               <img src={icoBack} alt="뒤로가기" />
             </button>
           </div>
@@ -253,7 +203,7 @@ const WorkSchedule = () => {
           </div>
         </header>
 
-        <div className={"calendar-wrap month-" + getCurrentMonth}>
+        <div className={'calendar-wrap month-' + getCurrentMonth}>
           <FullCalendar
             datesSet={handleMonthChange}
             plugins={[dayGridPlugin, timeGridPlugin, interactionPlugin]}
@@ -287,17 +237,17 @@ const WorkSchedule = () => {
             <ul className="days-list">
               <li>
                 <span>근무</span>
-                <br/>
+                <br />
                 <strong>{dayNum}일</strong>
               </li>
               <li>
                 <span>휴무</span>
-                <br/>
+                <br />
                 <strong>{leaveNum}일</strong>
               </li>
               <li>
                 <span>연차</span>
-                <br/>
+                <br />
                 <strong>{annualNum}일</strong>
               </li>
             </ul>
@@ -330,145 +280,7 @@ const WorkSchedule = () => {
         </nav>
       </div>
     </>
-
-    // <div>
-    //   <GlobalStyle />
-    //   {/* <Navbar /> */}
-    //   {/* {error && <div>에러가 발생했습니다.</div>} */}
-    //   {/* {loading && <div>{loadingImg}</div>} */}
-    //   <SchedulePage>
-    //     <Header />
-    //     <PageTitle>근무일정표</PageTitle>
-    //     <StyledWrapper>
-    //       <FullCalendar
-    //         height="80vh"
-    //         datesSet={handleMonthChange}
-    //         plugins={[dayGridPlugin, timeGridPlugin, interactionPlugin]}
-    //         initialView="dayGridMonth"
-    //         headerToolbar={{
-    //           left: 'prev',
-    //           center: 'title',
-    //           right: 'next',
-    //         }}
-    //         events={allEvents}
-    //         // 날짜 클릭 이벤트
-    //         dateClick={(info) => {
-    //           info.jsEvent.preventDefault();
-    //           // info.jsEvent = alert('추후 업데이트 예정입니다.');
-    //           info.jsEvent = navigate('/workerAndOff', {
-    //             state: {
-    //               date: info.dateStr,
-    //               workList: workList,
-    //               leaveData: leaveData,
-    //               applyTerm: applyTerm,
-    //               applyTarget: nextYearMonth,
-    //               nextMonthWork: nextMonthWork,
-    //             },
-    //           });
-    //         }}
-    //         locale="ko"
-    //       />
-    //       {/* {console.log(applyTerm)} */}
-    //     </StyledWrapper>
-    //     <LeaveWorkTable>
-    //       <table width="100%">
-    //         <tbody>
-    //           <tr>
-    //             <th>근무일</th>
-    //             <th>휴무일</th>
-    //             <th>연차</th>
-    //           </tr>
-    //           <tr>
-    //             <th>{dayNum}일</th>
-    //             <th>{leaveNum}일</th>
-    //             <th>{annualNum}일</th>
-    //           </tr>
-    //         </tbody>
-    //       </table>
-    //     </LeaveWorkTable>
-    //   </SchedulePage>
-    // </div>
   );
 };
-
-// export const StyledWrapper = calendarStyled.div`
-// .fc-toolbar-title, .fc-col-header-cell-cushion, .fc-daygrid-day-number {
-//   font-size: 20px;
-// } 
-// .fc-event-title {
-//   font-size: 5vw; 
-// }
-// .fc-event-title-container{
-//   text-align: center;
-// }
-// .fc-prev-button, .fc-next-button{
-//   font-size: 15px;
-// }
-// `;
-
-// const GlobalStyle = createGlobalStyle`
-// @font-face {
-//   font-family: 'agothic14';
-//   src: url(${DefaultFont});
-// }
-
-// *{
-//   margin: 0;
-//   padding: 0;
-//   box-sizing: content-box;
-//   }
-
-// body {
-//   font-family: agothic14;
-//   display: flex;
-//   justify-content: center;
-//   align-items: center;
-//   margin: 20px
-//   width: 100vw;
-//   height: 100vh;
-// }
-
-// #root {
-//   margin: 10px;
-//   width: 100vw;
-//   height: 100vh;
-// }
-// `;
-
-// const SchedulePage = styled.div`
-//   margin-top: 50px;
-//   text-align: center;
-//   height: 100vh;
-// `;
-
-// const PageTitle = styled.h1`
-//   font-size: 40px;
-//   font-style: bold;
-//   padding-bottom: 10px;
-// `;
-
-// const LeaveWorkTable = styled.div`
-//   margin-left: auto;
-//   text-align: center;
-//   margin-top: 20px;
-//   margin-right: auto;
-//   font-size: 30px;
-//   &table {
-//     border: 2px white;
-//     border-style: solid;
-//   }
-// `;
-// styled.th`
-//   width: 50%;
-//   padding: 10px 5px;
-//   margin-top: 20px;
-//   justify-content: space-between;
-// `;
-// styled.td`
-//   border-width: 1px;
-//   padding: 10px 5px;
-//   border: solid 2px;
-//   border-color: red;
-// `;
 
 export default WorkSchedule;

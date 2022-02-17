@@ -1,6 +1,7 @@
 {
   "name": "kikib_web",
   "version": "0.1.0",
+  "type": "module",
   "private": true,
   "_coment_proxy_": "https://kikib-server.azurewebsites.net",
   "_proxy_": "http://13.209.203.232:8080",
