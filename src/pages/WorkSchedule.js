@@ -81,11 +81,8 @@ const WorkSchedule = () => {
       .then((res) => {
         setNextMonthWork(res.data.object);
       });
-    debugger;
   };
-  debugger;
   const next = (data) => {
-    debugger;
     // 휴무, 연차 신청에 사용할 데이터 (workId)
     const idArr = data
       .filter((item) => item.status === 'WORK' || item.status === 'WORK-CHECK')
