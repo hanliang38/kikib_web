@@ -2,8 +2,8 @@ import React from 'react';
 import apiClient from '../../config/apiClient';
 import '../../css/modal.css';
 
-const CancelCheck = ({ open, close, replaceId }) => {
-  // const { open, close, replaceId } = props;
+const CancelCheck = (props) => {
+  const { open, close, replaceId } = props;
 
   console.log(replaceId);
 
