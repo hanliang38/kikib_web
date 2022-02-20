@@ -9,15 +9,12 @@ function RouteTimeTable({ busNumber }) {
   const routeStationData = routeData.stnList;
 
   // table-head 높이값 체크
-  // const headHeight = this.divElement.clientHeight;
   const divElRef = useRef();
+  const styles = { height: `calc(100% - ${headHeight}px)` };
 
-  // const styles = { height: 'calc(100% -' + headHeight };
   useEffect(() => {
     setHeadHeight(divElRef.current.clientHeight);
   }, []);
-
-  const styles = { height: `calc(100% - ${headHeight}` };
 
   return (
     <>
@@ -36,9 +33,7 @@ function RouteTimeTable({ busNumber }) {
           </div>
         </div>
 
-        {/* style={{height:'calc(100% -' + headHeight}} */}
         <div className="table-body" style={styles}>
-          {/* <div className="table-body"> */}
           <ul>
             {routeStationData.map((row, i) => (
               <li key={`stationList-${i}`}>{row.stationName}</li>
