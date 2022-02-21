@@ -11,7 +11,7 @@ import timeGridPlugin from '@fullcalendar/timegrid';
 import interactionPlugin from '@fullcalendar/interaction';
 import calendarStyled from '@emotion/styled';
 import ReplaceRequestList from '../components/ReplaceRequestList';
-import ReplaceResponseList from '../components/ReplaceResponseList';
+import ReplaceResultList from '../components/ReplaceResultList';
 import '../css/common.css';
 
 const ReplaceRequest = (props) => {
@@ -79,7 +79,7 @@ const ReplaceRequest = (props) => {
                 처리결과
               </a>
             </div>
-            {currentPage ? <ReplaceRequestList /> : <ReplaceResponseList />}
+            {currentPage ? <ReplaceRequestList /> : <ReplaceResultList />}
           </div>
         </div>
       </div>

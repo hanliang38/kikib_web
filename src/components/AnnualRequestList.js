@@ -1,11 +1,11 @@
-import React, { useEffect, useState } from 'react';
+import React, { useState } from 'react';
 import styled from 'styled-components';
 import { MdOutlineDeleteForever } from 'react-icons/md';
 import { GrNext } from 'react-icons/gr';
 import CancelCheck from './modal/CancelCheck';
 
 const AnnualRequestList = ({ reqData }) => {
-  console.log(reqData);
+  // console.log(reqData);
   const [cancelId, setCancelId] = useState();
   const [cancelCheckModal, setCancelCheckModal] = useState(false);
 
@@ -50,6 +50,7 @@ const AnnualRequestList = ({ reqData }) => {
                     open={cancelCheckModal}
                     close={closeCheck}
                     replaceId={cancelId}
+                    status={'연차 신청'}
                   ></CancelCheck>
                 </TextBox>
               </ListBox>

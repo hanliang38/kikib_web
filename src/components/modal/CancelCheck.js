@@ -3,15 +3,23 @@ import apiClient from '../../config/apiClient';
 import '../../css/modal.css';
 
 const CancelCheck = (props) => {
-  const { open, close, replaceId } = props;
+  const { open, close, replaceId, dayOffId, status } = props;
   // const replaceId = props.replaceId;
 
-  console.log(replaceId);
+  // console.log(replaceId);
 
-  const onSubmitFetchData = async () => {
+  const DeleteAnnualReqData = async () => {
     await apiClient.put(`/replace/${replaceId}/cancel`).then(() => {
       window.location.replace('/annualStatus');
     });
+  };
+
+  const DeleteLeaveReqData = async () => {
+    await apiClient
+      .delete(`/driver/leave/request?dayOffId=${dayOffId}`)
+      .then(() => {
+        window.location.replace('/leaveStatus');
+      });
   };
 
   // style
@@ -37,7 +45,7 @@ const CancelCheck = (props) => {
           <section>
             <main>
               <div>
-                선택하신 연차 신청을
+                선택하신 {status}을
                 <br /> 취소하시겠습니까?
                 <br />
                 <br /> 확인 시 목록에서 삭제됩니다.
@@ -48,7 +56,9 @@ const CancelCheck = (props) => {
               <button
                 style={submitBtn}
                 onClick={() => {
-                  onSubmitFetchData();
+                  status === '휴무 신청'
+                    ? DeleteLeaveReqData()
+                    : DeleteAnnualReqData();
                 }}
               >
                 확인
