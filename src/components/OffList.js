@@ -6,6 +6,8 @@ import RequestForLeave from './RequestForLeave';
 const WorkerList = ({ offRows, offList }) => {
   const [offDataObj, setOffDataObj] = useState();
 
+  console.log('offList::', offList);
+
   useEffect(() => {
     fetchData();
   }, []);
