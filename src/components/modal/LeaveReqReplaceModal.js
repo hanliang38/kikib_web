@@ -5,7 +5,7 @@ import apiClient from '../../config/apiClient';
 import LeaveReplaceCheckModal from './LeaveReplaceCheckModal';
 
 const LeaveReqReplaceModal = (props) => {
-  const { open, close } = props;
+  const { open, close, offList } = props;
   const location = useLocation();
 
   // 현재 선택한 날짜
@@ -13,33 +13,15 @@ const LeaveReqReplaceModal = (props) => {
   const selectDate = `${dateArr[1]}월 ${dateArr[2]}일`;
   const userInfo = JSON.parse(window.sessionStorage.getItem('userInfo'));
   const myName = userInfo.name;
-  const date = location.state.date;
-  const busRouteId = window.sessionStorage.getItem('routeId');
+  // const date = location.state.date;
+  // const busRouteId = window.sessionStorage.getItem('routeId');
+
   // state값
   const [selectAngel, setSelectAngel] = useState('승무원');
   const [selectMyLeave, setSelectMyLeave] = useState('00월 00일');
   const [leaveDate, setLeaveDate] = useState('00월 00일');
   const [pageNum, setPageNum] = useState(0);
-  const [offList, setOffList] = useState();
-
-  const leaveData = async () => {
-    // 휴무자 API 구하기
-    await apiClient.get(`/work/${busRouteId}/${date}/not-work`).then((res) => {
-      const offObj = res.data.object;
-      // 휴무교환으로 넘길 휴무자 data
-      const offArr = [];
-      offObj.map((item) =>
-        item.status === 'LEAVE' || item.status === 'LEAVE-CHECK'
-          ? offArr.push({
-              workId: item.workId,
-              driverName: item.driverName,
-            })
-          : null
-      );
-      // console.log(offArr);
-      setOffList(offArr);
-    });
-  };
+  // const [offList, setOffList] = useState();
 
   // 1. 선택 가능 자신의 휴무 날짜 (교환할 내 휴무일) (휴무 -> 근무)
   const leavesData = location.state.leaveData;
@@ -54,9 +36,9 @@ const LeaveReqReplaceModal = (props) => {
     .map((item) => item.id);
 
   // 3. 교환하고 싶은 사람의 데이터
-  const angel = offList;
-  console.log('angel', angel);
-  const resDriverLeaveId = angel
+  // const angel = offList;
+  console.log('angel', offList);
+  const resDriverLeaveId = offList
     .filter((item) => item.driverName === selectAngel)
     .map((item) => item.workId);
 
@@ -122,7 +104,7 @@ const LeaveReqReplaceModal = (props) => {
                       <option value="승무원" defaultValue>
                         승무원 선택 ⌵
                       </option>
-                      {angel.map((myAngel, i) => (
+                      {offList.map((myAngel, i) => (
                         <option key={`list-${i}`} value={myAngel.driverName}>
                           {myAngel.driverName}
                         </option>
@@ -136,7 +118,7 @@ const LeaveReqReplaceModal = (props) => {
                       <option defaultValue value="0000-00-00">
                         휴무일 선택 ⌵
                       </option>
-                      {leaveData.map((myLeave, i) => (
+                      {leaveDate.map((myLeave, i) => (
                         <option key={`list-${i}`} value={myLeave.date}>
                           {myLeave.date}
                         </option>

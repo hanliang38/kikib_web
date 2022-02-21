@@ -10,6 +10,7 @@ import { useLocation, Navigate, useNavigate } from 'react-router-dom';
 import apiClient from '../config/apiClient';
 import '../css/common.css';
 import '../css/management.css';
+import Calendar from '../components/Calendar';
 
 const today = new Date();
 const nowYear = today.getFullYear();
@@ -266,8 +267,10 @@ const WorkSchedule = () => {
           }}
           locale="ko"
         />
+
         {/* {console.log(applyTerm)} */}
         <div className={`calendar-wrap month-${currnetMonth}`}>
+          <Calendar />
           <div className="work-days">
             <ul className="days-list">
               <li>

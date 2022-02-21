@@ -10,7 +10,7 @@ import timeGridPlugin from '@fullcalendar/timegrid';
 import interactionPlugin from '@fullcalendar/interaction';
 import calendarStyled from '@emotion/styled';
 import AnnualRequestList from '../components/AnnualRequestList';
-import AnnualResponseList from '../components/AnnualResponseList';
+import AnnualResultList from '../components/AnnualResultList';
 import '../css/common.css';
 
 const today = new Date();
@@ -150,7 +150,7 @@ const AnnualRequestProcessStatus = (props) => {
             {currentPage ? (
               <AnnualRequestList reqData={reqData} />
             ) : (
-              <AnnualResponseList resultData={resultData} />
+              <AnnualResultList resultData={resultData} />
             )}
           </div>
         </div>

@@ -1,8 +1,7 @@
-import React, { useState } from 'react';
+import React, { useEffect, useState } from 'react';
 import styled from 'styled-components';
 import { MdOutlineDeleteForever } from 'react-icons/md';
 import { GrNext } from 'react-icons/gr';
-import apiClient from '../config/apiClient';
 import CancelCheck from './modal/CancelCheck';
 
 const AnnualRequestList = ({ reqData }) => {
@@ -16,6 +15,8 @@ const AnnualRequestList = ({ reqData }) => {
   const closeCheck = (e) => {
     setCancelCheckModal(false);
   };
+
+  useEffect(() => {}, [cancelId]);
 
   return (
     <>

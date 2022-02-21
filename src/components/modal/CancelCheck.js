@@ -4,6 +4,7 @@ import '../../css/modal.css';
 
 const CancelCheck = (props) => {
   const { open, close, replaceId } = props;
+  // const replaceId = props.replaceId;
 
   console.log(replaceId);
 
@@ -41,7 +42,7 @@ const CancelCheck = (props) => {
                 <br />
                 <br /> 확인 시 목록에서 삭제됩니다.
               </div>
-              <button className="close" onClick={close} style={closeBtn}>
+              <button className="close" onClick={close()} style={closeBtn}>
                 취소
               </button>
               <button
