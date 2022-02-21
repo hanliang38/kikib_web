@@ -16,7 +16,7 @@ const AnnualRequestList = ({ reqData }) => {
     setCancelCheckModal(false);
   };
 
-  useEffect(() => {}, [cancelId]);
+  // useEffect(() => {}, [cancelId]);
 
   return (
     <>
@@ -37,19 +37,20 @@ const AnnualRequestList = ({ reqData }) => {
                   {item.reqDriverWorkDate[1]}월{item.reqDriverWorkDate[2]}일
                 </TextBox>
                 <TextBox>
-                  <button
+                  <a
+                    href="#!"
                     onClick={() => {
                       setCancelId(item.replaceId);
                       openCheck();
                     }}
                   >
                     <MdOutlineDeleteForever size="30" color="#A2A9AD" />
-                    <CancelCheck
-                      open={cancelCheckModal}
-                      close={closeCheck}
-                      replaceId={cancelId}
-                    />
-                  </button>
+                  </a>
+                  <CancelCheck
+                    open={cancelCheckModal}
+                    close={closeCheck}
+                    replaceId={cancelId}
+                  ></CancelCheck>
                 </TextBox>
               </ListBox>
             </div>

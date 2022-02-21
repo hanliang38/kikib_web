@@ -62,7 +62,7 @@ const AnnualRequestProcessStatus = (props) => {
       const annualResult = result.filter(
         (item) => item.reqDriverStatus === 'ANNUAL'
       );
-      // console.log('annualResult', annualResult);
+      console.log('annualResult', annualResult);
       resultNext(annualResult);
     });
   };
@@ -89,6 +89,7 @@ const AnnualRequestProcessStatus = (props) => {
         reqDriverName: item.reqDriverName,
         reqDriverWorkDate: item.reqDriverWorkDate.split('-'),
         updatedAt: item.updatedAt.split(/[^0-9^]/g),
+        // ++ 배차완료시킨 관리자명 추가
       };
     });
     setResultData(resultList);

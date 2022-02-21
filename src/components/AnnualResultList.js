@@ -11,7 +11,10 @@ const AnnualResultList = ({ resultData }) => {
         <div>
           {resultData.map((item, i) => (
             <div key={`annualResultList-${i}`}>
-              <LogBox>{`${item.updatedAt[0]}.${item.updatedAt[1]}.${item.updatedAt[2]} ${item.updatedAt[3]}:${item.updatedAt[4]}`}</LogBox>
+              <LogDiv>
+                <LogBox>{`${item.updatedAt[0]}.${item.updatedAt[1]}.${item.updatedAt[2]} ${item.updatedAt[3]}:${item.updatedAt[4]}`}</LogBox>
+                <Manager>{'배차관리자(추가예정)'}</Manager>
+              </LogDiv>
               <ListBox>
                 <TextBox>{item.reqDriverName}</TextBox>
                 <TextBox>
@@ -36,7 +39,12 @@ const AnnualResultList = ({ resultData }) => {
   );
 };
 
+const LogDiv = styled.div`
+  justify-content: space-between;
+`;
+
 const LogBox = styled.div`
+  display: inline-block;
   font-size: 13px;
   background-color: #a2a9ad;
   color: white;
@@ -45,6 +53,12 @@ const LogBox = styled.div`
   text-align: center;
   border-radius: 3rem;
   margin: 5px;
+`;
+
+const Manager = styled.div`
+  display: inline-block;
+  font-size: 13px;
+  width: 40%;
 `;
 
 const ListBox = styled.div`

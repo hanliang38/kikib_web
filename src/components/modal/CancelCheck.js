@@ -42,7 +42,7 @@ const CancelCheck = (props) => {
                 <br />
                 <br /> 확인 시 목록에서 삭제됩니다.
               </div>
-              <button className="close" onClick={close()} style={closeBtn}>
+              <button className="close" onClick={close} style={closeBtn}>
                 취소
               </button>
               <button
