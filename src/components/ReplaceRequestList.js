@@ -1,11 +1,11 @@
 import React, { useState } from 'react';
 import styled from 'styled-components';
 import { MdOutlineDeleteForever } from 'react-icons/md';
-import { GrNext } from 'react-icons/gr';
+import { GrNext, GrPrevious } from 'react-icons/gr';
 import CancelCheck from './modal/CancelCheck';
 
 const ReplaceRequestList = ({ reqData }) => {
-  // console.log(reqData);
+  console.log(reqData);
   const [cancelId, setCancelId] = useState();
   const [cancelCheckModal, setCancelCheckModal] = useState(false);
 
@@ -24,17 +24,24 @@ const ReplaceRequestList = ({ reqData }) => {
             <div key={`annualReqList-${i}`}>
               <LogBox>{`${item.date[0]}.${item.date[1]}.${item.date[2]} ${item.date[3]}:${item.date[4]}`}</LogBox>
               <ListBox>
-                <TextBox>{item.reqDriverName}</TextBox>
                 <TextBox>
-                  처리
+                  {item.reqDriverName}
                   <br />
-                  대기
+                  {`${item.reqDriverLeaveDate[1]}월 ${item.reqDriverLeaveDate[1]}일`}
+                </TextBox>
+                <TextBox>
+                  <GrPrevious color="#A2A9AD" />
+                </TextBox>
+                <TextBox>
+                  {item.status.substr(0, 2)}
+                  <br />
+                  {item.status.substr(2, 2)}
                 </TextBox>
                 <TextBox>
                   <GrNext color="#A2A9AD" />
                 </TextBox>
                 <TextBox>
-                  휴무신청
+                  {item.resDriverName}
                   <br />
                   {item.reqDriverWorkDate[1]}월{item.reqDriverWorkDate[2]}일
                 </TextBox>
