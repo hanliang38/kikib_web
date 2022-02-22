@@ -15,6 +15,7 @@ import calendarStyled from '@emotion/styled';
 import Header from '../components/Header';
 // import { configs } from '../config/config';
 import apiClient from '../config/apiClient';
+// import '../css/common.css';
 
 axios.withCredentials = true;
 axios.defaults.withCredentials = true;
@@ -175,7 +176,7 @@ const WorkSchedule = () => {
           <PageTitle>근무일정표</PageTitle>
           <StyledWrapper>
             <FullCalendar
-              height="1300px"
+              height="65vh"
               datesSet={handleMonthChange}
               plugins={[dayGridPlugin, timeGridPlugin, interactionPlugin]}
               initialView="dayGridMonth"
@@ -226,16 +227,24 @@ const WorkSchedule = () => {
 
 export const StyledWrapper = calendarStyled.div`
 .fc-toolbar-title, .fc-col-header-cell-cushion, .fc-daygrid-day-number {
-  font-size: 50px;
+  font-size: 20px;
 } 
 .fc-event-title {
-  font-size: 40px; 
+  font-size: 5vw; 
 }
 .fc-event-title-container{
   text-align: center;
 }
 .fc-prev-button, .fc-next-button{
-  font-size: 30px;
+  font-size: 10px;
+}
+.fc-daygrid-day-frame{
+  height: 10px;
+}
+.fc-dayGridMonth-view{
+  height: 60vh;
+  margin:0;
+  padding:0;
 }
 `;
 
@@ -244,13 +253,11 @@ const GlobalStyle = createGlobalStyle`
   font-family: 'agothic14';
   src: url(${DefaultFont});
 }
-
 *{
   margin: 0;
   padding: 0;
   box-sizing: content-box;
   }
-
 body {
   font-family: agothic14;
   display: flex;
@@ -258,27 +265,23 @@ body {
   align-items: center;
   margin: 20px
   width: 100vw;
-  height: 100vh;
 }
-
 #root {
   margin: 10px;
   width: 100vw;
-  height: 100vh;
 }
 `;
 
 const SchedulePage = styled.div`
-  margin-top: 100px;
-  margin-bottom: 100px;
   text-align: center;
   height: 100vh;
 `;
 
 const PageTitle = styled.h1`
-  font-size: 80px;
+  margin-top: 40px;
+  font-size: 30px;
   font-style: bold;
-  padding-bottom: 30px;
+  padding-bottom: 10px;
 `;
 
 const LeaveWorkTable = styled.div`
@@ -286,7 +289,7 @@ const LeaveWorkTable = styled.div`
   text-align: center;
   margin-top: 20px;
   margin-right: auto;
-  font-size: 50px;
+  font-size: 30px;
   &table {
     border: 2px white;
     border-style: solid;

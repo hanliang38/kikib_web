@@ -158,7 +158,7 @@ const Main = () => {
               <a
                 href="#!"
                 className="btn-common btn-disabled"
-                onClick={(e) => e.preventDefault}
+                onClick={() => alert('준비중인 기능입니다.')}
               >
                 <span className="menu-title">
                   차량
@@ -176,7 +176,7 @@ const Main = () => {
               <a
                 href="#!"
                 className="btn-common btn-disabled"
-                onClick={(e) => e.preventDefault}
+                onClick={() => alert('준비중인 기능입니다.')}
               >
                 <span className="menu-title">
                   운행
@@ -204,7 +204,7 @@ const Main = () => {
               <a
                 href="#!"
                 className="btn-common btn-disabled"
-                onClick={(e) => e.preventDefault}
+                onClick={() => alert('준비중인 기능입니다.')}
               >
                 <span className="menu-title">분실물 관리</span>
 
@@ -230,7 +230,7 @@ const Main = () => {
               </a>
             </li>
             <li>
-              <a href="#!">
+              <a href="/personalTimeTable">
                 <span className="blind">배차일보</span>
               </a>
             </li>
@@ -245,45 +245,5 @@ const Main = () => {
     </>
   );
 };
-
-// 기존 소스
-// <GlobalStyle />
-// <MainPage>
-//   <UserName>
-//     <h1>
-//       {userName} {error ? `?` : busRouteData}번 승무원님
-//     </h1>
-//   </UserName>
-//   <DateTimeWeather>
-//     <Daily>
-//       <Clock
-//         format={'MM/DD dddd'}
-//         ticking={true}
-//         timezone={'Asia/Seoul'}
-//       />
-//     </Daily>
-//     <Daily>
-//       <Clock format={'A hh:mm'} ticking={true} timezone={'Asia/Seoul'} />
-//     </Daily>
-//     <span><img src={imgURL} alt="Current Weather icon" /></span>
-//   </DateTimeWeather>
-//   <BtnsDiv>
-//     <BtnDiv>
-//       <Link to="/management" component={busRouteData}>
-//         <Btn>근무일정관리</Btn>
-//       </Link>
-//     </BtnDiv>
-//     <BtnDiv>
-//       <Link to="/personalTimeTable">
-//       <Btn onClick={() => alert('준비중인 기능입니다.')}>
-//         배차일보조회
-//       </Btn>
-//       </Link>
-//     </BtnDiv>
-//   </BtnsDiv>
-//   <QrBtnDiv>
-//     <QrBtn>관리자 문의하기</QrBtn>
-//   </QrBtnDiv>
-// </MainPage>
 
 export default Main;

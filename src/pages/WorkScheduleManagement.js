@@ -142,22 +142,23 @@ body {
 }
 `;
 const ManagePage = styled.div`
-  margin-top: 100px;
-  margin-bottom: 100px;
+  margin-top: 50px;
+  margin-bottom: 30px;
   text-align: center;
   height: 100vh;
 `;
 const TitleName = styled.div`
   text-align: center;
-  margin-bottom: 50px;
-  font-size: 60px;
+  margin-bottom: 30px;
+  font-size: 30px;
 `;
 const UserInfo = styled.div`
-  margin-top: 100px;
-  margin-bottom: 100px;
+  margin-top: 30px;
+  margin-bottom: 30px;
   display: flex;
   justify-content: center;
-  font-size: 50px;
+  font-size: 20px;
+  height: 70px;
 `;
 const CompanyBox = styled.div`
   display: table-cell;
@@ -168,8 +169,8 @@ const CompanyBox = styled.div`
   border-radius: 1.5rem;
   color: white;
   width: 30%;
-  height: 20%;
-  padding: 30px;
+  height: 100%;
+  padding: 10px;
   text-align: center;
   vertical-align: middle;
 `;
@@ -182,14 +183,15 @@ border-color: #20928C;
 border-radius: 1.5rem;
 color: white;
 width: 30%;
-height: 20%;
-padding: 30px;
+height: 100%;
+padding: 10px;
 text-align:center;
 vertical-align:middle;
 `;
 const BtnsDiv = styled.div`
   text-align: center;
-  min-width: 500px;
+  width: 100%;
+  height: 60vh;
 `;
 
 const BtnDiv = styled.div`
@@ -197,10 +199,10 @@ const BtnDiv = styled.div`
 `;
 
 const Btn = styled.button`
-  font-size: 70px;
+  font-size: 30px;
   font-weight: bold;
   width: 85%;
-  min-height: 180px;
+  height: 10vh;
   border-style: solid;
   border-width: 1.5px;
   border-color: #c0c0c0;
