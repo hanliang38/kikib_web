@@ -104,7 +104,7 @@ const PersonalTimeTable = () => {
               <img src={logoBus} alt="" />
             </div>
             <h1>
-              <span>{businessPlace}</span> {routeName}번 노선{' '}
+              <span>{/*businessPlace*/}삼영운수</span> {routeName}번 노선{' '}
               <span className="bus-num">
                 {busNumber ? busNumber : null}차량
               </span>
