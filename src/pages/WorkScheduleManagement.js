@@ -150,7 +150,7 @@ const ManagePage = styled.div`
 const TitleName = styled.div`
   text-align: center;
   margin-bottom: 50px;
-  font-size: 40px;
+  font-size: 60px;
 `;
 const UserInfo = styled.div`
   margin-top: 100px;
@@ -167,8 +167,8 @@ const CompanyBox = styled.div`
   border-color: #e7e6e6;
   border-radius: 1.5rem;
   color: white;
-  width: 22%;
-  height: 130px;
+  width: 30%;
+  height: 20%;
   padding: 30px;
   text-align: center;
   vertical-align: middle;
@@ -181,8 +181,8 @@ border-size: 3px
 border-color: #20928C;
 border-radius: 1.5rem;
 color: white;
-width: 22%;
-height: 130px;
+width: 30%;
+height: 20%;
 padding: 30px;
 text-align:center;
 vertical-align:middle;

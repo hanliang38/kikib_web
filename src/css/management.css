@@ -1,0 +1,717 @@
+/********************
+    MANAGEMENT
+********************/
+/* user-box */
+.container.management .user-box {
+  position: relative;
+  display: flex;
+  align-items: center;
+  height: 32.6rem;
+  padding: 0 0 0 9rem;
+}
+.container.management .user-box .company {
+  position: relative;
+  width: 21.2rem;
+  height: 20.6rem;
+  border: 0.3rem solid rgba(255, 255, 255, 0.4);
+  background-color: #0b2a4a;
+  border-radius: 3.8rem;
+  text-align: center;
+  line-height: 1.3;
+  overflow: hidden;
+  backdrop-filter: blur(18px);
+  -webkit-backdrop-filter: blur(18px);
+}
+/* .container.management .user-box .company::before {content:''; z-index:1; position:absolute; top:0; left:0; width:100%; height:100%; } */
+.container.management .user-box .company .txt01 {
+  z-index: 2;
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+  width: 100%;
+  color: #fff;
+  font-size: 5.2rem;
+  text-align: center;
+}
+.container.management .user-box .bus {
+  padding-left: 4.5rem;
+  color: #fff;
+  line-height: 1.3;
+}
+.container.management .user-box .bus .txt01 {
+  padding-bottom: 0.5rem;
+  font-size: 5.2rem;
+}
+.container.management .user-box .bus .txt02 {
+  font-size: 3.4rem;
+  font-weight: 400;
+}
+.container.management .user-box .bus .txt02 > strong {
+  font-weight: 700;
+}
+
+.day {
+  position: absolute;
+  bottom: 3rem;
+  right: 4.8rem;
+  width: 18.5rem;
+  height: 5.4rem;
+  background: url('../assets/img/ico_day_off.png') no-repeat center;
+  background-size: 100%;
+}
+.day.on {
+  background-image: url('../assets/img/ico_day_on.png');
+}
+
+/* daily-box */
+.container.management .inner {
+  background: url('../assets/img/bg_daily02.jpg') no-repeat top center / contain;
+}
+.container.management .daily-box {
+  padding: 3.5rem 0;
+}
+.container.management .daily-box .box-inner {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  width: 65.4rem;
+  height: 12.4rem;
+  margin: 0 auto;
+  padding: 0 4.6rem;
+  border: 0.3rem solid rgba(255, 255, 255, 0.24);
+  border-radius: 6.2rem;
+  background-color: rgba(255, 255, 255, 0.4);
+  line-height: 1.2;
+}
+.container.management .daily-box .item {
+  height: 8.2rem;
+}
+.container.management .daily-box .item + .item {
+  position: relative;
+}
+.container.management .daily-box .item + .item::before {
+  content: '';
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 0.2rem;
+  height: 8.2rem;
+  background-color: #000;
+}
+.container.management .daily-box .item {
+  width: 13.4rem;
+  padding: 0 2.4rem;
+  text-align: center;
+  white-space: nowrap;
+  box-sizing: content-box;
+}
+.container.management .daily-box .date {
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between;
+  width: 14.4rem;
+  font-size: 3.4rem;
+}
+.container.management .daily-box .clock {
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between;
+  font-size: 3.4rem;
+}
+.container.management .daily-box .item .first {
+  padding-top: 0.2rem;
+  font-weight: 400;
+  line-height: 1;
+}
+.container.management .daily-box .item .second {
+  padding-bottom: 0.2rem;
+  line-height: 1;
+}
+.container.management .daily-box .clock .second {
+  font-size: 3.8rem;
+}
+.container.management .daily-box .weather {
+  height: 3.8rem;
+  margin-top: -1rem;
+  padding-top: 4.4rem;
+  background: url('../assets/img/ico_weather.png') no-repeat top center / 6.6rem
+    4.4rem;
+  font-size: 3.8rem;
+}
+.container.management .daily-box .weather.ico-weather01 {
+  background-image: url('../assets/img/ico_weather.png');
+}
+.container.management .daily-box .item.weather::before {
+  top: 0.5rem;
+}
+
+/* daily-box(dark-mode) */
+.container.management .inner.dark {
+  background-image: url('../assets/img/bg_daily_dark.jpg');
+}
+.container.management .dark-mode .daily-box {
+  color: #fff;
+}
+.container.management .dark-mode .daily-box .item + .item::before {
+  background-color: #fff;
+}
+
+/* menu-list */
+.container.management .menu-list {
+  display: flex;
+  justify-content: space-between;
+  flex-wrap: wrap;
+  padding: 4.2rem 4.8rem 21rem;
+  border-top-right-radius: 0.8rem;
+  border-top-left-radius: 6rem;
+  background-color: #f2f3f7;
+}
+.container.management .menu-list > li {
+  position: relative;
+  width: 30.4rem;
+  height: 25.5rem;
+  border: 1px solid rgba(255, 255, 255, 0.5);
+  border-radius: 2rem;
+  background: linear-gradient(-45deg, #f2f3f7, #e8ebf2);
+  box-shadow: 2rem 2rem 3rem rgba(15, 41, 107, 0.12);
+  font-size: 5.2rem;
+}
+.container.management .menu-list > li:first-child {
+  border-bottom-right-radius: 5rem;
+}
+.container.management .menu-list > li:nth-child(2) {
+  border-bottom-left-radius: 5rem;
+}
+.container.management .menu-list > li:nth-child(2) ~ li {
+  margin-top: 4.8rem;
+}
+.container.management .menu-list > li:last-child {
+  margin-top: 3.6rem;
+}
+.container.management .menu-list > li .menu-title {
+  line-height: 1.2;
+}
+.container.management .menu-list > li > a {
+  display: block;
+  height: 100%;
+  padding: 3.4rem 4.4rem;
+}
+
+.container.management .menu-list .btn-common.btn-disabled {
+  color: #bcbcbc;
+  pointer-events: none;
+}
+.container.management .menu-list .btn-common.btn-disabled::after {
+  content: '준비중';
+  position: absolute;
+  bottom: 2.5rem;
+  right: 2rem;
+  color: #007473;
+  font-size: 2.8rem;
+}
+.container.management .menu-list .btn-common .notify-txt {
+  display: none;
+}
+.container.management .menu-list .btn-common.btn-holiday .notify-txt {
+  display: block;
+  position: absolute;
+  bottom: 2.5rem;
+  right: 2rem;
+  color: #e12c03;
+  font-size: 2.8rem;
+}
+
+.container.management .menu-list .icon-box {
+  position: absolute;
+  top: 3rem;
+  right: 2rem;
+}
+.container.management .menu-list .icon-box > i {
+  display: block;
+  width: 6.4rem;
+  height: 6.4rem;
+  background-repeat: no-repeat;
+  background-position: center;
+  background-size: 5.2rem;
+}
+.container.management .menu-list .icon-box > i.ico-alarm {
+  background-image: url('../assets/img/ico_alarm_off.png');
+  background-size: 6.4rem;
+}
+.container.management .menu-list .icon-box > i.ico-alarm.on {
+  background-image: url('../assets/img/ico_alarm_on.png');
+}
+.container.management .menu-list .icon-box > i.ico-calendar {
+  background-image: url('../assets/img/ico_calendar.png');
+}
+.container.management .menu-list .icon-box > i.ico-request {
+  background-image: url('../assets/img/ico_request.png');
+}
+
+.container.management .menu-list > li.type-cell .menu-title {
+  text-shadow: 0.5rem 0.5rem 1rem rgba(0, 0, 0, 0.14);
+}
+.container.management .menu-list > li.type-cell .btn-disabled .menu-title {
+  text-shadow: none;
+}
+.container.management .menu-list > li.type-cell:nth-child(2n) {
+  text-align: right;
+}
+.container.management
+  .menu-list
+  > li.type-cell:nth-child(2n)
+  .btn-disabled::after {
+  right: auto;
+  left: 2rem;
+}
+.container.management .menu-list > li.type-cell:nth-child(2n) .icon-box {
+  position: absolute;
+  top: 3rem;
+  left: 2rem;
+}
+
+.container.management .menu-list > li.type-row {
+  width: 100%;
+  height: 16rem;
+  line-height: 16rem;
+  font-size: 4.8rem;
+}
+.container.management .menu-list > li.type-row > a {
+  padding: 0 4.4rem;
+}
+.container.management .menu-list > li.type-row .btn-disabled::after {
+  position: static;
+  display: inline-block;
+  margin-left: 2rem;
+}
+.container.management .menu-list > li.type-row .icon-box {
+  top: 0;
+  right: 4rem;
+}
+.container.management .menu-list > li.type-row .icon-box > i {
+  display: inline-block;
+  vertical-align: middle;
+}
+.container.management .menu-list > li.type-row .icon-box > i + i {
+  margin-left: 3.4rem;
+}
+.container.management .menu-list > li.type-row .date {
+  display: inline-block;
+  width: 20rem;
+  padding-left: 2rem;
+  font-size: 2.8rem;
+  text-align: center;
+  white-space: nowrap;
+  vertical-align: bottom;
+}
+.container.management .menu-list > li.type-row.chk-day .date {
+  color: #007473;
+}
+.container.management .menu-list > li.type-row.chk-timetable .date {
+  color: #767676;
+}
+
+.container.management .btn-cs {
+  position: absolute;
+  bottom: 16.2rem;
+  right: 3.6rem;
+  width: 12rem;
+  border-radius: 50%;
+  box-shadow: 0.4rem 0.4rem 1.2rem rgba(0, 0, 0, 0.3);
+}
+
+/* 근무일정표 */
+.container.management .calendar-wrap {
+  background-repeat: no-repeat;
+  background-position: top center;
+  background-size: contain;
+}
+.container.management .calendar-wrap.month-01 {
+  background-image: url('../assets/img/bg_calendar_jan.jpg');
+}
+.container.management .calendar-wrap.month-02 {
+  background-image: url('../assets/img/bg_calendar_feb.jpg');
+}
+.container.management .calendar-wrap.month-03 {
+  background-image: url('../assets/img/bg_calendar_jan.jpg');
+}
+.container.management .calendar-wrap.month-04 {
+  background-image: url('../assets/img/bg_calendar_jan.jpg');
+}
+.container.management .calendar-wrap.month-05 {
+  background-image: url('../assets/img/bg_calendar_jan.jpg');
+}
+.container.management .calendar-wrap.month-06 {
+  background-image: url('../assets/img/bg_calendar_jan.jpg');
+}
+.container.management .calendar-wrap.month-07 {
+  background-image: url('../assets/img/bg_calendar_jan.jpg');
+}
+.container.management .calendar-wrap.month-08 {
+  background-image: url('../assets/img/bg_calendar_jan.jpg');
+}
+.container.management .calendar-wrap.month-09 {
+  background-image: url('../assets/img/bg_calendar_jan.jpg');
+}
+.container.management .calendar-wrap.month-10 {
+  background-image: url('../assets/img/bg_calendar_jan.jpg');
+}
+.container.management .calendar-wrap.month-11 {
+  background-image: url('../assets/img/bg_calendar_jan.jpg');
+}
+.container.management .calendar-wrap.month-12 {
+  background-image: url('../assets/img/bg_calendar_dec.jpg');
+}
+
+.container.management .calendar-wrap .fc-header-toolbar {
+  height: 13.6rem;
+  margin-bottom: 2.5rem;
+  padding: 0 6rem;
+}
+.container.management .calendar-wrap .fc-header-toolbar .fc-toolbar-title {
+  color: #fff;
+  font-size: 5.2rem;
+}
+.container.management .calendar-wrap .fc-header-toolbar .fc-button-primary {
+  width: 6.2rem;
+  height: 6.2rem;
+  padding: 0;
+  border: 0;
+  background-color: transparent;
+}
+.container.management .calendar-wrap .fc-header-toolbar .fc-icon {
+  width: 100%;
+  height: 100%;
+}
+.container.management
+  .calendar-wrap
+  .fc-header-toolbar
+  .fc-icon-chevron-left:before,
+.container.management
+  .calendar-wrap
+  .fc-header-toolbar
+  .fc-icon-chevron-right:before {
+  content: '';
+  display: inline-block;
+  width: 100%;
+  height: 100%;
+  background-repeat: no-repeat;
+  background-position: center;
+  background-size: 100%;
+}
+.container.management
+  .calendar-wrap
+  .fc-header-toolbar
+  .fc-icon-chevron-left:before {
+  background-image: url('../assets/img/ico_calendar_prev.png');
+}
+.container.management
+  .calendar-wrap
+  .fc-header-toolbar
+  .fc-icon-chevron-right:before {
+  background-image: url('../assets/img/ico_calendar_next.png');
+}
+
+.container.management .calendar-wrap .fc-scroller-liquid-absolute,
+.container.management .calendar-wrap .fc-view-harness-active > .fc-view {
+  position: static;
+}
+.container.management .calendar-wrap .fc-view-harness-active {
+  height: auto !important;
+}
+
+.container.management .calendar-wrap .fc-theme-standard .fc-scrollgrid,
+.container.management .calendar-wrap .fc-theme-standard td,
+.container.management .calendar-wrap .fc-theme-standard th {
+  border: 0;
+}
+
+.container.management .calendar-wrap table thead .fc-scroller-harness {
+  padding-bottom: 3.5rem;
+}
+.container.management .calendar-wrap table tbody .fc-scroller-harness {
+  border-radius: 1.2rem 1.2rem 0.8rem 0.8rem;
+  background: url('../assets/img/bg_calendar_week.png') repeat-y top 1rem center;
+  background-size: 73rem 16rem;
+  box-shadow: 0 -0.4rem 1.2rem rgb(0, 0, 0, 0.16);
+}
+.container.management .calendar-wrap .fc-daygrid-body {
+  width: 70rem !important;
+  margin: 1rem auto 0;
+}
+.container.management .calendar-wrap .fc-daygrid-body table {
+  width: 100% !important;
+}
+
+.container.management .calendar-wrap .fc-col-header-cell-cushion {
+  font-size: 3.4rem;
+}
+.container.management .calendar-wrap .fc-day-sat .fc-col-header-cell-cushion {
+  color: #0025a0;
+}
+.container.management .calendar-wrap .fc-day-sun .fc-col-header-cell-cushion,
+.container.management .calendar-wrap .fc-day-sat .fc-daygrid-day-number,
+.container.management .calendar-wrap .fc-day-sun .fc-daygrid-day-number {
+  color: #e12c03;
+}
+.container.management .calendar-wrap .fc-daygrid-day.fc-day-today {
+  background-color: transparent;
+  color: #007473;
+}
+.container.management
+  .calendar-wrap
+  .fc-daygrid-day.fc-day-today
+  .fc-daygrid-day-bg {
+  position: absolute;
+  bottom: 5rem;
+  left: 50%;
+  transform: translateX(-50%);
+  width: 4.4rem;
+  height: 0.6rem;
+  border-radius: 0.6rem;
+  background-color: #007473;
+}
+.container.management .calendar-wrap .fc-daygrid-day-number {
+  font-size: 3.8rem;
+}
+.container.management .calendar-wrap .fc-day-other .fc-daygrid-day-number {
+  color: #bcbcbc;
+  font-size: 3rem;
+  font-weight: 400;
+}
+
+.container.management .calendar-wrap .fc .fc-daygrid-day-frame {
+  height: 16rem;
+  padding: 1.3rem 0 1.8rem;
+}
+.container.management .calendar-wrap .fc-daygrid-day-top {
+  height: 100%;
+  justify-content: center;
+  align-items: center;
+}
+.container.management .calendar-wrap .fc-daygrid-day-events {
+  position: absolute;
+  bottom: 1.4rem;
+  left: 50%;
+  transform: translateX(-50%);
+  font-size: 2.6rem;
+}
+
+.container.management .calendar-wrap .work-days {
+  padding: 2.2rem 0;
+}
+.container.management .calendar-wrap .days-list {
+  display: flex;
+  justify-content: space-between;
+  width: 66.6rem;
+  height: 13.4rem;
+  margin: 0 auto;
+  padding: 2.5rem 3.3rem;
+  border-radius: 6.2rem;
+  background-color: #000;
+  color: #fff;
+}
+.container.management .calendar-wrap .days-list > li {
+  position: relative;
+  width: 20rem;
+  text-align: center;
+}
+.container.management .calendar-wrap .days-list > li + li::before {
+  content: '';
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 0.2rem;
+  height: 8.4rem;
+  background-color: #fff;
+}
+.container.management .calendar-wrap .days-list > li > span {
+  display: inline-block;
+  padding-bottom: 1rem;
+  font-size: 3.6rem;
+  font-weight: 400;
+}
+.container.management .calendar-wrap .days-list > li > strong {
+  font-size: 3.8rem;
+}
+
+/* 날짜별 휴무/근무 */
+.container.worker {
+  min-height: -webkit-fill-available;
+  height: 100vh;
+  height: calc(var(--vh, 1vh) * 100);
+  padding-bottom: 17.5rem;
+  background-color: #f2f3f7;
+  overflow-y: hidden;
+}
+.container.worker .inner {
+  height: calc(100% - 10rem);
+  background-repeat: no-repeat;
+  background-position: top center;
+  background-size: contain;
+  background-image: url('../assets/img/bg_worker_jan.jpg');
+}
+.container.worker .daily-worker {
+  padding: 3.8rem 0;
+}
+.container.worker .worker-num {
+  display: flex;
+  justify-content: space-between;
+  width: 65.4rem;
+  height: 13.4rem;
+  margin: 0 auto;
+  padding: 3rem;
+  color: #fff;
+}
+.container.worker .worker-num > li {
+  width: 20rem;
+  text-align: center;
+}
+.container.worker .worker-num > li > span {
+  display: inline-block;
+  padding-bottom: 1rem;
+  font-size: 3.4rem;
+  font-weight: 400;
+}
+.container.worker .worker-num > li > strong {
+  font-size: 3.8rem;
+}
+
+.container.worker .worker-wrap {
+  height: calc(100% - 14.5rem);
+  border-top-right-radius: 6rem;
+  border-top-left-radius: 0.8rem;
+  background-color: #f2f3f7;
+  overflow: hidden;
+}
+.container.worker .tab-list {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding: 3.5rem 4.8rem;
+}
+.container.worker .tab-list .btn-tab {
+  display: inline-flex;
+  justify-content: center;
+  align-items: center;
+  width: 31.4rem;
+  height: 9rem;
+  border: 0.3rem solid #767676;
+  border-radius: 6.2rem;
+  background-color: #767676;
+  color: rgba(188, 188, 188, 0.5);
+  font-size: 4.2rem;
+  box-shadow: inset 1.4rem 1.4rem 3rem rgba(0, 0, 0, 0.34);
+}
+.container.worker .tab-list .btn-tab.on {
+  border-color: #f2f3f7;
+  background-color: #007473;
+  color: #fff;
+  box-shadow: 0.4rem 0.4rem 1.2rem rgba(0, 0, 0, 0.16);
+}
+
+.container.worker .current-content {
+  height: calc(100% - 14.5rem);
+  overflow: hidden;
+}
+.container.worker .table-box {
+  height: 100%;
+  overflow: hidden;
+}
+.container.worker .table-box .table-head {
+  position: relative;
+  display: flex;
+  align-items: center;
+  margin: 0 4.8rem 2.2rem;
+  border-top: 0.4rem solid #007473;
+  border-bottom: 0.4rem solid #007473;
+}
+.container.worker .table-box .table-head > span {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  width: 30%;
+  height: 8.6rem;
+  font-size: 3.8rem;
+  font-weight: 700;
+}
+.container.worker .table-box .table-head > span:nth-child(2) {
+  width: 15%;
+}
+.container.worker .table-box .table-head > span:nth-child(3) {
+  width: 35%;
+}
+.container.worker .table-box .table-head > span:last-child {
+  width: 20%;
+  font-size: 0;
+}
+
+.container.worker .table-box .table-body {
+  padding-bottom: 30rem;
+  overflow-y: scroll;
+}
+.container.worker .table-box .list-row {
+  position: relative;
+  display: flex;
+  align-items: center;
+  height: 13.4rem;
+  width: 66rem;
+  margin: 0 auto 2.2rem;
+  border: 0.4rem solid #fff;
+  border-radius: 2.8rem;
+  background-color: #f2f3f7;
+  font-size: 3.4rem;
+  box-shadow: 2rem 2rem 3rem rgba(15, 41, 107, 0.12);
+}
+.container.worker .table-box .list-row > span {
+  width: 30%;
+  text-align: center;
+  line-height: 1.2;
+}
+.container.worker .table-box .list-row > span:nth-child(2) {
+  width: 15%;
+  font-weight: 400;
+}
+.container.worker .table-box .list-row > span:nth-child(3) {
+  width: 35%;
+  font-size: 2.8rem;
+  font-weight: 400;
+}
+.container.worker .table-box .list-row > span:last-child {
+  width: 20%;
+}
+.container.worker .table-box .list-row .btn-tel > a {
+  display: inline-block;
+  width: 6.2rem;
+}
+
+.container.worker .table-box .request-box {
+  z-index: 100;
+  position: fixed;
+  bottom: 17rem;
+  left: 50%;
+  transform: translateX(-50%);
+  width: 100%;
+  background: url('../assets/img/bg_worker_request.png') no-repeat top center;
+  background-size: 64rem 18.6rem;
+}
+.container.worker .table-box .request-box > ul {
+  display: flex;
+  justify-content: space-between;
+  padding: 0 7rem;
+}
+.container.worker .table-box .request-box > ul > li {
+  width: 33.3%;
+  text-align: center;
+}
+.container.worker .table-box .request-box button {
+  display: inline-block;
+  width: 100%;
+  padding: 4rem 0;
+  color: #007473;
+  font-size: 4.2rem;
+}
+.container.worker .table-box .request-box .btn-change.btn-disabled {
+  color: #bcbcbc;
+}
