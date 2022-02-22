@@ -1,6 +1,5 @@
 import React from 'react';
 import styled from 'styled-components';
-import { GrNext, GrPrevious } from 'react-icons/gr';
 
 const ReplaceResultList = ({ resultData }) => {
   console.log(resultData);
@@ -21,13 +20,9 @@ const ReplaceResultList = ({ resultData }) => {
                   <br />
                   {`${item.reqDriverLeaveDate[1]}월 ${item.reqDriverLeaveDate[2]}일`}
                 </TextBox>
-                <TextBox>
-                  <GrPrevious color="#A2A9AD" />
-                </TextBox>
+                <TextBox></TextBox>
                 <TextBox>{item.status}</TextBox>
-                <TextBox>
-                  <GrNext color="#A2A9AD" />
-                </TextBox>
+                <TextBox></TextBox>
                 <TextBox>
                   {item.resDriverName}
                   <br />

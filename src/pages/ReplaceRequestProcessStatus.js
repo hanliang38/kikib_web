@@ -55,10 +55,12 @@ const ReplaceRequest = () => {
   // api 불러오기
   const fetchData = async () => {
     // api 불러오기
-    await apiClient.get(`/replace/${yearMonth}`).then((res) => {
+    // await apiClient.get(`/replace/${yearMonth}`).then((res) => {
+    await apiClient.get(`/replace/dev/test`).then((res) => {
       console.log('res', res);
       // 신청내역 데이터
-      const req = res.data.object.request;
+      // const req = res.data.object.request;
+      const req = res.data.object;
 
       // 합의대기
       const replaceReqSettleHold = req
@@ -105,7 +107,8 @@ const ReplaceRequest = () => {
       setReqData(reqHoldData);
 
       // 처리결과 데이터
-      const result = res.data.object.result;
+      // const result = res.data.object.result;
+      const result = res.data.object;
 
       // 거절
       const replaceResultDeny = result
@@ -118,6 +121,8 @@ const ReplaceRequest = () => {
           return {
             replaceId: item.reqDriverId,
             reqDriverName: item.reqDriverName,
+            reqDriverLeaveDate: item.reqDriverLeaveDate.split('-'),
+            resDriverName: item.resDriverName,
             reqDriverWorkDate: item.reqDriverWorkDate.split('-'),
             updatedAt: item.updatedAt.split(/[^0-9^]/g),
             status: '취소',
@@ -136,6 +141,8 @@ const ReplaceRequest = () => {
           return {
             replaceId: item.reqDriverId,
             reqDriverName: item.reqDriverName,
+            reqDriverLeaveDate: item.reqDriverLeaveDate.split('-'),
+            resDriverName: item.resDriverName,
             reqDriverWorkDate: item.reqDriverWorkDate.split('-'),
             updatedAt: item.updatedAt.split(/[^0-9^]/g),
             status: '취소',
@@ -155,6 +162,8 @@ const ReplaceRequest = () => {
           return {
             replaceId: item.reqDriverId,
             reqDriverName: item.reqDriverName,
+            reqDriverLeaveDate: item.reqDriverLeaveDate.split('-'),
+            resDriverName: item.resDriverName,
             reqDriverWorkDate: item.reqDriverWorkDate.split('-'),
             updatedAt: item.updatedAt.split(/[^0-9^]/g),
             status: '승인',
@@ -174,6 +183,8 @@ const ReplaceRequest = () => {
           return {
             replaceId: item.reqDriverId,
             reqDriverName: item.reqDriverName,
+            reqDriverLeaveDate: item.reqDriverLeaveDate.split('-'),
+            resDriverName: item.resDriverName,
             reqDriverWorkDate: item.reqDriverWorkDate.split('-'),
             updatedAt: item.updatedAt.split(/[^0-9^]/g),
             status: '반려',
